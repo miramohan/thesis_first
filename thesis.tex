@@ -1,0 +1,274 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage[utf8x]{inputenc}
+
+%\documentclass[a4paper,12pt]{article}
+% \addtolength{\hoffset}{-1.5cm}
+% \addtolength{\textwidth}{3.5cm}
+% \addtolength{\voffset}{-1.50cm}
+% \addtolength{\textheight}{2.5cm}
+% \setlength{\topmargin}{0.25in}
+\usepackage[top=1.5in,left=1.5in,right=1in,bottom=1in]{geometry}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{epsfig}
+\usepackage[usenames,dvipsnames]{pstricks}
+ \usepackage{pst-grad} % For gradients
+ \usepackage{pst-plot}
+\usepackage{mathptm}
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{amsfonts}
+\usepackage{fancyhdr}
+%\usepackage{cite}
+\usepackage{gensymb}
+%\usepackage{fix-cm} %% to change font size
+%\usepackage{subfigure}   %%Don't use this package if you are going to use the package {subfig}
+\usepackage{rotating}
+%\usepackage[usenames,dvipsnames]{color}
+\usepackage{shorttoc}
+\usepackage{verbatim}
+\usepackage{float}
+\usepackage{subfig}  %% For placing pictures side by side
+\usepackage{fmtcount}
+\linespread{1.5}%% To change the distance between lines
+%\usepackage[toc]{glossaries}  %% Refer Userguide. Nomenclature is easier to use.
+%\usepackage[acronym,toc]{glossaries}
+%\makeglossaries
+%\usepackage{hyperref}
+%\usepackage{subfloat}
+\usepackage{multirow} %% To combile two or more rows in a table
+\usepackage[super]{nth} %% For writing 2nd, 3rd, 4th etc by just writing \nth{1}. Requires nth.sty file to be in the working directory.
+\newcommand{\tsp}{\textsuperscript} %% For writing kth, nth etc where \nth doesnt work. instead of writing \textsuperscript{th}, just write \tsp{th}
+\usepackage{fixltx2e} %% To use the below \textsubscript
+\newcommand{\tsb}{\textsubscript}
+\usepackage{nomencl}  %% For Using Symbols and abbreviations. Needs nomencl.sty file to be in the working directory.
+\makenomenclature     %% Additional package for nomencl. Search internet for details.
+\renewcommand\nomname{Symbols and Abbreviations}   %% For changing the Heading from Nomenclature to Symbols and Abbreviations.
+%\usepackage{acronym} %% For acronyms
+%\usepackage[usenames,dvipsnames]{color}
+%\usepackage[round]{natbib}
+ \usepackage[pagebackref]{hyperref}%% To use hyperlinks to all citations
+% \hypersetup{
+% colorlinks,citecolor=blue,
+% linktocpage=true,
+% pdfauthor = {Shubha Chandra S.},
+% pdftitle = {MAPPING OF DSP KERNELS ON RECONFIGURABLE PROCESSOR IMPLEMENTED ON FPGA},
+% pdfsubject = {VLSI},
+% pdfkeywords = {DSP kernels, reconfigurable processor, high performance applications, accelerating coprocessor},
+% pdfcreator = {LaTeX},
+% bookmarks=true
+%}%% Check hyperref manual for details
+\usepackage[all]{hypcap} %% To point to the top of the tables and pictures rather than at the bottom
+
+
+\setlength{\headheight}{15.2pt}
+\pagestyle{fancy}
+\renewcommand{\sectionmark}[1]{}
+%\renewcommand{\chaptermark}[1]{\markboth{\chaptername\ \thechapter.\ #1}{}}
+\renewcommand{\chaptermark}[1]{\markboth{\thechapter.\ #1}{}}
+%\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[R]{\textit{Dept. of ECE, NITK Surathkal}}
+\fancyfoot[C]{\thepage}
+
+\begin{document}
+%\maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% title page  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{titlepage}
+\begin{center}
+% Title
+%\vspace*{3.5cm}
+%{\Huge \textbf{MAPPING OF DSP KERNELS ON RECONFIGURABLE PROCESSOR IMPLEMENTED ON FPGA}}\\
+
+{\Large INTERACTIVE OFFLINE INTERFACE TO DEBUG}\\
+\vspace{7pt}
+
+{\Large SIMULATION FAILURE}\\
+\vspace{7pt}
+{\emph{and}}\\
+\vspace{7pt}
+{\Large DUAL SIMULATION APPROACH TO GATESIM}\\
+\vspace{7pt}
+%%%{\Huge IMPLEMENTED ON FPGA}\\
+%%%\vspace{30pt}
+%{ \Large Thesis}  \\
+Thesis\\
+%\vspace{10pt}
+{\emph {Submitted in partial fulfillment of the requirements for the degree of}} \\
+\vspace{10pt}
+{\Large MASTER OF TECHNOLOGY}\\
+\vspace{5pt}
+%\textit {(by Research)}\\
+%\vspace{5pt}
+in\\
+\vspace{5pt}
+{ \Large VLSI DESIGN}\\
+\vspace{20pt}
+\textit {by} \\
+\vspace{10pt}
+{\Large MEERA MOHAN}\\ 
+{(Reg. No.: 11VL09F)}\\
+%Research Scholar\\
+%Dept of E \& C, NITK \\
+\vspace{1CM}
+%\includegraphics*[scale=0.14]{./figures/nitk_logo.ps}\\
+\includegraphics*[height=1.5in,width=1.5in]{./figures/nitk_logo.ps}\\
+\vspace{1.3cm}
+\MakeUppercase{{\large Department of Electronics and Communication Engineering}}\\
+\vspace{0.2cm}
+\MakeUppercase{{\large National Institute of Technology Karnataka, Surathkal}}\\
+\vspace{0.2cm}
+\MakeUppercase{{\large Mangalore - 575025}}\\
+\vspace{.2cm}
+\MakeUppercase{{\large June 2013}}\\
+\end{center}
+\end{titlepage}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% cover page %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DECLARATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\thispagestyle{empty}
+\input{declaration.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CERTIFICATE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\thispagestyle{empty}
+\input{certificate.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ACKNOWLEDGMENTS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\pagenumbering{roman}
+\pagestyle{plain}
+%%%\input{acknowledge.tex}
+\addcontentsline{toc}{section}{ACKNOWLEDGEMENTS}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ABSTRACT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\pagestyle{plain}
+\input{abstract.tex}
+\addcontentsline{toc}{section}{ABSTRACT} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TABLE OF CONTENTS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+%\pagestyle{plain}
+\tableofcontents 
+\addcontentsline{toc}{section}{CONTENTS}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LIST OF FIGURES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+%\pagestyle{plain}
+\listoffigures
+\addcontentsline{toc}{section}{LIST OF FIGURES}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LIST OF TABLES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\listoftables
+%\pagestyle{plain}
+\addcontentsline{toc}{section}{LIST OF TABLES}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PART I : GUI %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% INTRODUCTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\pagestyle{fancy}
+\pagenumbering{arabic}
+\input{GUI_introduction.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AMD64 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\input{amd64.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% VERIFICATION ENVIRONMENT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\input{verification.tex} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% INTERFACE IMPLEMENTATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\input{GUI_impl.tex} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% GUI FEATURES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\input{GUI_features.tex} 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% RESULT: GUI %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\input{GUI_results.tex} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% RESULT: GUI %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\input{GUI_conclusion.tex}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PART II : GATESIM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\newpage
+%Part 2 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% INTRODUCTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\input{gatesim_intro.tex} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% GATE LEVEL SIMULATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\input{gate_intro.tex} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% GATESIM METHEDOLOGIES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\input{methodologies.tex} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPROVED DUAL-SIM APPROACH TO GATESIM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\input{dualsim.tex} 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% RESULTS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\input{results.tex} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CONCLUSION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\input{conclusion.tex}
+
+
+%\bibliographystyle{IEEEtran}
+%\input{ref.tex}
+%\addcontentsline{toc}{section}{REFERENCES}
+%\bibliography{reference}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BIO DATA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\pagestyle{plain}
+\section*{\centering BIODATA}
+\begin{tabular}{lll}
+%\begin{center}
+Name			&:	&Meera Mohan			\\
+
+Qualification 		&:	&B.Tech (Electronics and Communication)	\\
+
+			&	&Mahatma Gandhi University, Kottayam			\\
+
+Contact Address 	&:	&D/O Mohandas. E. K			\\
+		
+			&	&Margangattu House		\\
+		
+			&	&Memana, Oachira		\\
+
+			&	&Kollam, Kerala-690526		\\
+
+Contact Number  	&:	&7411352081				\\
+
+Email id		&:	&miramohan@gmail.com			\\
+
+%List of publications 	&:	&1					\\
+%\end{center}
+\end{tabular}
+\addcontentsline{toc}{section}{BIODATA}
+
+
+
+%\hskip 1em plus
+%  0.5em minus 0.4em\relax IEEE, 2009, pp. 325--330.
+
+\end{document}          

@@ -1,0 +1,28 @@
+\section*{\centering ABSTRACT}
+\newcommand{\RNum}[1]{\uppercase\expandafter{\romannumeral #1\relax}}
+
+
+\centerline{\emph{\bf PART \RNum{1}- Interactive Offline Interface To Debug Simulation Failure }}
+\vspace{5pt}
+Processor execution log contains in depth details pertaining to processor execution.  These files hold instruction by instruction execution details and status information.  In the event of a simulation failure, debugging requires tracing through the execution logs for failure diagnosis.  Due to the significant information contained in these log files, it becomes overwhelming to comprehend it quickly because relevant information is spread across in different files and manual tracing is a tedious job.
+
+
+This project aims to implement a graphic user interface for faster and effortless tracing through the log files.  The interface gathers all the relevant data related to execution flow and represents correlated information as appropriate to user.  The graphic interactive navigation windows tries to reduce the user's time spends on tracing cause of failure.   
+
+
+
+\paragraph{Keywords:}
+ \emph{Debug Interface, Execution Log Files, SoC  Verification.}
+
+
+ \paragraph{}
+
+\centerline{\emph{\bf PART \RNum{2}- Dual Simulation Approach To Gatesim}}
+\vspace{5pt}
+Gatesim or gate level simulation verification focuses on verifying the post layout netlist of a module. Gatesim verification is an important milestone and confidence builder for verification. Multiple methodologies are in existence in the industry for this purpose. In AMD, Gatesim verification uses co-simulation methodology for the purpose, where full chip behavioral RTL and gate netlist is simulated simultaneously in one simulation. Verification is done by driving corresponding RTL stimulus onto netlist and by comparing response every cycle. 
+The objective of this project is to improve the simulation, turn-around times and resource requirements involved in Gatesim verification without compromising on verification. The thesis proposes a new dual simulation approach to Gatesim where RTL and gate level simulation happens separately and test vectors for netlist simulation is read from database generated during RTL simulation. The approach thrives to overcome performance issues with current co-simulation methodology.
+
+\paragraph{Keywords:}
+ \emph{Gatesim,  GLS,  Co-simulation Methodology,  Functional Verification, Netlist Simulation.}
+
+

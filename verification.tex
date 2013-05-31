@@ -1,0 +1,65 @@
+\chapter{VERIFICATION ENVIRONMENT}
+\label{chap:verification.tex}
+
+In SoC design methodology, the first step is to define the specifications. Once the system specifications are completed, design phase starts. Here the behavioral modeling of the design is done using hardware description languages like VHDL or Verilog HDL.  In this  stage the design is said to be Register Transfer Level aka RTL. It is then verified against functional requirements.  This RTL model is them mapped into an architecture made up of intellectual properties (IP) blocks. The system level verification is done to verify the architecture against the intended functional and other requirements. 
+
+
+
+\section {FUNCTIONAL VERIFICATION}
+Functional verification validates that the design meets the requirements. Test cases are created based on the specifications. Various aspects of data and control flow are verified by passing information between external environments, communication with I/O devices,  software interactions etc. [ieee]
+
+ 
+
+
+Most of the verification at AMD is for verifying the x-86 processor cores and SoC level IPs. At this level of abstraction, verification of interaction between the IPs and functional verification of top level modules are done.  Test conditions are written in x86 assembly. Some tests are written in high level languages like C++.
+
+Various steps involved in functional verification include:
+
+
+
+
+\subsection {DEVELOP TESTS}
+
+Tests for verifying all the features of the RTL are written in x86 assembly or in high level languages. These test plans are in sync with the specifications of RTL and are to be updated with new specification changes. Test cases should be efficient enough to deal with all possible []: 
+\begin{itemize}
+
+\item Corner cases
+\item Boundary conditions
+\item Design discontinuities
+\item Error conditions
+\item Exception/Interrupt handling
+
+\end {itemize}
+
+\subsection {COMPARISON WITH REFERENCE MODULE}
+
+The RTL is simulated along with an instruction level reference simulator. This instruction level simulator is an x86/x86-64 programming model. It mainly models the register states and memory features and act as the ideal reference point to compare with. An interface between RTL and reference model compares the states after each instruction retire and report any mismatch. The following section details the features and functions of simulator and interface.
+
+\subsubsection {INSTRUCTION LEVEL SIMULATOR}
+The x86 instruction level simulator starts simulation with first initializing the contents of its memory from input files. The simulator emulates the fetch/decode/execute algorithm of a scalar processor, producing an output log known as processor execution log, describing the instruction, its results and any side effects on the processor state. The simulator models debug features, exceptions and interrupts as well as processor specific features. Supported processor states include x86 general purpose registers, flag registers, control registers, media registers and most common model specific registers and both memory and I/O space. The simulator runs multi-threaded code to simulate multi-processor and multi-core processor systems.  It has got its own structure for TLBs (translation look-aside buffers) and page directory caches adapting to the organization and replacement policy of different RTL implementation.
+ 
+The simulator runs in step with the RTL. Whenever an instruction or exception is retired in RTL that thread within the simulator is stepped-up and the processor states in the RTL and simulator are compared. Difference detected in processor states are considered as mismatches; difference in memory locations written are considered as write mismatches and once these are found the co-simulation terminates. At the end of the simulation when all threads stop executing, the memory states of RTL and the simulator are compared and any discrepancies are reported as memory mismatches.
+
+\subsubsection {INTERFACE}
+The interface between RTL and reference model keeps the ILS in step with RTL signal. It steps the ILS after every instruction of the RTL has retired, and then compares the results of execution between RTL and ILs. If the reference model is unable to model anything that is present in the RTL, the interface also re-synchronizes the ILS with the state obtained after execution of the RTL instruction.
+Main functions of this interface include [] :
+\begin{itemize}
+	\item Initialization: Initialize memory model, attach RTL signal and initial some specific RTL signals.
+	\item Increment: Based on number of instruction retired per cycle, the interface informs ILS how many instructions to step.
+	\item Interrupt Handling: Interface informs simulator about pending interrupts
+	\item Comparing: Compares RTL and reference model registers; integer, FP, control and status word. Also reports any write mismatches. 
+	\item Interfacing with the memory model: Tell memory model what operations are seen by the RTL. 
+\end{itemize}
+
+
+\subsection {DEBUG}
+
+On the event of a mismatch, the processor execution log will report the discrepancy. To figure out the cause of failure information from this log files are traced back. This is a manual process where comparison between RTL and reference model states and registers helps in identifying where the test failed. However this is a very tedious process because of two main reasons:
+\begin{enumerate}
+	\item Relevant/required information is buried under a wealth of information, and
+	\item Co-related information is spread across in different files
+\end{enumerate}
+
+As the design itself is very complex, these reasons makes manual tracing too time consuming. This will stretch the verification time and ultimately time-to-market.   
+
+

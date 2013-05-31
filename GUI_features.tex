@@ -1,0 +1,39 @@
+\chapter{GUI FEATURES}
+\label{chap:GUI_features.tex}
+%\addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
+
+The master Python script reads all the extracted information from the log files and the list files. This script finally generates a single HTML page for the interface. The interface mainly features:
+
+
+\section {EXECUTION FLOW GRAPH}
+
+Main feature of the web page is the graph showing the execution flow of the code. Here asm list file line numbers are plotted against the cycle during which it is executed. All the active threads have different graphs which are tabbed. Hovering the mouse over any point on the graph will display x and y axis values. 
+ 
+This zoom enabled data graphs also provides onclick selection of specific operations e.g: Branching, Memory Write, Memory Read, Code Read etc, which will display the instances of selected operation. Each operation is distinguished by its color.   
+
+
+\section {REGISTER WATCH WINDOW}
+
+Register window capture and display updated register values at a specific instance. Each thread holds its own copy of registers/flags. A selection of point on the execution flow graph will update the register window with values at that instant in the selected thread. Values of following registers and flags are provided to the user:
+
+\begin{itemize}
+	\item[-] 64 bit general purpose registers (RAX, RBX, RCX etc)
+	\item[-] RFLAG (64 bit)
+	\item[-] Instruction Pointer (RIP)
+	\item[-] Stack Pointer (RSP)
+\end{itemize}
+
+Another feature provided by register window is comparison between register values at two different instances that is between a reference point set by Set Marker button and current selection. 
+
+
+\section {INSTRUCTION WINDOW}
+
+Instruction window give the asm file lines. A selection in execution graph will be reflected in this window by highlighting the asm file instruction corresponding to the selected point. Also the context of the selected line that is its preceding and succeeding instructions are also available in this window.
+
+\section {EXECUTION LOG WINDOW}
+
+In addition to the instruction and register information, all the processor execution log information regarding the selected instruction is also provided through execution log window.
+
+\section{SET AND CLEAR MARKER}
+These two options allow setting or removing a reference point with which current register values are compared against.
+

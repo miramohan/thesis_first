@@ -1,0 +1,80 @@
+\chapter{RESULTS}
+\label{chap:results.tex}
+A new gate simulation flow based on separate simulation of RTL and netlist was developed. The simulation performance analysis was done by comparing with the performance of existing methodology. A set of standard test cases were used to simulate Interface TLM (Top Level Module). First the test was run in co-simulation environment and then in the new proposed dual simulation environment on the same machine for benchmarking. the machine features are :
+\begin{itemize}
+\item Linux 2.6.18-308.1.1.el5
+\item Authentic AMD family F model 1 stepping 2
+\item AMD FX(tm)-8150 Eight-Core Processor
+\item MemTotal:     32925800 kB
+\end{itemize}  
+
+~\tablename{~\ref{tab:Simulation Performance}} shows simulation performance comparison and ~\tablename{~\ref{tab:Memory Requirement}} shows simulation memory requirement comparison.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section{SIMULATION PERFORMANCE ANALYSIS}
+\begin{table}[h!]
+\begin{center}
+\caption{Simulation Performance Comparison}
+\label{tab:Simulation Performance}
+\vspace{0.2cm}
+\begin{tabular}{|l|r|r|r|}
+\hline
+\multirow{3}{*}{\bf Stimulus} & &	&\\ & {\bf Co-sim Simulation} 	& {\bf Dual-sim Simulation} & {\bf Improvement } 	\\ & {\bf Time (in sec)}  &  {\bf Time (in sec)} &  {\bf(X times) }\\
+
+
+
+%\multirow{2}{*}{\bf Stimulus}	&\multirow{2}{*}{\bf Co-sim Simulation Time (in sec)}	&\multirow{2}{*}{\bf Dual-sim Simulation Time (in sec)}	&\multirow{2}{*}{\bf Improvement (X times)} 		\\
+						&				&				&				\\
+\hline
+Pattern 1 			&821245				&79965				&10.27 				\\
+Pattern 2  				&883227				&85731				&10.3 				\\
+
+Pattern 3  		&854760				&83083				&10.28				\\
+
+Pattern 4  			&456881				&46071 				&9.91				\\
+
+Pattern 5  				&709871				&69605				&10.19				\\
+\hline
+
+
+\end{tabular}
+\end{center}
+
+\end{table}
+
+
+
+\section{MEMORY REQUIREMENT}
+\begin{table}[h!]
+\begin{center}
+\caption{Simulation Memory Requirement}
+\label{tab:Memory Requirement}
+\vspace{0.2cm}
+\begin{tabular}{|l|r|r|r|}
+\hline
+\multirow{3}{*}{\bf Stimulus} & &	&\\ & {\bf Co-sim Simulation} 	& {\bf Dual-sim Simulation} & {\bf Improvement } 	\\ & \bf{Mem Req (in Mb)}  &  {\bf{Mem Req (in Mb)}} &  {\bf(X times) }\\
+
+
+
+%\multirow{2}{*}{\bf Stimulus}	&\multirow{2}{*}{\bf Co-sim Simulation Time (in sec)}	&\multirow{2}{*}{\bf Dual-sim Simulation Time (in sec)}	&\multirow{2}{*}{\bf Improvement (X times)} 		\\
+						&				&				&				\\
+\hline
+Pattern 1 			&1103.9				&98.8				&11.17 				\\
+
+Pattern 2  				&1103.9				&98.8				&11.17				\\
+
+Pattern 3  		&1105.1				&98.8				&11.18				\\
+
+Pattern 4  			&1103.3			&98.8 				&11.17				\\
+
+Pattern 5  				&1103.3				&98.8				&11.17				\\
+\hline
+
+
+\end{tabular}
+\end{center}
+
+\end{table}
