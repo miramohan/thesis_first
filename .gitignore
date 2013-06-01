@@ -2,9 +2,12 @@
 thesis.aux
 thesis.dvi
 thesis.lof
-thesis.log
+thesis.log*
 thesis.lot
 thesis.nlo
 thesis.out
 thesis.pdf
 thesis.toc
+thesis.ilg
+thesis.nls
+
