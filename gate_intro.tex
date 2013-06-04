@@ -1,9 +1,12 @@
 \chapter{GATE LEVEL SIMULATION}
 \label{chap:gate_intro.tex}
 
-In a typical VLSI design flow, the first step is creating an RTL level model of the design and writing the behavioral test bench for functional verification of this model. Once the functional RTL verification is completed, the next stage is design synthesis. During synthesis RTL is turned into a design implementation in terms of logic gates. Synthesis is mostly an automated process using a “{\it synthesizer}” tool that converts RTL-level design source code into gate-level netlist file.
+In a typical VLSI design flow for verification, the first step after RTL level model of the design availabilty is writing behavioral test bench for functional verification. The functionally verified RTL goes through design synthesis during which it is mapped into low level design components in terms of primitives or logic gates. Synthesis is mostly an automated process using a ``{\it synthesizer}'' tool that converts RTL-level design source code into corresponding gate-level netlist mappings. This netlist is also called the pre-layout netlist.
 
- The netlist out of synthesis tool is then fed into layout tool which produces the layout of the design. During this process modifications are done on netlist but it remains functionally equal to its corresponding RTL. Netlist written by layout tool after layout has been done is called a post layout netlist.~\figurename{~\ref{fig:gatesim.eps}} shows where Gatesim comes in design flow.
+The pre-layout netlist that was obtained from synthesis is then fed into a layout tool which maps the gate primities to silicon structures such as channels, gates, vias, etc. During this process certain modifications are done on netlist but it should not alter its functionality to its corresponding RTL. To validate this, another netlist called the post-layout netlist is generated back from the layed-out silicon structures by the layout tool itself. Validation is made by running LEC tool over both pre-layout and post-layout netlists or between post-layout netlist and RTL.
+
+Though it would be ideal to use post-layout netlist for the purpose of gatesims, it would be too late in the design process. So work on gatesims starts with pre-layout netlist and progresses to pos-layout netlist as it becomes available. ~\figurename{~\ref{fig:gatesim.eps}} depicts progress of gatesim with respect to other design flows.
+%% Meera : Need new flowchart. Use PPT, save as .tiff and convert to ps.
 
 %\figurename{} 
 \begin{figure}[H]
@@ -12,24 +15,27 @@ In a typical VLSI design flow, the first step is creating an RTL level model of 
 \caption{Design Flow}
 \label{fig:gatesim.eps}
 \end{figure}
-Gate Level Simulation or Gatesim focuses on verifying the post layout netlist of a module. Originally developed for verifying the functional correctness of chip netlist when formal tool were not available; Gatesims are currently used to complement and cover gaps left by formal flow. 
+Gate Level Simulation or Gatesim focuses on verifying the post layout netlist of the design. Gatesims are historically present from the days when designs were done with gates rather than at RTL abstraction. Verification with gates is a huge confidence booster before manufacturing of actual silicon as they are also thought to complement and cover gaps left by formal flow.
 
 
 \section {NEED FOR GATESIM}
-Gatesims are generally used for verifying the following. 
+Gatesims are particularly effective for the following verification
 \begin{itemize}
-	\item[-]To check if power-up, reset operation and initialization of the design are proper.
-	\item[-]The RTL written is synthesizable.
-	\item[-]DFT structures that are absent in RTL and are added during or after synthesis, they are not checked by simulation.
-	\item[-]The netlist passes all the critical test scenarios.
-	\item[-]Any un-initialized outputs.
-	\item[-]Low-power structures that are absent in RTL and added later during synthesis.
-	\item[-]Can be used to study the activity factor for power estimation.
-	\item[-]X's in RTL simulation can be pessimistic or optimistic. Any issues caused due to this can be found by Gatesims.
-	\item[-]STA does not analyze asynchronous interfaces.
+	\item[-]Power-up, reset propagation and initialization of the design
+%% Naren:isitso?:	\item[-]The RTL written is synthesizable.
+	\item[-]DFT structures those are absent in RTL and added during or after synthesis
+	\item[-]non-resettable or un-initialized components such as memories
+%% Naren:what?:	\item[-]The netlist passes all the critical test scenarios.
+	\item[-]Power related circuits those are absent in RTL
+	\item[-]Power switching verification
+	\item[-]Dynamic power estimation
+	\item[-]Validation of pessimistic behaviour of X-propagation in RTL simulation
+	\item[-]Asynchronous interfaces those are false-paths in STA
+	\item[-]Synchroniser logic and clock domain crossing verification
+	\item[-]Analog-circuit and digital circuit co-verification
 \end{itemize}
 
-Finally, Gatesim is a great confidence-booster in ensuring the high quality of the netlist. It lowers the risk of finding late design issues.
+Finally, Gatesim is a great confidence-booster in ensuring the high quality of the netlist. It lowers the risk of finding late design, methodology or process issues.
 
 
 

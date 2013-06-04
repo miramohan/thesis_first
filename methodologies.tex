@@ -7,7 +7,7 @@ In AMD gatesim environment, the second approach is adopted where test vectors ar
 
 
 \section{EARLY DUAL-SIM METHOD}
- Early method for gate level simulation was a dual-sim or simulation-after- simulation approach. Here RTL simulation was done initially with test bench components. The test vectors for gatesims were generated during this RTL simulation using "\$display" or VCD (value change dump). During the Gatesim, these test vectors were used as stimulus and comparison was done with the RTL output vectors. Figure x shows the simulation flow. ~\figurename{~\ref{fig:earlydualsim.eps}} shows early dual-sim flow.
+ Early method for gate level simulation was a dual-sim or simulation-after- simulation approach. Here RTL simulation was done initially with test bench components. The test vectors for gatesims were generated during this RTL simulation using ``\$display'' or VCD (value change dump). During the Gatesim, these test vectors were used as stimulus and comparison was done with the RTL output vectors. Figure x shows the simulation flow. ~\figurename{~\ref{fig:earlydualsim.eps}} shows early dual-sim flow.
 
 %\figurename{} 
 \begin{figure}[H]
@@ -39,7 +39,7 @@ This dual- sim approach was widely accepted across industry due to its many adva
 \end{figure}
 
 
- A single combined executable containing the behavioral RTL design, the gate design, and all of the required simulation files is compiled. The behavioral RTL and gate models are run in lock-step with their inputs tied and driven by the testbench and the comparison of the behavioral RTL and gate outputs is done "on the fly". ~\figurename{~\ref{fig:cosim_flow.eps}} shows co-sim flow.
+ A single combined executable containing the behavioral RTL design, the gate design, and all of the required simulation files is compiled. The behavioral RTL and gate models are run in lock-step with their inputs tied and driven by the testbench and the comparison of the behavioral RTL and gate outputs is done ``on the fly''. ~\figurename{~\ref{fig:cosim_flow.eps}} shows co-sim flow.
 
 
 
