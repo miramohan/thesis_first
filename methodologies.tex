@@ -1,13 +1,14 @@
 \chapter{GATESIM METHODOLOGIES}
 \label{chap:methodologies.tex}
 
-Various methodologies are adopted for netlist simulation and verification. For any simulation the first step is getting the test vectors for applying as stimulus to the netlist. One approach is developing a testbench similar to RTL testbench around the netlist and the comparisons are done by this testbench with respect to expected values. Another popular method used is utilizing the test vectors generated for RTL simulation for netlist simulation and comparison done between RTL signal values and gate signal values. 
+Different methodologies could be adopted for netlist simulation and verification. The first step would be to obtain the test vector stimulus to the netlist. One approach could be to reuse the RTL testbench around the netlist. Another approach could be to replace only a portion of circuit with netlist in the existing RTL verification environment.
 
-In AMD gatesim environment, the second approach is adopted where test vectors are obtained from RTL simulation environment. Over the years two different approaches were adopted for test vector access and application. These were Early Dual Sim method and Co-sim Based Gate Sim method. Due to its many disadvantages the early dual sim method was discontinues and currently the co-sim method is the de-facto standard method for gate level simulation.  
+Another approach could be to capture test vectors from RTL simulation followed by applying it on corresponding netlist simulations. In such an approach comparison could be done between RTL behaviour stored as captured test vectores with that of netlist simulation.  In AMD, gatesim verification is accomplished by one such approach. Over the years, two different approaches were adopted for test vector capture and stimulus application. These are now called as Early Dual-Sim method and Co-sim based Gatesim method. Due to its many shortcomings, the early dual sim method was discontinued over Co-sim based Gatesim method. Co-sim based Gatesim is the current de-facto method for gate level simulations in AMD.
 
 
-\section{EARLY DUAL-SIM METHOD}
- Early method for gate level simulation was a dual-sim or simulation-after- simulation approach. Here RTL simulation was done initially with test bench components. The test vectors for gatesims were generated during this RTL simulation using ``\$display'' or VCD (value change dump). During the Gatesim, these test vectors were used as stimulus and comparison was done with the RTL output vectors. Figure x shows the simulation flow. ~\figurename{~\ref{fig:earlydualsim.eps}} shows early dual-sim flow.
+\section{EARLY DUAL-SIM METHODOLOGY}
+ Early method for gate level simulation was a dual-sim or simulation-after-simulation approach. Here RTL simulation was done initially with test bench components. The test vectors for gatesims were generated during this RTL simulation using ``\$display'' or VCD (value change dump). During netlist simulation, these test vectors were used as stimulus and comparison was done with the RTL output vectors. Figure x shows the simulation flow. ~\figurename{~\ref{fig:earlydualsim.eps}} shows early dual-sim flow. % Meera : 1. Figure x, 2. Have some good diagrams
+%Naren: need this para re-write with references to figure
 
 %\figurename{} 
 \begin{figure}[H]
@@ -28,7 +29,7 @@ This dual- sim approach was widely accepted across industry due to its many adva
 
 
 
-\section{CO-SIM BASED GATESIM}
+\section{CO-SIM BASED GATESIM METHODOLOGY}
  Cosim-based approach was conceived to solve some problems that existed with dual-sim approach by allowing easy debug while maintaining common input vectors and output results for comparison.  ~\figurename{~\ref{fig:cosim.ps}} show how stimulus is appiled to netlist and comparison of output is done in co-sim method.
  
 \begin{figure}[h!]

@@ -42,27 +42,27 @@ Finally, Gatesim is a great confidence-booster in ensuring the high quality of t
 
 \section{LIMITATIONS OF LEC AND STA}
 
-Gatesims are done after RTL code is simulated and synthesized into a gate level netlist. Other importance verification steps like Logic equivalence check (LEC) and Static Timing Analysis are also done after RTL synthesis. 
+Gatesims are targetted on post-layout netlist and that is almost clean of RTL bugs. The netlist also passes through couple of important verification steps such as Logic Equivalence Check (LEC) and Static Timing Analysis (STA), before it is targeted for Gatesims.
 
-\emph {\bf LEC}: Logic Equivalence Checking (LEC) is a formal verification tool that compares a reference design against a derived design to prove equivalence or to report differences.  LEC does not require test patterns. Instead, LEC uses Boolean arithmetic techniques to prove equivalence between two design netlists. Although LEC uses sophisticated formal algorithms to identify, map, and compare nodes in the netlists, the complexity is hidden from the user [ieee].
+\emph {\bf LEC}: Logic Equivalence Checking (LEC) is a formal verification tool that compares a reference design against a derived design to prove equivalence or to report differences.  LEC does not require test patterns. Instead, LEC uses Boolean arithmetic techniques to prove equivalence between two design descriptions. Although LEC uses sophisticated formal algorithms to identify, map, and compare nodes in the netlists, the complexity is hidden from the user. %meera: what's this: [ieee].
 
-\emph {\bf STA}: Static Timing analysis does a input-independent timing analysis of the gate level netlist. It locates the worst-case delay of the circuit over all possible conditions. There are huge numbers of logic paths inside a chip of complex design. The advantage of STA is that it performs timing analysis on all possible paths (whether they are real or potential false paths). 
+\emph {\bf STA}: Static Timing Analysis does a input-independent timing analysis of the gate level netlist. It asserts if the circuit could operate flawless without timing issues. It computes the worst-case behaviour of the circuit, over all possible manufacturing variables. STA tools are at ease in handling a complex design with huge number of paths as they consider one path at a time (whether they are real or potential false paths). 
 
 
 
-These formal static verification techniques are much faster and evolved than simulation based methods. However these verification methodologies, in spite of advancements in tools, do not cover all aspects. Gatesim helps in filling up the gaps left by these methods. 
+These formal static verification techniques are much faster and evolved than simulation based methods. However these verification methodologies, in spite of advancements in tools, cannot cover all aspects of required verification on netlist. Gatesim helps in filling up the gaps left by these methods. 
 
-Some of the issues with LEC can be solved by Gatesims. The following are some issues encountered during real SoC design project execution: 
-
+Limitations of LEC, which could be covered by Gatesims are:
 \begin{itemize}
-	\item Limitation of Static Equivalence Checking tools to catch X-propagation issues.
+	\item Limitation of Static Equivalence Checking tools to catch all X-propagation or X-generation issues.
 	\item Two-state methodologies can miss RTl-versus-netlist simulation and RTL-versus-RTL simulation differences.
 	\item Incorrect mapping issues due to naming at sub-block level which can result in false pass. This will not be reported at the sub-block level LEC, but Gatesims can flag such incorrect connectivity.
 \end{itemize}
-Some of the STA limitations that can be covered by Gatesims are:
+
+Limitations of STA, which could be covered by Gatesims are:
 \begin{itemize}
-	\item \emph{\bf X-handling:} STA deals only with logic domain of logic-0 and logic-1. An X in the design cause undetermined values to propagate through the design. This cannot be checked with STA
-	\item \emph{\bf Interfaces between analog and digital blocks:} STA does not deal with analog blocks. And hence cannot verify connectivity between digital and analog blocks where as Gatesims can.
+	\item \emph{\bf X-handling:} STA deals only with logic domain of logic-0 and logic-1. An X in the design cause undetermined values to propagate through the design. This cannot be checked with STA.
+	\item \emph{\bf Interfaces between analog and digital blocks:} STA does not deal with analog blocks. And hence cannot verify connectivity between digital and analog blocks whereous Gatesims can.
 	\item \emph{\bf Reset sequence:} Verifying that all flip-flops resets into their required logical value. STA cannot check this as certain declarations such as initial values on signal are not synthesizable and are verified only during simulation.
 	\item \emph{\bf Asynchronous clock-domain crossings:} STA does not check if the correct clock synchronizers are being used.
 \end{itemize}
@@ -74,6 +74,7 @@ Some of the STA limitations that can be covered by Gatesims are:
 
 
 
+%FIXME: Naren: Need to look at this section again
 \section{ISSUES CAUGHT BY GATESIM}
 %\section{DYNAMICALLY RECONFIGURABLE \\DATA-PATH}
 The following are design issues missed initially but caught by gatesims:
@@ -81,7 +82,7 @@ The following are design issues missed initially but caught by gatesims:
 		
 	\item \emph{\bf X Squashing}
 
-	X-Squashing is a term used when X-es get squashed in a simulation and don't propagate anymore through the logic. In an example there was an X-Squashing issue in behavioral RTL which led to a valid value being present in one of the RTL outputs during simulations, where as in gates X wasn't squashed and it propagated to the corresponding output resulting in a simulation mismatch between RTL and gates.
+	X-Squashing is a term used when X-es get squashed in a simulation and don't propagate anymore through the logic. In one case there was an X-Squashing issue in behavioral RTL which led to a valid value being present in one of the RTL outputs during simulations, where as in gates X wasn't squashed and it propagated to the corresponding output resulting in a simulation mismatch between RTL and gates.
 
 	\item \emph{\bf Reset X problem}
 
@@ -98,14 +99,16 @@ The following are design issues missed initially but caught by gatesims:
 
 
 
-\section{ISSUES OF GATESIM}
-At system level, Gatesim is one of the most challenging verification domains. This is because with higher design complexity, limitations of gatesim become more prominent. Main difficulties associated with gate level simulation are:
+\section{ISSUES FACED BY GATESIM}
+At system level, Gatesim is one of the most challenging verification task. This is because as design complexity increases, the limitations with gatesims become more prominent. Important difficulties associated with gate level simulation are:
 \begin{itemize}
 
 
 \item[-] Larger turn-around time (run, debug cycle).
 \item[-] Limitation on size of netlist that can be verified through gatesim. This is an indirect cause due to larger build times and run times.
 \item[-] Debugging the netlist simulation is challenging.
-\item[-] Huge compute resource utilization. 
+\item[-] Large compute and storage resource requirements. 
 
 \end{itemize}
+
+%FIXME: Naren: Need to solve issues faced is not well established
