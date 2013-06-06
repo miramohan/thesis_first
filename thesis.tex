@@ -10,7 +10,7 @@
 \usepackage[top=1.5in,left=1.5in,right=1in,bottom=1in]{geometry}
 \usepackage{amssymb}
 \usepackage{amsmath}
-\usepackage{epsfig}
+%\usepackage{epsfig}
 \usepackage[usenames,dvipsnames]{pstricks}
  \usepackage{pst-grad} % For gradients
  \usepackage{pst-plot}
@@ -34,7 +34,8 @@
 %\usepackage[toc]{glossaries}  %% Refer Userguide. Nomenclature is easier to use.
 %\usepackage[acronym,toc]{glossaries}
 %\makeglossaries
-\usepackage{hyperref}
+
+%\usepackage{hyperref}
 %\usepackage{subfloat}
 \usepackage{multirow} %% To combile two or more rows in a table
 \usepackage[super]{natbib}
@@ -44,21 +45,21 @@
 \newcommand{\tsb}{\textsubscript}
 \usepackage{nomencl}  %% For Using Symbols and abbreviations. Needs nomencl.sty file to be in the working directory.
 \makenomenclature     %% Additional package for nomencl. Search internet for details.
-\renewcommand\nomname{Symbols and Abbreviations}   %% For changing the Heading from Nomenclature to Symbols and Abbreviations.
+\renewcommand\nomname{SYMBOLS and ABBREVIATIONS}   %% For changing the Heading from Nomenclature to Symbols and Abbreviations.
 %\usepackage{acronym} %% For acronyms
 %\usepackage[usenames,dvipsnames]{color}
 %\usepackage[round]{natbib}
-%\usepackage[pagebackref]{hyperref}%% To use hyperlinks to all citations
-\hypersetup{
- colorlinks,citecolor=blue,
- linktocpage=true,
- pdfauthor = {Meera Mohan, Narendran Kumaragurunathan},
- pdftitle = {Interactive Offline Interface To Debug Simulation Failure, Improved Dual Simulation Approach to Gatesim},
- pdfsubject = {VLSI},
- pdfkeywords = {Simulation Debug, x86, Gatesim},
- pdfcreator = {LaTeX},
- bookmarks=true
-}%% Check hyperref manual for details
+\usepackage{hyperref}%% To use hyperlinks to all citations
+%\hypersetup{
+% colorlinks,citecolor=blue,
+% linktocpage=true,
+% pdfauthor = {Meera Mohan, Narendran Kumaragurunathan},
+% pdftitle = {Interactive Offline Interface To Debug Simulation Failure, Improved Dual Simulation Approach to Gatesim},
+% pdfsubject = {VLSI},
+% pdfkeywords = {Simulation Debug, x86, Gatesim},
+% pdfcreator = {LaTeX},
+% bookmarks=true
+%}%% Check hyperref manual for details
 \usepackage[all]{hypcap} %% To point to the top of the tables and pictures rather than at the bottom
 
 
@@ -115,7 +116,7 @@ in\\
 %Dept of E \& C, NITK \\
 \vspace{1CM}
 %\includegraphics*[scale=0.14]{./figures/nitk_logo.ps}\\
-\includegraphics*[height=1.5in,width=1.5in]{./figures/nitk_logo.ps}\\
+\includegraphics*[height=1.5in,width=1.5in]{./figures/Surthkal_logo.eps}\\
 \vspace{1.3cm}
 \MakeUppercase{{\large Department of Electronics and Communication Engineering}}\\
 \vspace{0.2cm}
@@ -127,6 +128,64 @@ in\\
 \end{center}
 \end{titlepage}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% cover page %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{titlepage}
+\begin{center}
+% Title
+%\vspace*{3.5cm}
+{\Large INTERACTIVE OFFLINE INTERFACE TO DEBUG}\\
+\vspace{3.5pt}
+{\Large SIMULATION FAILURE}\\
+\vspace{7pt}
+{\emph{and}}\\
+\vspace{7pt}
+{\Large IMPROVED DUAL SIMULATION APPROACH}\\
+\vspace{3.5pt}
+{\Large TO GATESIM}\\
+%%%{\Huge IMPLEMENTED ON FPGA}\\
+%%%\vspace{30pt}
+%{ \Large Thesis}  \\
+
+\vspace{15pt}
+\textit {by} \\
+\vspace{10pt}
+{\Large {Meera Mohan}}\\ 
+{(Reg. No.: 11VL09F)}\\
+%Research Scholar\\
+%Dept of E \& C, NITK \\
+\vspace{15pt}
+{\em Under the Guidance of} \\
+\vspace{10pt}
+{\Large {Dr. M. S. Bhat \hspace{.5in} Mr. Narendran Kumaragurunathan}} \\
+\hspace{-0.2in}Professor \hspace{1.50in} SMTS Design Engineer\\
+\hspace{-0.45in}Dept of E \& C, NITK \hspace{1.65in} AMD India Pvt. Ltd\\
+\vspace{-0.05in}
+\begin{figure*}[htp]
+\hspace{0.6in} \subfigure{\includegraphics[height=0.85in,width=0.85in]{./figures/Surthkal_logo.eps}}\hspace{2.1in}
+   \subfigure{\includegraphics[height=0.6in,width=1.2in]{./figures/amd_logo.eps}}
+\end{figure*}
+
+\
+\vspace{10pt}
+ {Thesis}  \\
+{\emph {Submitted in partial fulfillment of the requirements for the degree of}} \\
+\vspace{10pt}
+{\Large {MASTER OF TECHNOLOGY}}\\
+\vspace{5pt}
+%\textit {(by Research)}\\
+%\vspace{5pt}
+in\\
+\vspace{5pt}
+{ \Large {VLSI DESIGN}}\\
+\vspace{1cm}
+{\Large Department of Electronics and Communication Engineering }\\
+\vspace{0.2cm}
+{\Large National Institute of Technology Karnataka, Surathkal}\\
+\vspace{0.2cm}
+{\Large Mangalore - 575025}\\
+\vspace{0.5cm}
+{\large June 2013}\\
+\end{center}
+\end{titlepage}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DECLARATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
