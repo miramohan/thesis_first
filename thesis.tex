@@ -34,9 +34,10 @@
 %\usepackage[toc]{glossaries}  %% Refer Userguide. Nomenclature is easier to use.
 %\usepackage[acronym,toc]{glossaries}
 %\makeglossaries
-%\usepackage{hyperref}
+\usepackage{hyperref}
 %\usepackage{subfloat}
 \usepackage{multirow} %% To combile two or more rows in a table
+\usepackage[super]{natbib}
 \usepackage[super]{nth} %% For writing 2nd, 3rd, 4th etc by just writing \nth{1}. Requires nth.sty file to be in the working directory.
 \newcommand{\tsp}{\textsuperscript} %% For writing kth, nth etc where \nth doesnt work. instead of writing \textsuperscript{th}, just write \tsp{th}
 \usepackage{fixltx2e} %% To use the below \textsubscript
@@ -47,17 +48,17 @@
 %\usepackage{acronym} %% For acronyms
 %\usepackage[usenames,dvipsnames]{color}
 %\usepackage[round]{natbib}
- \usepackage[pagebackref]{hyperref}%% To use hyperlinks to all citations
-% \hypersetup{
-% colorlinks,citecolor=blue,
-% linktocpage=true,
-% pdfauthor = {Shubha Chandra S.},
-% pdftitle = {MAPPING OF DSP KERNELS ON RECONFIGURABLE PROCESSOR IMPLEMENTED ON FPGA},
-% pdfsubject = {VLSI},
-% pdfkeywords = {DSP kernels, reconfigurable processor, high performance applications, accelerating coprocessor},
-% pdfcreator = {LaTeX},
-% bookmarks=true
-%}%% Check hyperref manual for details
+%\usepackage[pagebackref]{hyperref}%% To use hyperlinks to all citations
+\hypersetup{
+ colorlinks,citecolor=blue,
+ linktocpage=true,
+ pdfauthor = {Meera Mohan, Narendran Kumaragurunathan},
+ pdftitle = {Interactive Offline Interface To Debug Simulation Failure, Improved Dual Simulation Approach to Gatesim},
+ pdfsubject = {VLSI},
+ pdfkeywords = {Simulation Debug, x86, Gatesim},
+ pdfcreator = {LaTeX},
+ bookmarks=true
+}%% Check hyperref manual for details
 \usepackage[all]{hypcap} %% To point to the top of the tables and pictures rather than at the bottom
 
 
@@ -81,14 +82,14 @@
 %{\Huge \textbf{MAPPING OF DSP KERNELS ON RECONFIGURABLE PROCESSOR IMPLEMENTED ON FPGA}}\\
 
 {\Large INTERACTIVE OFFLINE INTERFACE TO DEBUG}\\
-\vspace{7pt}
+\vspace{3.5pt}
 
 {\Large SIMULATION FAILURE}\\
 \vspace{7pt}
 {\emph{and}}\\
 \vspace{7pt}
 {\Large IMPROVED DUAL SIMULATION APPROACH}\\
-\vspace{7pt}
+\vspace{3.5pt}
 {\Large TO GATESIM}\\
 \vspace{7pt}
 %%%{\Huge IMPLEMENTED ON FPGA}\\

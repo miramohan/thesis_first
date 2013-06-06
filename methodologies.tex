@@ -7,7 +7,7 @@ Another approach could be to capture test vectors from RTL simulation followed b
 
 
 \section{EARLY DUAL-SIM METHODOLOGY}
- Early method for gate level simulation was a dual-sim or simulation-after-simulation approach. Here RTL simulation was done initially with test bench components. The test vectors for gatesims were generated during this RTL simulation using ``\$display'' or VCD (value change dump). During netlist simulation, these test vectors were used as stimulus and comparison was done with the RTL output vectors. Figure x shows the simulation flow. ~\figurename{~\ref{fig:earlydualsim.eps}} shows early dual-sim flow. % Meera : 1. Figure x, 2. Have some good diagrams
+Early method for gate level simulation was a dual-sim or simulation-after-simulation approach. Here RTL simulation was done initially with test bench components. The test vectors for gatesims were generated during this RTL simulation using ``\$display'' or VCD (value change dump). During netlist simulation, these test vectors were used as stimulus and comparison was done with the RTL output vectors. Figure x shows the simulation flow. ~\figurename{~\ref{fig:earlydualsim.eps}} shows early dual-sim flow. % Meera : 1. Figure x, 2. Have some good diagrams
 %Naren: need this para re-write with references to figure
 
 %\figurename{} 
@@ -18,9 +18,9 @@ Another approach could be to capture test vectors from RTL simulation followed b
 \label{fig:earlydualsim.eps}
 \end{figure}
 
-This dual- sim approach was widely accepted across industry due to its many advantages. The main advantage of sim after sim is that it had the best simulation performance to memory requirement ratio. However this method had multiple disadvantages which became more evident with increasing design complexity.
+This dual-sim approach is widely used across industry due to its many advantages. The main advantage of sim after sim is that it had the best simulation performance with least compute requirements. However the earlier implementation of this method had multiple disadvantages which became more prevalent with increasing design complexity.
 
-\paragraph{Issues:}The main issue with dual sim method used in past was the huge disk space requirement. Vector files were text files which had cycle wise information of stimulus. These files were large and simulation performance was greatly affected due to constant disk input/output accesses. 
+\paragraph{Issues:}The main issue with earlier implementation of dual sim methodology was the huge disk space requirement. Vector files were text files which had cycle based information of stimulus. These files were large and simulation performance was also affected by disk input/output accesses. Another shortcoming of this methodology was that when stimulus was converted to cycle based information, inherent sampling errors were introduced, which were themselves causing simulation mismatches when compared with RTL simulations.
 
  
  With increasing design complexity, the disk-space requirements became too high that the method could no longer sustain and a new co-simulation based approach was adopted instead.
