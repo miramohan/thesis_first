@@ -62,16 +62,16 @@ The test verifies write/read from a memory location. Ideally the values written 
 \end{itemize}
 
 \subsubsection{ANALYSIS}
-Consider Case 1. The memory bank selected should stay same throughout the program execution. This change in memory bank will cause the read operation to take value from wrong memory block. This will lead to self-test failure. \\
+{\bf Case 1}: The memory bank selected should stay same throughout the program execution. This change in memory bank will cause the read operation to take value from wrong memory block. This will lead to self-test failure. \\
  Now to understand when and where the actual error occurred, we need to keep track of the control register value and see where the value changed from expected value. For this we need to start tracing the values from the point of failure. \\
-
-Case 2. Each memory block has a fixed size. The base value will be selected on setting the control bit. The offset value is provided by the test. A valid address value will be within the range of memory block that is between the lowest and highest offset. Any attempt to access a value which doesn't lie within this range will evidently lead to an error.\\
+{\bf Case 2}: Each memory block has a fixed size. The base value will be selected on setting the control bit. The offset value is provided by the test. A valid address value will be within the range of memory block that is between the lowest and highest offset. Any attempt to access a value which doesn't lie within this range will evidently lead to an error.\\
 If such a situation occurs, the user needs to be aware of the particularities of each memory write operation. Details on instance of memory write, actual physical as well as logical address value, instruction cycle number etc are required to figure out if this was the cause of test failure.\\
-Case 3.  Certain bits of some specific registers are set as read-only. Suppose a case where a 32 bit register A has its lower byte set as read-only and has the value XXXXXX00h. If the test is trying to set this register to a certain value, for example FFFFFFFFh, chances are that the value that is actually set might not be a FFFFFFFFh but some other value possibly FFFFFF00h. 
+{\bf Case 3}: Certain bits of some specific registers are set as read-only. Suppose a case where a 32 bit register A has its lower byte set as read-only and has the value XXXXXX00h. If the test is trying to set this register to a certain value, for example FFFFFFFFh, chances are that the value that is actually set might not be a FFFFFFFFh but some other value possibly FFFFFF00h. 
 To catch such an error, the verification engineer needs to know the value stored in each register used during test at all cycle.
 
 
 
+\subsection {TEST B}
 
 
 
