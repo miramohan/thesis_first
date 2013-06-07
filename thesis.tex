@@ -42,6 +42,8 @@
 \usepackage[super]{nth} %% For writing 2nd, 3rd, 4th etc by just writing \nth{1}. Requires nth.sty file to be in the working directory.
 \newcommand{\tsp}{\textsuperscript} %% For writing kth, nth etc where \nth doesnt work. instead of writing \textsuperscript{th}, just write \tsp{th}
 \usepackage{fixltx2e} %% To use the below \textsubscript
+\usepackage{xspace}
+\usepackage[lined,boxed,linesnumbered]{algorithm2e}
 \newcommand{\tsb}{\textsubscript}
 \usepackage{nomencl}  %% For Using Symbols and abbreviations. Needs nomencl.sty file to be in the working directory.
 \makenomenclature     %% Additional package for nomencl. Search internet for details.
@@ -159,10 +161,10 @@ in\\
 \hspace{-0.2in}Professor \hspace{1.50in} SMTS Design Engineer\\
 \hspace{-0.45in}Dept of E \& C, NITK \hspace{1.65in} AMD India Pvt. Ltd\\
 \vspace{-0.05in}
-\begin{figure*}[htp]
-\hspace{0.6in} \subfigure{\includegraphics[height=0.85in,width=0.85in]{./figures/Surthkal_logo.eps}}\hspace{2.1in}
-   \subfigure{\includegraphics[height=0.6in,width=1.2in]{./figures/amd_logo.eps}}
-\end{figure*}
+%\begin{figure*}[htp]
+%\hspace{0.6in} \subfigure{\includegraphics[height=0.85in,width=0.85in]{./figures/Surthkal_logo.eps}}\hspace{2.1in}
+%   \subfigure{\includegraphics[height=0.6in,width=1.2in]{./figures/amd_logo.eps}}
+%\end{figure*}
 
 \
 \vspace{10pt}
@@ -252,6 +254,10 @@ in\\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% VERIFICATION ENVIRONMENT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \input{verification.tex} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PROPOSED ENHANCMENT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\input{enhancement.tex} 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% INTERFACE IMPLEMENTATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage

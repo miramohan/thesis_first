@@ -1,0 +1,77 @@
+\chapter{PROPOSED ENHANCEMENT}
+\label{chap:enhancement.tex}
+
+\section {VISUALIZING PROCESSOR EXECUTION}
+Once the program is loaded in processor memory the execution starts. Generally modern microprocessors today adopt instruction level parallelism for high throughput. Micro-architectural like instruction pipeline, superscalar execution, register renaming, speculative execution, branch prediction etc. are employed in order to exploit instruction level parallelism [].  \\
+An execution log file captures all the information regarding the processor state and activity during the execution of a code. Each entry in the log file will have the following information:
+\begin{itemize}
+	\item The instruction number and opcode
+	\item Thread Id (in multi-core and multi-processor)
+	\item Memory read/write information
+	\item Code read/write
+	\item I/O read or write
+	\item Interrupt and exception information
+	\item Branch Target
+	\item Paging info
+	\item Flag values
+	\item Register updates made
+\end{itemize}
+On the onset of a simulation failure, these information are very vital. For understanding how execution log information helps in debugging failure let us consider two test scenarios.
+
+\section {CASE STUDY}
+
+\subsection {TEST A}
+Consider an assembly code of testing a memory module. The test writes a value into a memory location. The data is later read from the same location and read data value is compared with the original value written into the location. The test flags a fail of pass based on the comparison.\\
+
+\IncMargin{1em}
+\begin{algorithm}[H]
+\DontPrintSemicolon
+\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+
+\Input{$data$, $address$}
+\Output{Test result: $pass$ or $fail$}
+\BlankLine
+Initialization: Select memory bank by setting $Control Register$ \;
+
+	$Reg A \longleftarrow data$\;
+	$Reg B \longleftarrow address$\;
+
+	Memory $[Reg B] \longleftarrow Reg A $\;
+
+	$Reg C \longleftarrow data$\;
+
+	$Reg D \longleftarrow$	Memory $[Reg B]$\; 
+
+\eIf{$Reg C == Reg D$}{
+report $pass$
+}{
+report $fail$
+}
+
+\caption{Memory Read-Write}
+\end{algorithm}\DecMargin{1em}
+
+\vspace{2cm}
+The test verifies write/read from a memory location. Ideally the values written to the memory location should match the value read from the memory and test completes with a pass. Now consider a situation where the comparison fails. This can happen due to many reasons. Following are a few scenarios which can lead to a failure:
+\begin{itemize}
+\item [Case 1]: If due to some external process the control bit for bank selection is changed in between the execution, the data read will be from wrong memory location leading to failure.
+
+\item [Case 2]: If the address value is invalid. This can happen when the test generates a random address value for storing the data and this value might not exist in the current selected memory bank range.
+
+\item [Case 3]:  If the register chosen is read only. This will cause the wrong data to be updated into the memory and comparison fails.
+\end{itemize}
+
+\subsubsection{ANALYSIS}
+Consider Case 1. The memory bank selected should stay same throughout the program execution. This change in memory bank will cause the read operation to take value from wrong memory block. This will lead to self-test failure. \\
+ Now to understand when and where the actual error occurred, we need to keep track of the control register value and see where the value changed from expected value. For this we need to start tracing the values from the point of failure. \\
+
+Case 2. Each memory block has a fixed size. The base value will be selected on setting the control bit. The offset value is provided by the test. A valid address value will be within the range of memory block that is between the lowest and highest offset. Any attempt to access a value which doesn't lie within this range will evidently lead to an error.\\
+If such a situation occurs, the user needs to be aware of the particularities of each memory write operation. Details on instance of memory write, actual physical as well as logical address value, instruction cycle number etc are required to figure out if this was the cause of test failure.\\
+Case 3.  Certain bits of some specific registers are set as read-only. Suppose a case where a 32 bit register A has its lower byte set as read-only and has the value XXXXXX00h. If the test is trying to set this register to a certain value, for example FFFFFFFFh, chances are that the value that is actually set might not be a FFFFFFFFh but some other value possibly FFFFFF00h. 
+To catch such an error, the verification engineer needs to know the value stored in each register used during test at all cycle.
+
+
+
+
+
+
