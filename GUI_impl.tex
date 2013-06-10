@@ -25,9 +25,9 @@ Figure x shows the implementation of GUI.
 %\figurename{} 
 \begin{figure}[H]
 \centering
-\includegraphics[width=5.5in]{./figures/GUI_impl.eps}
+\includegraphics[width=5.5in]{./figures/gui_impl.eps}
 \caption{GUI Implementation} 
-\label{fig:GUI_impl.eps}
+\label{fig:gui_impl.eps}
 \end{figure}
 
  Major implementation steps
@@ -90,23 +90,26 @@ Once both the input files are processed, next step is correlating the asm file o
 \centerline{Linear address = Base address + Offset value}
 \\
 For each object in the log file class, find the corresponding list file object based on the linear address value and combine the objects.
+
+
+\vspace{1.5cm}
+
 \IncMargin{1em}
 \begin{algorithm}[H]
 \DontPrintSemicolon
-\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output} \SetKwFunction{KwFn}{CreateDataArray}
 
 \Input{list file objects$\rightarrow listObj[]$, log file object$\rightarrow logObj[]$}
-\Output{Test result: $pass$ or $fail$}
 \BlankLine
 Start: \;
-For {each object $list$ in listObj}{\;
+\For {each object $list$ in listObj}{\;
 		list.address = list.Base + list.Offset\;
 	}
-For {each object $log$ in logObj}{\;
+\For {each object $log$ in logObj}{\;
 	set count = 0\;
-	For {each object $list$ in listObj}{\;
+	\For {each object $list$ in listObj}{\;
 	 \If{$log.address == list.address$}{
-		Add $list.property \rightarrow log.property$\;
+		Append each $list$.property $\rightarrow$ $log$.property\; \tcp{$log$ properties are lineNo, opcode and address}\label{cmt}
 		count = 1;
 		break loop\;
 	}
@@ -116,24 +119,10 @@ For {each object $log$ in logObj}{\;
 	}
 }
 End \;
-\caption{Memory Read-Write}
+\caption{Combining List and Log File Information}
 \end{algorithm}\DecMargin{1em}
 
-\vspace{2cm}
-Input: list file objects, log file objects
-Start:
-For each object in list file class do
-	listObj.address = listObj.Base + listObj.Offset
-end
-
-For each object in log Class do
-	For each object in list file class
-		If logObject.address == listObj.Address
-			Add listObj properties to logObject
-			Break loop;
-	End
-	End
-End
+\vspace{1.5cm}
 Now we have a set of objects that hold log details and are linked to corresponding asm file line. Once this stage is completed we have completed all the data extraction and next phase is building the interface.
 
 \subsection {DEVELOP THE INTERFACE}
@@ -143,4 +132,143 @@ The final step is developing the interface. As the GUI is web based, layout desi
 \emph {\bf JavaScript (JS)} is an interpreted computer programming language. It is  implemented as part of web browsers so that client-side scripts could interact with the user, control the browser, communicate asynchronously, and alter the document content that was displayed. It is a multi-paradigm language, supporting object-oriented, imperative, and functional programming styles.
 
 In addition a style sheet language called CSS (Cascading Style Sheets) is used for describing the presentation semantics (the look and formatting) of the interface page written in HTML.
+%\figurename{} 
+%\figurename{} 
+\begin{figure}[H]
+\centering
+\includegraphics[width=3.5in]{./figures/html.eps}
+\caption{Web Page Generation}
+\end{figure}
+
+
+The JavScript program and the style sheet will we embedded inside the HTML code. This connection is done by the top level python script. Figure x shows the schematic of how the files are combined with the data.
+
+
+
+\subsubsection{CREATING JS OBJECTS}
+All the dynamic features of the interface is handled by JS script. The data input to the JS is the extracted information from log files andlist files. The top level python script will convert the extracted objects into JS data array "$dataArray[]$" ; where each array element coresponds to an active thread. Active threads refer to active core or processor in a multiprocessor system.  
+
+\IncMargin{1em}
+\begin{algorithm}[H]
+\DontPrintSemicolon
+\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output} \SetKwFunction{KwFn}{CreateDataArray}
+\KwFn {}
+\BlankLine
+\Begin{
+\For {i in activeThreads}{\;
+		\For {$log$ in logObj}{\;
+		\If{log.Id == i}{
+		Append $log \rightarrow	DataArray[i]$\;
+		}
+}
+}
+}
+\caption{Creating JavaScript Object}
+\end{algorithm}\DecMargin{1em}
+
+
+
+Once the extracted information is converted to JS compatiable data, the interface features can utilize this. The layout for various GUI features called windows, are designed using HTML and CSS code. All the dynamic interactive featurers are handled by the JS script embedded in the final HTML web page. The following section introduces the differend windows developed for the GUI.
+
+\section {GUI FEATURES}
+
+\subsection {EXECUTION FLOW GRAPH}
+Main feature of the web page is the graph showing the execution flow of the code. Here asm list file line numbers are plotted against the cycle during which it is executed. All the active threads have different graphs which are tabbed. Hovering the mouse over any point on the graph will display x and y axis values. 
+ 
+This zoom enabled data graphs also provides onclick selection of specific operations e.g: Branching, Memory Write, Memory Read, Code Read etc, which will display the instances of selected operation. Each operation is distinguished by its color.   
+
+\subsubsection {Implementation}
+
+For the developement of execution graph we are using Dygraph JavaScript Visualization Library []. This will provide inbuild functions that enable zooming, x-y axis value display and point onClick call backs. onClick CallBack() function is called when ever a point on Dygraph is clicke and this function actives many other window.
+
+For building the graph, input to the Dygraph is independent axis values followed by depended axis values. For each thread, a different graph is generated. The x-axis is cycle number and y-axis is the list file line number. Algorithm x explains hw the graph is build.
+
+\IncMargin{1em}
+\begin{algorithm}[H]
+\DontPrintSemicolon
+\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output} \SetKwFunction{KwFn}{CreateGraph}
+\KwFn{}
+\BlankLine
+\Begin{
+\For {each i in activeThread}{\;
+\For {each element in dataArray[i]}{\;
+	Dygraph[i] $\leftarrow [element.cycleNo , element.lineNo]$\;
+	}
+}
+}
+\caption{Creating Execution Graph}
+\end{algorithm}\DecMargin{1em}
+
+\section {REGISTER WATCH WINDOW}
+
+Register window capture and display updated register values at a specific instance. Each thread holds its own copy of registers/flags. A selection of point on the execution flow graph will update the register window with values at that instant in the selected thread. Values of following registers and flags are provided to the user:
+\begin{itemize}
+	\item[-] 64 bit general purpose registers (RAX, RBX, RCX etc)
+	\item[-] RFLAG (64 bit)
+	\item[-] Instruction Pointer (RIP)
+	\item[-] Stack Pointer (RSP)
+\end{itemize}
+
+Another feature provided by register window is comparison between register values at two different instances that is between a reference point set by Set Marker button and current selection. 
+
+\subsubsection{Implementation}
+
+This window is activated by the point onClick CallBack function evoked when a point is clicked on Dygraph. The function will update the register window rows set by the HTML code eg. regRow[RFLAG], regRow[RBX] etc. Also there will be a comparison with the reference point set. 
+
+\IncMargin{1em}
+\begin{algorithm}[H]
+\DontPrintSemicolon
+\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output} \SetKwFunction{KwFn}{pointonClickCallBack}
+\KwFn{element}
+\BlankLine
+\Begin{
+\For {each reg in RegisterSet}{
+regRow$[reg]$ $\leftarrow$ element.$[reg]$ \;
+	\If{(element.$[reg]$ != referenceRow.$[reg]$)}{\;
+		$Highlight  regRow $ \;
+	}
+}
+}
+\caption{Creating Register Window}
+\end{algorithm}\DecMargin{1em}
+
+\subsection {INSTRUCTION WINDOW}
+
+Instruction window give the asm file lines. A selection in execution graph will be reflected in this window by highlighting the asm file instruction corresponding to the selected point. Also the context of the selected line that is its preceding and succeeding instructions are also available in this window.
+\subsubsection{Implementation}
+
+This window is also activated by the onClick CallBack function evoked when a point is clicked on Dygraph. The function will update the instruction window set by the HTML code.
+
+\IncMargin{1em}
+\begin{algorithm}[H]
+\DontPrintSemicolon
+\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output} \SetKwFunction{KwFn}{onClickCallBack}
+\KwFn{element}{;\
+\BlankLine
+\Begin{
+\For {each item from elemnt-50 to element+50}{\;
+	Add $item.opcode \rightarrow$ InstructionWindow\;
+	}
+
+Add $item.logInfo \rightarrow$ ExecutionLogWindow\;
+}
+}
+\caption{Creating Instruction and Execution Log Window}
+\end{algorithm}\DecMargin{1em}
+
+\subsection {EXECUTION LOG WINDOW}
+
+In addition to the instruction and register information, all the processor execution log information regarding the selected
+instruction is also provided through execution log window.  This collected information is stored as a log file object propert "{\emph logInfo}". 
+
+Implementation of Execution log window is given in algorithm x along with instruction window.
+
+\subsection{SET AND CLEAR MARKER}
+These two options allow setting or removing a reference point with which current register values are compared against.
+
+\subsubsection{Implementation}
+
+Set and Clear buttons are set using HTML form options. These elements have onClick call backs. On clicking Setbutton call back will set add values to reference register section and on click clear will remove the values in reference section.
+
+
 

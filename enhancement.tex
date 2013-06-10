@@ -3,8 +3,10 @@
 
 \section {VISUALIZING PROCESSOR EXECUTION}
 
-Once the program is loaded in processor memory the execution starts. Generally modern microprocessors today adopt instruction level parallelism for high throughput. Micro-architectural like instruction pipeline, superscalar execution, register renaming, speculative execution, branch prediction etc. are employed in order to exploit instruction level parallelism [].  These micro architecture elements will work together for high performance execution. All these internal operations results in a complex execution flow with multiple operations happening in each cycle with different ways of dependencies between data, instruction and memory.
-An execution log file captures all the information regarding the processor state and activity during the execution of a code. This is actually the entire history of simulation. Each entry in the log file will have mainly the following information regarding each processor execution cycle:
+Once the program is loaded in processor memory the execution starts. Generally modern microprocessors today adopt instruction level parallelism for high throughput. Micro-architectural like instruction pipeline, superscalar execution, register renaming, speculative execution, branch prediction etc. are employed in order to exploit instruction level parallelism [].  These micro architecture elements will work together for high performance execution. All these internal operations results in a complex execution flow with multiple operations happening in each cycle with different level of dependencies between data, instruction and memory.
+
+
+An execution log file captures all the information regarding the processor state and activity during the execution of a code. This is actually the entire history of simulation. Each entry in the log file will have mainly the following information regarding processor execution cycle:
 \begin{itemize}
 	\item The instruction number and opcode
 	\item Thread Id (in multi-core and multi-processor)
@@ -23,6 +25,9 @@ On the onset of a simulation failure, these information are very vital. For unde
 Let us consider two simple asm tests as case studies for understanding how processor execution log details helps in finding out why and how errors occur. In each case a few failure cases are considered. 
 \subsection {TEST A}
 Consider an assembly code of testing a memory module. The test writes a value into a memory location. The data is later read from the same location and read data value is compared with the original value written into the location. The test flags a fail of pass based on the comparison.\\
+
+\vspace{1.5cm}
+
 
 \IncMargin{1em}
 \begin{algorithm}[H]
@@ -52,7 +57,7 @@ report $fail$
 \caption{Memory Read-Write}
 \end{algorithm}\DecMargin{1em}
 
-\vspace{2cm}
+\vspace{1.5cm}
 The test verifies write/read from a memory location. Ideally the values written to the memory location should match the value read from the memory and test completes with a pass. Now consider a situation where the comparison fails. This can happen due to many reasons. Following are a few scenarios which can lead to a failure:
 \begin{itemize}
 \item [Case 1]: If due to some external process the control bit for bank selection is changed in between the execution, the data read will be from wrong memory location leading to failure.
@@ -64,16 +69,18 @@ The test verifies write/read from a memory location. Ideally the values written 
 
 \subsubsection{ANALYSIS}
 {\bf Case 1}: The memory bank selected should stay same throughout the program execution. This change in memory bank will cause the read operation to take value from wrong memory block. This will lead to self-test failure. \\
- Now to understand when and where the actual error occurred, we need to keep track of the control register value and see where the value changed from expected value. For this we need to start tracing the values from the point of failure. \\
+ Now to understand when and where the actual error occurred, we need to keep track of the control register value and see where the value changed from expected value. \\
 {\bf Case 2}: Each memory block has a fixed size. The base value will be selected on setting the control bit. The offset value is provided by the test. A valid address value will be within the range of memory block that is between the lowest and highest offset. Any attempt to access a value which doesn't lie within this range will evidently lead to an error.\\
 If such a situation occurs, the user needs to be aware of the particularities of each memory write operation. Details on instance of memory write, actual physical as well as logical address value, instruction cycle number etc are required to figure out if this was the cause of test failure.\\
-{\bf Case 3}: Certain bits of some specific registers are set as read-only. Suppose a case where a 32 bit register A has its lower byte set as read-only and has the value XXXXXX00h. If the test is trying to set this register to a certain value, for example FFFFFFFFh, chances are that the value that is actually set might not be a FFFFFFFFh but some other value possibly FFFFFF00h. 
+{\bf Case 3}: Certain bits of some specific registers are set as read-only. Consider a case where a 32 bit register A has its lower byte set as read-only and has the value XXXXXX00h. If the test is trying to set this register to a certain value, for example FFFFFFFFh, chances are that the value that is actually set might not be a FFFFFFFFh but some other value possibly FFFFFF00h. 
 To catch such an error, the verification engineer needs to know the value stored in each register used during test at all cycle.
 
 
 
 \subsection {TEST B}
-Consider a string conversion program. The code reads an input string in upper case and converts it into lower case and display. Consider ASCII character coding and for converting lower case to lower case add decimal value to upper case value. 
+Consider a string conversion program. The code reads an input string in upper case and converts it into lower case and display. Consider ASCII character coding and for converting lower case to lower case add decimal value to upper case value.
+
+\vspace{1.5cm}
 \IncMargin{1em}
 \begin{algorithm}[H]
 \DontPrintSemicolon
@@ -97,7 +104,7 @@ Initialize stack memory to 0 \;
 \caption{Memory Read-Write}
 \end{algorithm}\DecMargin{1em}
 
-\vspace{2cm}
+\vspace{1.5cm}
 
 The string conversion program converts each character from upper case to lower case on by one by using a loop. This program can fail due to many reasons. Let us consider a couple of scenarios.
 
@@ -109,9 +116,10 @@ The string conversion program converts each character from upper case to lower c
 \end{itemize}
 \subsubsection{ANALYSIS}
 
-{\bf Case 1}: The base address of stalk declared for storing characters of the string is the starting point of the loop. If while looping the looping variable is initialized incorrectly then the code will point to invalid location.  In case of such situation, information on the stack pointer register value is required.
+{\bf Case 1}: The base address of stalk declared for storing characters of the string is the starting point of the loop. If while looping the looping variable is initialized incorrectly then the code will point to invalid location.  In case of such situation, information on the stack pointer register value is required. \\
+{\bf Case 2}:  This situation arises when looping is terminated at wrong instant. The execution takes the wrong branch and misses out of last loop. Such situation requires knowledge of branching during program execution.\\
 
-{\bf Case 2}:  This situation arises when looping is terminated at wrong instant. The execution takes the wrong branch and misses out of last loop. Such situation requires knowledge of branching during program execution.
+
 
 From the analysis of both the test and the selected error cases, we can conclude that to understand the cause of error some specific set of information are very important such as:
 
@@ -130,20 +138,20 @@ TEST B
 In general for different test and error possibilities, all information regarding the processors execution flow is required. From the point of failure, a trace back through the execution log details and corresponding comparison with the expected assembly code action must be made. 
 The above cases show that main aspect of failure analysis is co-relating the execution information with the test code and tracing the execution flow. 
 
-\subsection{Co-relating information}
+\section{Co-relating information}
 
-Correlation of list file and log file is done by comparing the address values. For each cycle the Instruction pointer register (RIP) hold the current and next instruction address. The verification engineer has to search through the files for address values to do correlate cycles in log file with lines in list file. At each step the registers, memory, flags, interrupt etc are verified and compared against the opcode in list file. As observed in the cases considered in the previous section, this comparison at each stage and verification of processor action and states are required to understand how and why the test failed.
+Correlation of list file and log file is done by comparing the address values. For each cycle the Instruction pointer register (RIP) hold the current and next instruction address. The verification engineer has to search through the files for address values to correlate cycles in log file with lines in list file. As observed in the cases considered in the previous section, this comparison at each stage and verification of processor action and states are required to understand how and why the test failed.
 
-\subsection{Tracing the log files}
+\section{Tracing the log files}
  
 As explained earlier, processor execution logs are generated during test simulation. These files hold almost all details that can be possibly identified during simulation. 
 
-Now for SoC level verification, the each test input is a collection of many tests verifying intimate details of the design. The test plans will have many small tests and will be rather big collection and will have thousands of code lines. 
+In SoC level verification, each simulation will have a collection of many tests verifying intimate details of the design. The test plans will have many small tests and will be a big collection and have thousands of code lines. 
 In such cases it is rather obvious that the execution log file for such tests stimulus will be huge as it covers cycle by cycle processor details.  This vast wealth of information will be in generated in a simulation time based manner with details of various threads mixed together. 
 
-During debug the verification engineer need to trace the log file contents to find out the cause of failure. This navigation through such huge file can be a very tedious process if done manually by calculating linear address and then using string search to find the address in log file.  In fact the data traversal can move up and down for verifying different aspects. This will consume a lot of verification time. 
+During debug the verification engineer need to trace the log file contents to find out the cause of failure. This navigation through such huge file can be a very tedious process if done manually by calculating linear address and then using string search to find the address in log file and asm file to correlate.  In fact the data traversal can move up and down for verifying different aspects. This will consume a lot of verification time. 
 
-In this thesis, we are proposing a Graphical User Interface (GUI) which will help in navigating through the log files quickly and aids in comparison with list file and also some additional features to help in faster analysis of failure cause. The interface will help to get rid of traditional method of comparing RIP values and string search by providing graphs that will connect each cycle in log file with corresponding asm line code. The proposed interface enhances the data navigation through log files and failure analysis. 
+In this thesis, we are proposing a Graphical User Interface (GUI) which will help in navigating through the log files quickly, aiding in comparison with list file and also some additional features to help in faster analysis of failure cause. The interface will help to get rid of traditional method of comparing RIP values and string search by providing graphs that will connect each cycle in log file with corresponding asm line code. The proposed interface enhances the data navigation through log files and failure analysis. 
 
 
 
