@@ -1,0 +1,4 @@
+*.ppt* -crlf
+*.tif* -crlf
+*.*ps  -crlf
+
