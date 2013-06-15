@@ -1,4 +1,5 @@
 .*.sw*
+~*
 thesis.aux
 thesis.dvi
 thesis.lof

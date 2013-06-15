@@ -1,15 +1,15 @@
 \chapter{PROPOSED ENHANCEMENT}
 \label{chap:enhancement.tex}
 
-\section {VISUALIZING PROCESSOR EXECUTION}
+\section {PROCESSOR EXECUTION DETAILS}
 
 During simulation of a processor core, the linked program image is loaded in processor's memory followed by its execution. Most modern microprocessors adopt instruction level parallelism for high throughput. Micro-architectural features like instruction pipeline, superscalar execution, register renaming, speculative execution, branch prediction etc. are employed in order to exploit instruction level parallelism.  These micro architecture features work together for high execution throughput. All these internal operations results in a complex execution flow with multiple operations happening in each cycle with different levels of dependencies between data, instruction and memory.
 
 
-An execution log file captures all the information regarding the processor state and activity during the execution of a code. This is actually the entire history of simulation. Each entry in the log file will have mainly the following information regarding processor execution cycle:
+As explanined in \ref{verif:exelog} execution log file captures important information regarding the processor state and activity during execution of program code. This could be considered as history of events in the simulation. Each entry in the log file contains the following information regarding processor execution:
 \begin{itemize}
-	\item The instruction number and opcode
-	\item Thread Id (in multi-core and multi-processor)
+	\item The instruction number, simulation cycle and opcode
+	\item Thread Id (relevant in multi-core and multi-processor)
 	\item Memory read/write information
 	\item Code read/write
 	\item I/O read or write
@@ -17,20 +17,21 @@ An execution log file captures all the information regarding the processor state
 	\item Branch Target
 	\item Paging info
 	\item Flag values
-	\item Register updates made
+	\item Register affected on that instruction execution
 \end{itemize}
-On the onset of a simulation failure, these information are very vital. For understanding how execution log information helps in debugging failure let us consider two test scenarios.
+On the onset of simulation failure, these information are vital in debugging the cause of a failure. The following case study of two test scenarios affirm this fact.
 
-\section {CASE STUDY}
-Let us consider two simple asm tests as case studies for understanding how processor execution log details helps in finding out why and how errors occur. In each case a few failure cases are considered. 
+\section {SAMPLE DEBUG CASES IN CONSIDERATION}
+Let us consider two simple assembly tests as case studies to demonstrate the usefullness of processor execution log during debug of a self~test failure.
 \subsection {TEST A}
-Consider an assembly code of testing a memory module. The test writes a value into a memory location. The data is later read from the same location and read data value is compared with the original value written into the location. The test flags a fail of pass based on the comparison.\\
+\label{case:testa}
 
 \vspace{1.5cm}
 
 
 \IncMargin{1em}
-\begin{algorithm}[H]
+\begin{algorithm}[h]
+\label{algo:mrw}
 \DontPrintSemicolon
 \SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
 
@@ -40,15 +41,13 @@ Consider an assembly code of testing a memory module. The test writes a value in
 Initialization: Select memory bank by setting $Control Register$ \;
 
 	$Reg A \longleftarrow data$\;
-	$Reg B \longleftarrow address$\;
+	$Reg B \longleftarrow address$\; \label{algo:mrw:write}
 
 	Memory $[Reg B] \longleftarrow Reg A $\;
 
-	$Reg C \longleftarrow data$\;
+	$Reg D \longleftarrow$	Memory $[Reg B]$\;  \label{algo:mrw:read}
 
-	$Reg D \longleftarrow$	Memory $[Reg B]$\; 
-
-\eIf{$Reg C == Reg D$}{
+\eIf{$Reg A == Reg D$}{ \label{algo:mrw:compare}
 report $pass$
 }{
 report $fail$
@@ -58,99 +57,124 @@ report $fail$
 \end{algorithm}\DecMargin{1em}
 
 \vspace{1.5cm}
-The test verifies write/read from a memory location. Ideally the values written to the memory location should match the value read from the memory and test completes with a pass. Now consider a situation where the comparison fails. This can happen due to many reasons. Following are a few scenarios which can lead to a failure:
+
+Consider an assembly test in Listing~\ref{algo:mrw} that intends verification of a memory module. The test writes a value into a memory location (Line~\ref{algo:mrw:write}). The data is later read from the same location (Line~\ref{algo:mrw:read}) and compared with the original value written into the location (Line~\ref{algo:mrw:compare}). The test flags fail or pass based on the comparison.
+
+The test verifies a single write/read from a memory location. Ideally the values written to the memory location should match the value read from the memory and test completes with a pass. Now consider a case where the comparison fails. This could occur due to many reasons. Following are a few scenarios which can lead to a failure:
 \begin{itemize}
-\item [Case 1]: If due to some external process the control bit for bank selection is changed in between the execution, the data read will be from wrong memory location leading to failure.
+\item [Case 1]: If from another thread of program execution, the control bit for bank selection is changed during the execution, the data read will be from wrong memory location, leading to a failure. \label{algo:mrw:case1}
 
-\item [Case 2]: If the address value is invalid. This can happen when the test generates a random address value for storing the data and this value might not exist in the current selected memory bank range.
+\item [Case 2]: If the address value is invalid. This can happen when the test generates a random address value for storing the data and this value might not exist in the current selected memory bank range. \label{algo:mrw:case2}
 
-\item [Case 3]:  If the register chosen is read only. This will cause the wrong data to be updated into the memory and comparison fails.
+\item [Case 3]:  If the register $Reg D$ chosen is unavailable in this mode of processor operation. This will cause the wrong data to be updated into the memory and comparison fails. \label{algo:mrw:case3}
 \end{itemize}
 
-\subsubsection{ANALYSIS}
-{\bf Case 1}: The memory bank selected should stay same throughout the program execution. This change in memory bank will cause the read operation to take value from wrong memory block. This will lead to self-test failure. \\
- Now to understand when and where the actual error occurred, we need to keep track of the control register value and see where the value changed from expected value. \\
-{\bf Case 2}: Each memory block has a fixed size. The base value will be selected on setting the control bit. The offset value is provided by the test. A valid address value will be within the range of memory block that is between the lowest and highest offset. Any attempt to access a value which doesn't lie within this range will evidently lead to an error.\\
-If such a situation occurs, the user needs to be aware of the particularities of each memory write operation. Details on instance of memory write, actual physical as well as logical address value, instruction cycle number etc are required to figure out if this was the cause of test failure.\\
-{\bf Case 3}: Certain bits of some specific registers are set as read-only. Consider a case where a 32 bit register A has its lower byte set as read-only and has the value XXXXXX00h. If the test is trying to set this register to a certain value, for example FFFFFFFFh, chances are that the value that is actually set might not be a FFFFFFFFh but some other value possibly FFFFFF00h. 
-To catch such an error, the verification engineer needs to know the value stored in each register used during test at all cycle.
+\subsubsection{Debug Process}
+In case~1~\ref{algo:mrw:case1}, the memory bank selected should stay same throughout the program execution. Any change in memory bank selects will cause the read operation to take value from wrong memory block, leading to a self-test failure.
+In case~2~\ref{algo:mrw:case2}, given that each memory block has a fixed size, if the generated random address generated is not in valid range of offset, then this error could occur.
+In case~3~\ref{algo:mrw:case3}, if care is not taken in choosing processor mode prior to the test execution, and if $Reg D$ is either completely or partly unavailable (like 32~bit mode Vs 16~bit mode), then this error could occur.
 
+\begin{figure}[h]
+\centering
+\includegraphics{./figures/mrw_debug.ps}
+\caption{Illustration of debug process : Test A} 
+\label{fig:mrw_debug.ps}
+\end{figure}
 
+Figure~\ref{fig:mrw_debug.ps} depicts a typical debug process. Note that there could be other causes for failure as depicted in states $j, k, & m$. During debug, the engineer needs access to certain information as listed here
+\begin{enumerate}
+\item $state b$: Examine Read to address, examine data obtained.
+\item $state c$: Obtain all accesses occurred to same address, find the latest write to same address.
+\item $state d$: Examine data written to latest write to same address.
+\item $state e$: What is the bank select location, did it change between write and read.
+\item $state f$: Which program code changed bank select?
+\item $state l$: What is processor mode?
+\item $state i$: What was the random address that got generated?
+\end{enumerate}
 
 \subsection {TEST B}
-Consider a string conversion program. The code reads an input string in upper case and converts it into lower case and display. Consider ASCII character coding and for converting lower case to lower case add decimal value to upper case value.
+\label{case:testb}
+Consider a string $tolower()$ program. The program reads an input string in upper~case and converts it to lower~case. Considering ASCII character encoding, conversion of upper~case to lower~case could be accomplished by addition of constant to the ASCII encoding.
 
 \vspace{1.5cm}
 \IncMargin{1em}
-\begin{algorithm}[H]
+\begin{algorithm}[h]
 \DontPrintSemicolon
 \SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
 
 \Input{$string$}
-%\Output{Test result: $pass$ or $fail$}
+\Output{$string$}
 \BlankLine
-Initialize stack memory to 0 \;
-
-	Store input string into stack memory\;
-	For{stack$[base]$ \KwTo stack$[maxOffset]$}{\;
-		
-	}
-%\eIf{$Reg C == Reg D$}{
-%report $pass$
-%}{
-%report $fail$
-%}
+ \For{every character $c$ in string}
+  $c \longleftarrow c + CONST $\;
+ \Endfor
 
 \caption{Memory Read-Write}
 \end{algorithm}\DecMargin{1em}
 
 \vspace{1.5cm}
 
-The string conversion program converts each character from upper case to lower case on by one by using a loop. This program can fail due to many reasons. Let us consider a couple of scenarios.
+The program converts each character from upper case to lower case in a loop, to achieve the result. This program can fail due to many reasons. Let us consider a couple of scenarios.
 
 \begin{itemize}
 
-\item [Case 1]: If the loop initialization is wrong. Suppose the base address of the stalk is from 1 and the program loops from 0th location. This will lead to an invalid conversion.
+\item [Case 1]: Consider that the loop variable is not initialised incorrectly. Loop variables are used as the index variable to select every character of the string. This will lead to an invalid conversion. \label{algo:tolow:case1}
 
-\item [Case 2]: If the looping misses out on final character. In many scenarios if so happens that code exit from the loop before branch is executed.
+\item [Case 2]: If loop exit condition is wrong, then the loop could terminate early. \label{algo:tolow:case2}
 \end{itemize}
-\subsubsection{ANALYSIS}
 
-{\bf Case 1}: The base address of stalk declared for storing characters of the string is the starting point of the loop. If while looping the looping variable is initialized incorrectly then the code will point to invalid location.  In case of such situation, information on the stack pointer register value is required. \\
-{\bf Case 2}:  This situation arises when looping is terminated at wrong instant. The execution takes the wrong branch and misses out of last loop. Such situation requires knowledge of branching during program execution.\\
+\subsubsection{Debug Process}
 
+In case~1~\ref{algo:tolow:case1}, initialisation of loop variable is the cause and could be found by looking at value of the variable just after loop is entered. If after the completion of loop execution for the first time, if the first character remains un-modified, then that also suggests an initialisation problem.
+In case~2~\ref{algo:tolow:case2}, the resulting string after loop exit would normally have characters unmodified towards the end. This case could be identified with such symptom.
 
+\begin{figure}[h]
+\centering
+\includegraphics{./figures/tolower_debug.ps}
+\caption{Illustration of debug process : Test B} 
+\label{fig:tolower_debug.ps}
+\end{figure}
 
-From the analysis of both the test and the selected error cases, we can conclude that to understand the cause of error some specific set of information are very important such as:
+Figure~\ref{fig:tolower_debug.ps} depicts a typical debug process for this case. Note that there could be other causes for failure as depicted in state $g$. During debug, the engineer needs access to certain information as listed here
 
-TEST A 
-	\begin{itemize}
-	\item [Case1]:  Control registers value at each instance of time
-	\item [Case2]:  Memory write/read information
-	\item [Case3]:  General purpose registers details
-	\end{itemize}
-TEST B 
-	\begin{itemize}
-	\item [Case1]: Stack base address information
-	\item [Case2]: Branch Target information
-	\end{itemize}
+\begin{enumerate}
+\item $state b$: Find address of loop var.
+\item $state c$: At start of loop, check initial value of loop var.
+\item $state d$: When the loop exited, what was the value of loop var.
+\item $state e$: Need computation values of loop exit condition.
+\item $state f$: Need computation values of loop init condition.
+\end{enumerate}
 
-In general for different test and error possibilities, all information regarding the processors execution flow is required. From the point of failure, a trace back through the execution log details and corresponding comparison with the expected assembly code action must be made. 
-The above cases show that main aspect of failure analysis is co-relating the execution information with the test code and tracing the execution flow. 
+\section {ENHANCING MANUAL VERIFICATION}
+Debug engineer has to extract required information whenever needed, manually from assembly files, linked object files and processor execution logs. Correlation of information between different files is also required to make a successful debug. Such manual extraction of information and correlation of it, though may seam obvious consumes considerable debug time and is error prone. Hence an enhancement to such manual process, if available, would considerably decrease the time required to debug an issue. It is possible to lay down the requirements of such an enhancement
 
-\section{Co-relating information}
+\begin{description}
+\item[Visualisation of Execution Flow] Visual representation of data is always very appealing, than without a visual representations. In our case, if there exists a visual representation of execution control flow, it would be obvious if a loop had executed and if so, how many times it was.
+\item[Navigating Execution Flow] In the visual representation of execution flow, it would also aid deubg when user is able to navigate to point of interest by mouse~guestures on such representation. For eg. if program code exists across different source files, the user would be able to navigate to the point of interest with ease.
+\item[Processor State Information] At any exeuction point, it would help the debug engineer if processor state information such as SP\nomenclature{SP}{Stack Pointer}, PC\nomenclature{PC}{Program Counter}, SR\nomenclature{SR}{Status Register} are readily accessable.
+\item[Processor State Information Change] It would aid debug to be able to list the differences in Processor State Information between two arbitary points of execution.
+\item[Processor Writes and Reads] It would aid debug if processor writes and reads could be easily listed. It would also help if in such listing one could classify between IO accesses and memory accesses.
+\item[Code listing] It would aid debug when source code is listed along with its context, on any point of execution.
+\end{description}
 
-Correlation of list file and log file is done by comparing the address values. For each cycle the Instruction pointer register (RIP) hold the current and next instruction address. The verification engineer has to search through the files for address values to correlate cycles in log file with lines in list file. As observed in the cases considered in the previous section, this comparison at each stage and verification of processor action and states are required to understand how and why the test failed.
+After analysing debug process, it is very evident that availabitily of correlated information while during debug process would enhance it in a big way.  In this thesis, we are proposing a Graphical User Interface (GUI) which will help in navigating through the log files quickly, aiding in comparison with list file and also some additional features to help in faster analysis of failure cause. The interface will help to get rid of traditional method of comparing Instruction Pointer Register (RIP) values and string search by providing graphs that will connect each cycle in log file with corresponding asm line code. The proposed interface enhances the data navigation through log files and failure analysis.  To visualise the information, a web-browser is a default choice. It also could execute {\it javascript} program inside it, that makes customisable.
 
-\section{Tracing the log files}
- 
-As explained earlier, processor execution logs are generated during test simulation. These files hold almost all details that can be possibly identified during simulation. 
+Information exists in processor execution log, assembly file and list file. Correlation of list file and execution log file is done by comparing the address values. For each cycle the Instruction pointer register (RIP) hold the current and next instruction address. The verification engineer has to search through the files for address values to correlate cycles in log file with lines in list file. As observed in the cases considered in the previous section, this comparison at each stage and verification of processor action and states are required to understand how and why the test failed.
 
-In SoC level verification, each simulation will have a collection of many tests verifying intimate details of the design. The test plans will have many small tests and will be a big collection and have thousands of code lines. 
-In such cases it is rather obvious that the execution log file for such tests stimulus will be huge as it covers cycle by cycle processor details.  This vast wealth of information will be in generated in a simulation time based manner with details of various threads mixed together. 
-
-During debug the verification engineer need to trace the log file contents to find out the cause of failure. This navigation through such huge file can be a very tedious process if done manually by calculating linear address and then using string search to find the address in log file and asm file to correlate.  In fact the data traversal can move up and down for verifying different aspects. This will consume a lot of verification time. 
-
-In this thesis, we are proposing a Graphical User Interface (GUI) which will help in navigating through the log files quickly, aiding in comparison with list file and also some additional features to help in faster analysis of failure cause. The interface will help to get rid of traditional method of comparing RIP values and string search by providing graphs that will connect each cycle in log file with corresponding asm line code. The proposed interface enhances the data navigation through log files and failure analysis. 
+%In general for different test and error possibilities, all information regarding the processors execution flow is required. From the point of failure, a trace back through the execution log details and corresponding comparison with the expected assembly code action must be made. 
+%The above cases show that main aspect of failure analysis is co-relating the execution information with the test code and tracing the execution flow. 
+%
+%\section{Co-relating information}
+%
+%
+%\section{Tracing the log files}
+% 
+%As explained earlier, processor execution logs are generated during test simulation. These files hold almost all details that can be possibly identified during simulation. 
+%
+%In SoC level verification, each simulation will have a collection of many tests verifying intimate details of the design. The test plans will have many small tests and will be a big collection and have thousands of code lines. 
+%In such cases it is rather obvious that the execution log file for such tests stimulus will be huge as it covers cycle by cycle processor details.  This vast wealth of information will be in generated in a simulation time based manner with details of various threads mixed together. 
+%
+%During debug the verification engineer need to trace the log file contents to find out the cause of failure. This navigation through such huge file can be a very tedious process if done manually by calculating linear address and then using string search to find the address in log file and asm file to correlate.  In fact the data traversal can move up and down for verifying different aspects. This will consume a lot of verification time. 
+%
 
 
