@@ -5,8 +5,8 @@ Analyzing limitations associated with \emph{early dual-sim approach} shows that 
 Test vectors are nothing but signal values at specific point in time. There are already different formats to store this information efficiently. FSDB \nomenclature{FSDB}{Fast Signal Database} is one such format. Hence it was suggested to improve gatesim methodology using FSDB itself as the format to store test vectors. The proposed solution should also improve on
 
 \begin{description}
-	\item[Storage requirements] Ensuring that storage resources are effectively used
-	\item[Turn-around times] Should avoid re-build for different test vectors
+	\item[Storage requirements]: Ensuring that storage resources are effectively used
+	\item[Turn-around times]: Should avoid re-build for different test vectors
 \end{description}
 
 FSDB\cite{SS:Verdi} or Fast Signal Database is a signal data file, similar to VCD\cite{ieee:v:2005} \nomenclature{VCD}{Value Change Dump} but much more compact. This format is in wide use across industry. Quick analysis revealed that FSDB as input test vectors could be accomplished. Existing API's \nomenclature{API}{Application Programming Interface} provided by Verdi\cite{SS:Verdi} tool set for FSDB format could be used to retrieve values from FSDB. PLI$/$VPI\cite{ieee:v:2005} could be used to drive stimulus onto netlist.
@@ -21,12 +21,12 @@ The improved methodology becomes a dual-simulation methodology with two separate
 
 
 \section {DUAL-SIM FLOW}
-In dual simulation approach the idea is to have two simulation but unlike co-sim not in parallel.  Instead here the simulations are separate from each other. We run the RTL simulation which will have test bench components for generating test vectors that will drive the inputs. This same test vectors are required for simulating the netlist environment. In cosimulation the same test bench will provide the stimulus to RTL and netlist. However in a dual simulation environment first RTL simulation will happen and the generated test vectors are stored in FSDB, which is used for simulating netlist. ~\figurename{~\ref{fig:gatesim_flow.eps}} gives the flow of proposed dual-sim approach.  
+In dual simulation approach the idea is to have two simulation but unlike co-sim not in parallel.  Instead here the simulations are separate from each other. We run the RTL simulation which will have test bench components for generating test vectors that will drive the inputs. This same test vectors are required for simulating the netlist environment. In cosimulation the same test bench will provide the stimulus to RTL and netlist. However in a dual simulation environment first RTL simulation will happen and the generated test vectors are stored in FSDB, which is used for simulating netlist. ~\figurename{~\ref{fig:gatesim_flow.ps}} gives the flow of proposed dual-sim approach.  
 \begin{figure}[H]
 \centering
-\includegraphics[width=6in]{./figures/gatesim_flow.eps}
+\includegraphics[width=6in]{./figures/gatesim_flow.ps}
 \caption{Dual Sim}
-\label{fig:gatesim_flow.eps}
+\label{fig:gatesim_flow.ps}
 \end{figure}
 
 Major steps involved in this flow are:
@@ -60,7 +60,7 @@ For RTL simulation the RTL sources and test bench files are compiled first and a
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=4.5in, height=3.5in]{./figures/RTL_sim.eps}
+\includegraphics[width=4.5in, height=3.5in]{./figures/RTL_sim.ps}
 \caption{RTL Simulation}
 \label{fig:RTL_sim.eps}
 \end{figure}
@@ -75,23 +75,23 @@ Once the FSDB file is generated, next stage is extracting the signal values from
 
 \begin{figure}[H]
 \centering
-<<<<<<< HEAD
-\includegraphics[width=5in, height=3in]{./figures/fsdb.eps}
-=======
-\includegraphics[width=5in, height=1.3in]{./figures/fsdb.ps}
->>>>>>> 67c22b93efe2b05d3738c447bedb04180afbaae5
+%<<<<<<< HEAD
+\includegraphics[width=5in, height=3in]{./figures/fsdb.ps}
+%=======
+%\includegraphics[width=5in, height=1.3in]{./figures/fsdb.ps}
+%>>>>>>> 67c22b93efe2b05d3738c447bedb04180afbaae5
 \caption{Accessing FSDB Signals}
 \label{fig:fsdb.eps}
 \end{figure}
 
-~\figurename{~\ref{fig:fsdb.eps}} shows how test vectors are obtained from .fsdb file and attached onto the netlist simulation flow. The various stages involved are explained below.
+~\figurename{~\ref{fig:fsdb.ps}} shows how test vectors are obtained from .fsdb file and attached onto the netlist simulation flow. The various stages involved are explained below.
 
 \paragraph{Extracting data from FSDB:}In FSDB signals are stored in binary format and can be accessed only by specific tools or using some appropriate APIs.  In this project we are using FSDB APIs provided by Verdi. These API's allow us to access each signal separately. 
 
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=4.5in, height=3.5in]{./figures/verdi.eps}
+\includegraphics[width=4.5in, height=3.5in]{./figures/verdi.ps}
 \caption{API For Accessing FSDB Signals}
 \label{fig:verdi.eps}
 \end{figure}
@@ -111,7 +111,7 @@ The C++ infrastructure will open the FSDB file and initiate a playback through t
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=6in]{./figures/cpp.eps}
+\includegraphics[width=6in]{./figures/cpp.ps}
 \caption{C++ Routine for FSDB Signal Extraction}
 \label{fig:cpp.eps}
 \end{figure}
@@ -132,22 +132,32 @@ For converting FSDB signal format to DKI format, we are assigning signal values 
 Whenever the C++ moves in time and identify a change in signal value in FSDB signal, an assign statement will assign the new FSDB signal value to DKI signal object.  These DKI signals can drive Verilog signals by using "{\emph Attach}" routine provided by API, that ties together DKI object with RTL signal. 
 
 \subsection{NETLIST SIMULATION FLOW}
+In the previous section we have discussed extracting FSDB, accessing it in a time based manner and converting it to a format that can interact with Verilog. Next step is using these signals for netlist simulation.
+
+
 \begin{figure}[H]
 \centering
-\includegraphics[width=5in, height=3.5in]{./figures/netlist_sim.eps}
+\includegraphics[width=5in, height=3.5in]{./figures/netlist_sim.ps}
 \caption{Netlist Simulation}
 \label{fig:netlist_sim.eps}
 \end{figure}
 
-~\figurename{~\ref{fig:netlis_sim.eps}} show how test vectors are applied onto the netlist and how final comparison is done. Features of Improved gatesim methodology are:
-\begin{enumerate}
-	\item Obtain test vectors from FSDB; access it in time-based fashion.
-	\item Drive stimulus onto a dummy RTL. This dummy RTL does not have any logic other than Input/output. All the input and output ports of the module netlist are included in this dummy RTL module. 
-	\item Dummy RTL drives netlist stimulus and other stimulus points inside design (like fuses, un init flops).
-	\item Apply appropriate force signals from FSDB directly on to the dummy RTL. The dummy RTL signal forces the netlist signals.
-	\item Accomplish verification goals by cycle-comparing netlist behavior to that of its counterpart RTL (as available in the FSDB).
-\end{enumerate}
-It should be noted that the improved methodology is still dependent on vectors from RTL simulations and is not independent by itself. But gains obtained in turn-around times were of great benefit.
+~\figurename{~\ref{fig:netlis_sim.eps}} show how test vectors are applied onto the netlist and how final comparison is done.
 
+The test vectors obtained from the FSDB are applied to a dummy RTL module. Dummy RTL module has no logic other than the RTL signal list that are required for netlist simulation, that is the driving Input signals and the output signal for RTL-Netlist output comparison.. The DKI attach will link these empty RTL signals with DKI signal objects, and any change in DKI object is reflected as change in value of the attached dummy RTL signal.
+
+
+
+
+%Features of Improved gatesim methodology are:
+%\begin{enumerate}
+%	\item Obtain test vectors from FSDB; access it in time-based fashion.
+%	\item Drive stimulus onto a dummy RTL. This dummy RTL does not have any logic other than Input/output. All the input and output ports of the module netlist are included in this dummy RTL module. 
+%	\item Dummy RTL drives netlist stimulus and other stimulus points inside design (like fuses, un init flops).
+%	\item Apply appropriate force signals from FSDB directly on to the dummy RTL. The dummy RTL signal forces the netlist signals.
+%	\item Accomplish verification goals by cycle-comparing netlist behavior to that of its counterpart RTL (as available in the FSDB).
+%\end{enumerate}
+%It should be noted that the improved methodology is still dependent on vectors from RTL simulations and is not independent by itself. But gains obtained in turn-around times were of great benefit.
+%
 
 
