@@ -52,16 +52,17 @@
 %\usepackage[usenames,dvipsnames]{color}
 %\usepackage[round]{natbib}
 \usepackage{hyperref}%% To use hyperlinks to all citations
-%\hypersetup{
-% colorlinks,citecolor=blue,
-% linktocpage=true,
-% pdfauthor = {Meera Mohan, Narendran Kumaragurunathan},
-% pdftitle = {Interactive Offline Interface To Debug Simulation Failure, Improved Dual Simulation Approach to Gatesim},
-% pdfsubject = {VLSI},
-% pdfkeywords = {Simulation Debug, x86, Gatesim},
-% pdfcreator = {LaTeX},
-% bookmarks=true
-%}%% Check hyperref manual for details
+\hypersetup{
+% colorlinks, citecolor=black,
+ linktoc=all,
+ linktocpage=true,
+ pdfauthor={Meera Mohan, Narendran Kumaragurunathan},
+ pdftitle={Interactive Offline Interface To Debug Simulation Failure, Improved Dual Simulation Approach to Gatesim},
+ pdfsubject={VLSI},
+ pdfkeywords={Simulation Debug, x86, Gatesim},
+ pdfcreator={LaTeX},
+ bookmarks=true
+}%% Check hyperref manual for details
 \usepackage[all]{hypcap} %% To point to the top of the tables and pictures rather than at the bottom
 
 
@@ -230,13 +231,16 @@ in\\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Symbols and Abbreviations %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \printnomenclature
-\addcontentsline{toc}{section}{Symbols and Abbreviations}
+\addcontentsline{toc}{section}{SYMBOLS AND ABBREVIATIONS}
 
 
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PART I : GUI %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\pagestyle{fancy}
+\pagenumbering{arabic}
 \part{}
 
 
@@ -244,8 +248,6 @@ in\\
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% INTRODUCTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
-\pagestyle{fancy}
-\pagenumbering{arabic}
 \input{GUI_introduction.tex}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AMD64 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -272,7 +274,7 @@ in\\
 \newpage
 \input{GUI_results.tex} 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% RESULT: GUI %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CONCLUSION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \input{GUI_conclusion.tex}
 
@@ -308,9 +310,10 @@ in\\
 \input{conclusion.tex}
 
 
+\chapter{REFERENCES}
 \bibliographystyle{IEEEtran}
 \input{ref.tex}
-\addcontentsline{toc}{section}{REFERENCES}
+%\addcontentsline{toc}{section}{REFERENCES}
 \bibliography{reference}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BIO DATA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

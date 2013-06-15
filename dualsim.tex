@@ -1,21 +1,21 @@
 \chapter{IMPROVED DUAL-SIM APPROACH TO GATESIM}
 \label{chap:dualsim.tex}
-Analyzing limitations associated with early dual-sim approach shows that the main cause of inefficiency was the method used to capture, store, and applying test vectors onto the netlist. Analyzing limitations associated with co-sim approach, it was inferred the cause was bulky test-bench components associated with RTL simulation(C, C++, SVTB, OVA, SVA), which slows down simulation performance considerably. Hence an improved solution would contain minimal testbench components retained and have an efficient method to capture, store, and apply test vectors. 
+Analyzing limitations associated with \emph{early dual-sim approach} shows that the main cause of inefficiency was the method used to capture, store, and applying test vectors onto the netlist. Analyzing limitations associated with \emph{co-sim approach}, it was inferred that the cause was bulky test-bench components associated with RTL simulations. Hence an improved solution would contain minimal testbench components retained and have an efficient method to capture, store, and apply test vectors. 
 
-Test vectors are nothing but signal values at specific point in time. There are already different formats to store this information efficiently. FSDB \nomenclature{FSDB}{Fast Signal Database} is one such format. Hence it was suggested to improve gatesim methodology using FSDB itself as the source of test vector. The proposed solution should also improve on simulation performance by:
+Test vectors are nothing but signal values at specific point in time. There are already different formats to store this information efficiently. FSDB \nomenclature{FSDB}{Fast Signal Database} is one such format. Hence it was suggested to improve gatesim methodology using FSDB itself as the format to store test vectors. The proposed solution should also improve on
 
-\begin{itemize}
-	\item Ensuring a compact method to store test vectors, as it directly affects the storage requirements.
-	\item Avoiding re-build for different test vectors, as it affects the turn-around times and storage requirements.
-\end{itemize}
+\begin{description}
+	\item[Storage requirements] Ensuring that storage resources are effectively used
+	\item[Turn-around times] Should avoid re-build for different test vectors
+\end{description}
 
-\paragraph{FSDB} or Fast Signal Database is signal data file similar to VCD \nomenclature{VCD}{Value Change Dump} but much more compact. This format is in wide use across industry.  Quick analysis revealed that FSDB as input test vectors could be accomplished. Existing API's \nomenclature{API}{Application Programming Interface} provided by Verdi\cite{SS:Verdi} tool set for FSDB format could be used to retrieve values from FSDB. PLI$/$VPI\cite{ieee:v:2005} could be used to drive stimulus onto netlist.
+FSDB\cite{SS:Verdi} or Fast Signal Database is a signal data file, similar to VCD\cite{ieee:v:2005} \nomenclature{VCD}{Value Change Dump} but much more compact. This format is in wide use across industry. Quick analysis revealed that FSDB as input test vectors could be accomplished. Existing API's \nomenclature{API}{Application Programming Interface} provided by Verdi\cite{SS:Verdi} tool set for FSDB format could be used to retrieve values from FSDB. PLI$/$VPI\cite{ieee:v:2005} could be used to drive stimulus onto netlist.
 
 
 The improved methodology becomes a dual-simulation methodology with two separate simulations.
 \begin{enumerate}
 	\item First simulation with non-gatesim components to generate the test vectors in FSDB format.
-	\item Following second simulation has only gatesim components with capability to apply test vectors from FSDB directly.
+	\item Second simulation with only gatesim components with capability to apply test vectors from FSDB directly.
 \end{enumerate}
 
 
@@ -47,7 +47,7 @@ Implementation of dual-sim flow involves two major stages: accessing test vector
 \subsection{USING FSDB AS TEST VECTORS}
 \begin{figure}[H]
 \centering
-\includegraphics[width=5in, height=1.3in]{./figures/fsdb.eps}
+\includegraphics[width=5in, height=1.3in]{./figures/fsdb.ps}
 \caption{Accessing FSDB Signals}
 \label{fig:fsdb.eps}
 \end{figure}
