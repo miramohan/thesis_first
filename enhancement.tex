@@ -3,7 +3,7 @@
 
 \section {VISUALIZING PROCESSOR EXECUTION}
 
-Once the program is loaded in processor memory the execution starts. Generally modern microprocessors today adopt instruction level parallelism for high throughput. Micro-architectural like instruction pipeline, superscalar execution, register renaming, speculative execution, branch prediction etc. are employed in order to exploit instruction level parallelism [].  These micro architecture elements will work together for high performance execution. All these internal operations results in a complex execution flow with multiple operations happening in each cycle with different level of dependencies between data, instruction and memory.
+During simulation of a processor core, the linked program image is loaded in processor's memory followed by its execution. Most modern microprocessors adopt instruction level parallelism for high throughput. Micro-architectural features like instruction pipeline, superscalar execution, register renaming, speculative execution, branch prediction etc. are employed in order to exploit instruction level parallelism.  These micro architecture features work together for high execution throughput. All these internal operations results in a complex execution flow with multiple operations happening in each cycle with different levels of dependencies between data, instruction and memory.
 
 
 An execution log file captures all the information regarding the processor state and activity during the execution of a code. This is actually the entire history of simulation. Each entry in the log file will have mainly the following information regarding processor execution cycle:
@@ -152,14 +152,5 @@ In such cases it is rather obvious that the execution log file for such tests st
 During debug the verification engineer need to trace the log file contents to find out the cause of failure. This navigation through such huge file can be a very tedious process if done manually by calculating linear address and then using string search to find the address in log file and asm file to correlate.  In fact the data traversal can move up and down for verifying different aspects. This will consume a lot of verification time. 
 
 In this thesis, we are proposing a Graphical User Interface (GUI) which will help in navigating through the log files quickly, aiding in comparison with list file and also some additional features to help in faster analysis of failure cause. The interface will help to get rid of traditional method of comparing RIP values and string search by providing graphs that will connect each cycle in log file with corresponding asm line code. The proposed interface enhances the data navigation through log files and failure analysis. 
-
-
-
-
-
-
-
-
-
 
 
