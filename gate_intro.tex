@@ -5,15 +5,15 @@ In a typical VLSI design flow for verification, the first step after RTL level m
 
 The pre-layout netlist that was obtained from synthesis is then fed into a layout tool which maps the gate primities to silicon structures such as channels, gates, vias, etc. During this process certain modifications are done on netlist but it should not alter its functionality to its corresponding RTL. To validate this, another netlist called the post-layout netlist is generated back from the layed-out silicon structures by the layout tool itself. Validation is made by running LEC tool over both pre-layout and post-layout netlists or between post-layout netlist and RTL.
 
-Though it would be ideal to use post-layout netlist for the purpose of gatesims, it would be too late in the design process. So work on gatesims starts with pre-layout netlist and progresses to pos-layout netlist as it becomes available. ~\figurename{~\ref{fig:gatesim.eps}} depicts progress of gatesim with respect to other design flows.
+Though it would be ideal to use post-layout netlist for the purpose of gatesims, it would be too late in the design process. So work on gatesims starts with pre-layout netlist and progresses to pos-layout netlist as it becomes available. ~\figurename{~\ref{fig:vlsi_design.ps}} depicts progress of gatesim with respect to other design flows.
 %% Meera : Need new flowchart. Use PPT, save as .tiff and convert to ps.
 
 %\figurename{} 
 \begin{figure}[H]
 \centering
-\includegraphics[width=3.5in]{./figures/gatesim.eps}
+\includegraphics[width=3.5in]{./figures/vlsi_design.ps}
 \caption{Design Flow}
-\label{fig:gatesim.eps}
+\label{fig:vlsi_design.ps}
 \end{figure}
 Gate Level Simulation or Gatesim focuses on verifying the post layout netlist of the design. Gatesims are historically present from the days when designs were done with gates rather than at RTL abstraction. Verification with gates is a huge confidence booster before manufacturing of actual silicon as they are also thought to complement and cover gaps left by formal flow.
 
@@ -44,7 +44,7 @@ Finally, Gatesim is a great confidence-booster in ensuring the high quality of t
 
 Gatesims are targetted on post-layout netlist and that is almost clean of RTL bugs. The netlist also passes through couple of important verification steps such as Logic Equivalence Check (LEC) and Static Timing Analysis (STA), before it is targeted for Gatesims.
 
-\emph {\bf LEC}: Logic Equivalence Checking (LEC) is a formal verification tool that compares a reference design against a derived design to prove equivalence or to report differences.  LEC does not require test patterns. Instead, LEC uses Boolean arithmetic techniques to prove equivalence between two design descriptions. Although LEC uses sophisticated formal algorithms to identify, map, and compare nodes in the netlists, the complexity is hidden from the user. %meera: what's this: [ieee].
+\emph {\bf LEC}: Logic Equivalence Checking (LEC) is a formal verification tool that compares a reference design against a derived design to prove equivalence or to report differences.  LEC does not require test patterns. Instead, LEC uses Boolean arithmetic techniques to prove equivalence between two design descriptions\cite{ieee:boolean}. Although LEC uses sophisticated formal algorithms to identify, map, and compare nodes in the netlists, the complexity is hidden from the user\cite{lec}. %meera: what's this: [ieee] @naren: updated with cite for ieee page..
 
 \emph {\bf STA}: Static Timing Analysis does a input-independent timing analysis of the gate level netlist. It asserts if the circuit could operate flawless without timing issues. It computes the worst-case behaviour of the circuit, over all possible manufacturing variables. STA tools are at ease in handling a complex design with huge number of paths as they consider one path at a time (whether they are real or potential false paths). 
 
