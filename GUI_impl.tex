@@ -1,11 +1,11 @@
 \chapter{INTERFACE IMPLEMENTATION}
 \label{chap:GUI_impl.tex}
 \section{INTERFACE}
-The necessity to enhance manual debug methodology has been established in Section~\ref{sec:enhancement.tex.nemv} and certain requirements of such an interface is established in Section~\ref{sec:enhancement.tex.emv}. This chapter concentrates on design and implementation of the debug interface.
+The necessity to enhance manual debug methodology has been established in \sectionname{\ref{sec:enhancement.tex.nemv}} and certain requirements of such an interface is established in \sectionname{\ref{sec:enhancement.tex.emv}}. This chapter concentrates on design and implementation of the debug interface.
 
 The debug interface is aimed at being intuitive and user friendly. It should aid data navigation so as to reduce manual efforts. If user requires to refer to actual processor execution log or assembly code, it should be readily availalbe through the interface. The interface should also provide graphical representation of processor execution log, to aid traversal and filtering of processor activity. The interface should aid traversing through processor execution easy.  Critical events made by processor should be extracted, categorized and made availabe to user.
 
-In addition to interface requirements listed in Section~\ref{sec:enhancement.tex.emv}, the following set of features would also aid in debug:
+In addition to interface requirements listed in \sectionname{\ref{sec:enhancement.tex.emv}}, the following set of features would also aid in debug:
 
 \begin{itemize}
 \item[-] Visualizing thread-wise execution flow
@@ -39,7 +39,7 @@ Each stimulus will have its own set of assembly test files and execution log fil
 \label{fig:gui_impl.eps}
 \end{figure}
 
-Figure~\ref{fig:gui_impl.eps} depicts information extraction and use of different scripts to achieve the same. Major implementation steps
+\figurename{\ref{fig:gui_impl.eps}} depicts information extraction and use of different scripts to achieve the same. Major implementation steps
 \begin{itemize}
 \item[-] Extraction of information from assembly list file and processor execution log by python script.
 \item[-] Correlation of information from previous step.
@@ -65,7 +65,7 @@ In addition a style sheet language called CSS\nomenclature{CSS}{Cascading Style 
 \label{fig:impl:wpg}
 \end{figure}
 
-Resultant HTML page embeds JavaScript routines and style sheets. This is done by the top level python script. Figure~\ref{fig:impl:wgp} shows a representation of information flow.
+Resultant HTML page embeds JavaScript routines and style sheets. This is done by the top level python script. \figurename{\ref{fig:impl:wgp}} shows a representation of information flow.
 
 
 \subsection{JS DATASTRUCTURE}
@@ -97,7 +97,7 @@ Once the extracted information is converted to JS compatiable data, the interfac
 The first step in creating a generic debug interface is to extract relevant information and convert it to a format that could be loaded by the debug interface.
 
 \subsection {STIMULUS}
-Stimulus is written in X-86 assembly language. The engineer is expected to debug this stimulus. Each cycle in processor execution log corresponds to a particular assembly code. An assembler is used to assemble to object code, in that process each instruction is also mapped to a particular address. Figure~\ref{impl.tex:assembler} shows this process which also produces a list file which hold an macro expanded, loop unrolled, assembled code with corresponding address details. The configuration file defines certain random operands, segmentation, gdt, ldt, page tables to aid in assembling process. The include files contribute common routines used across different assembly stimuluses.
+Stimulus is written in X-86 assembly language. The engineer is expected to debug this stimulus. Each cycle in processor execution log corresponds to a particular assembly code. An assembler is used to assemble to object code, in that process each instruction is also mapped to a particular address. \figurename{\ref{impl.tex:assembler}} shows this process which also produces a list file which hold an macro expanded, loop unrolled, assembled code with corresponding address details. The configuration file defines certain random operands, segmentation, gdt, ldt, page tables to aid in assembling process. The include files contribute common routines used across different assembly stimuluses.
 
 %However, the written by the verification engineer is the unscheduled code without any memory address details. For cycle comparison with execution log, the asm test file is complied first.
 
@@ -123,7 +123,7 @@ List file holds a wealth of details including instructions, opcodes, operand, li
 	\item[-] The assembly code
 \end{itemize}
 
-The {\it python} script internally contains a data structure of list objects, which helps in adding features to the script with ease (Figure~\ref{impl.tex:listextr}). 
+The {\it python} script internally contains a data structure of list objects, which helps in adding features to the script with ease (\figurename{\ref{impl.tex:listextr}}). 
 
 \subsection {EXECUTION LOG}
 Execution log file contains instruction by instruction execution details from simulation. It also includes register states, thread details, flag values and other details which help in tracing out the cause of failure. As explained in previous chapters, debugging require detail traversal through this log file. 
@@ -283,7 +283,7 @@ In addition to the instruction and register information, the relevant processor 
 %Implementation of Execution log window is given in algorithm x along with instruction window.
 
 \subsection{MARKERS}
-As it was discussed in Section~\ref{sec:impl:rww}, markers are used to ``mark'' reference execution point through a ``Set Marker'' button. Button ``Clear Marker'' could  be used to clear the marker.
+As it was discussed in \sectionname{\ref{sec:impl:rww}}, markers are used to ``mark'' reference execution point through a ``Set Marker'' button. Button ``Clear Marker'' could  be used to clear the marker.
 
 \subsubsection{IMPLEMENTATION}
 

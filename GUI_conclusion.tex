@@ -1,6 +1,9 @@
 \chapter{CONCLUSION}
 \label{chap:GUI_conclusion}
 
-An interactive off-line graphical user interface was designed and developed. The interface is a web based html page having all the relevant information from processor execution log and asm test files. The execution graph  helps in analysis of various operations like branching, exception, read/write etc. This graph sort instruction execution information into corresponding thread making tracing rather easy. The register window provides comparison between registers and flag values at two different execution cycle which helps in tracking a wrong value written into register or flag. Instruction window and execution log window provide all the detailed information that could be obtained from list file and execution log file regarding the cycle selected from the graph. 
+An interactive off-line graphical user interface was designed and developed. The interface is completely web based and achieves primary goals of off-line debug. The interface contains all relevant information from processor execution log and assembly list files commonly needed for debug. Further debug if required, could be accomplised by traditional methods.
 
-\paragraph{Potential for future work:} The interface tries to gather and represent data for easy debugging. There is scope for introducing more debug features like break points.   
+Execution graph helps in analysis of various operations like branching, exception, read/write etc and also to navigate through processor execution with ease. The graph presents thread-wise informations seperately, making tracing and navigation easy. The register window provides comparison between registers and flag values at two different execution cycle which helps in tracing a wrong value written into register or flag. Instruction window and execution log window provide common information necessary for debug.
+
+\paragraph{Potential for future work:} The project demonstrates that web-based technologies like {\it html, JavaScript, CSS} are effective in enabling interactive remote debug. There is larger scope for this work in future as it gets adopted by different teams. New debug features like break points, cache containers, address filters among others could be introduced when in demand.
+
