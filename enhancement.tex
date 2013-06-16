@@ -81,15 +81,15 @@ In case~3~\ref{algo:mrw:case3}, if care is not taken in choosing processor mode 
 \label{fig:mrw_debug.ps}
 \end{figure}
 
-Figure~\ref{fig:mrw_debug.ps} depicts a typical debug process. Note that there could be other causes for failure as depicted in states $j, k, \& m$. During debug, the engineer needs access to certain information as listed here
+Figure~\ref{fig:mrw_debug.ps} depicts a typical debug process. Note that there could be other causes for failure as depicted in $states \textcircled{j}, \textcircled{k}, \& \textcircled{m}$. During debug, the engineer needs access to certain information as listed here
 \begin{enumerate}
-\item $state b$: Examine Read to address, examine data obtained.
-\item $state c$: Obtain all accesses occurred to same address, find the latest write to same address.
-\item $state d$: Examine data written to latest write to same address.
-\item $state e$: What is the bank select location, did it change between write and read.
-\item $state f$: Which program code changed bank select?
-\item $state l$: What is processor mode?
-\item $state i$: What was the random address that got generated?
+\item $state~\textcircled{b}$: Examine Read to address, examine data obtained.
+\item $state~\textcircled{c}$: Obtain all accesses occurred to same address, find the latest write to same address.
+\item $state~\textcircled{d}$: Examine data written to latest write to same address.
+\item $state~\textcircled{e}$: What is the bank select location, did it change between write and read.
+\item $state~\textcircled{f}$: Which program code changed bank select?
+\item $state~\textcircled{l}$: What is processor mode?
+\item $state~\textcircled{i}$: What was the random address that got generated?
 \end{enumerate}
 
 \subsection {TEST B}
@@ -137,14 +137,14 @@ In case~2~\ref{algo:tolow:case2}, the resulting string after loop exit would nor
 \label{fig:tolower_debug.ps}
 \end{figure}
 
-Figure~\ref{fig:tolower_debug.ps} depicts a typical debug process for this case. Note that there could be other causes for failure as depicted in state $g$. During debug, the engineer needs access to certain information as listed here
+Figure~\ref{fig:tolower_debug.ps} depicts a typical debug process for this case. Note that there could be other causes for failure as depicted in $state~\textcircled{g}$. During debug, the engineer needs access to certain information as listed here
 
 \begin{enumerate}
-\item $state b$: Find address of loop var.
-\item $state c$: At start of loop, check initial value of loop var.
-\item $state d$: When the loop exited, what was the value of loop var.
-\item $state e$: Need computation values of loop exit condition.
-\item $state f$: Need computation values of loop init condition.
+\item $state~\textcircled{b}$: Find address of loop var.
+\item $state~\textcircled{c}$: At start of loop, check initial value of loop var.
+\item $state~\textcircled{d}$: When the loop exited, what was the value of loop var.
+\item $state~\textcircled{e}$: Need computation values of loop exit condition.
+\item $state~\textcircled{f}$: Need computation values of loop init condition.
 \end{enumerate}
 
 \section {ENHANCING MANUAL VERIFICATION}
@@ -159,9 +159,15 @@ Debug engineer has to extract required information whenever needed, manually fro
 \item[Code listing] It would aid debug when source code is listed along with its context, on any point of execution.
 \end{description}
 
-After analysing debug process, it is very evident that availabitily of correlated information while during debug process would enhance it in a big way.  In this thesis, we are proposing a Graphical User Interface (GUI) which will help in navigating through the log files quickly, aiding in comparison with list file and also some additional features to help in faster analysis of failure cause. The interface will help to get rid of traditional method of comparing Instruction Pointer Register (RIP) values and string search by providing graphs that will connect each cycle in log file with corresponding asm line code. The proposed interface enhances the data navigation through log files and failure analysis.  To visualise the information, a web-browser is a default choice. It also could execute {\it javascript} program inside it, that makes customisable.
+After analysing debug process, it is very evident that availabitily of correlated information while during debug process would enhance it considerably. Information required to aid debug, exists in processor execution log, assembly file and list file. Correlation of list file and execution log file is done by comparing the address values (as it was done manually). For each cycle the Instruction pointer register (RIP) hold the current and next instruction address.
+% The verification engineer has to search through the files for address values to correlate cycles in log file with lines in list file. As observed in the cases considered in the previous section, this comparison at each stage and verification of processor action and states are required to understand how and why the test failed.
 
-Information exists in processor execution log, assembly file and list file. Correlation of list file and execution log file is done by comparing the address values. For each cycle the Instruction pointer register (RIP) hold the current and next instruction address. The verification engineer has to search through the files for address values to correlate cycles in log file with lines in list file. As observed in the cases considered in the previous section, this comparison at each stage and verification of processor action and states are required to understand how and why the test failed.
+In this thesis, we are proposing a Graphical User Interface (GUI) which will help in navigating through the log files quickly, aiding in comparison with list file with some additional features. The interface will help to get rid of traditional method of comparing Instruction Pointer Register (RIP) values and manual string searches by making availble information in visualy appealing formats such as graphs. Such information should also correlate each execution cycle with corresponding asm code. The proposed interface thus would enhance data navigation through log files and help failure analysis.
+
+It should also be noted that this visual information interface should be configurable for every debug case that could be presented. The visual information interface should also be interactive to user actions.
+
+%To visualise the information, a web-browser is a default choice. It also could execute {\it javascript} program inside it, that makes customisable.
+
 
 %In general for different test and error possibilities, all information regarding the processors execution flow is required. From the point of failure, a trace back through the execution log details and corresponding comparison with the expected assembly code action must be made. 
 %The above cases show that main aspect of failure analysis is co-relating the execution information with the test code and tracing the execution flow. 
