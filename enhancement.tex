@@ -22,16 +22,16 @@ As explanined in \ref{verif:exelog} execution log file captures important inform
 On the onset of simulation failure, these information are vital in debugging the cause of a failure. The following case study of two test scenarios affirm this fact.
 
 \section {SAMPLE DEBUG CASES IN CONSIDERATION}
+\label{sec:enhancement.tex.sdcic}
 Let us consider two simple assembly tests as case studies to demonstrate the usefullness of processor execution log during debug of a self~test failure.
 \subsection {TEST A}
 \label{case:testa}
 
-\vspace{1.5cm}
+%\vspace{1.5cm}
 
 
 \IncMargin{1em}
 \begin{algorithm}[h]
-\label{algo:mrw}
 \DontPrintSemicolon
 \SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
 
@@ -54,11 +54,12 @@ report $fail$
 }
 
 \caption{Memory Read-Write}
+\label{algo:mrw}
 \end{algorithm}\DecMargin{1em}
 
-\vspace{1.5cm}
+%\vspace{1.5cm}
 
-Consider an assembly test in Listing~\ref{algo:mrw} that intends verification of a memory module. The test writes a value into a memory location (Line~\ref{algo:mrw:write}). The data is later read from the same location (Line~\ref{algo:mrw:read}) and compared with the original value written into the location (Line~\ref{algo:mrw:compare}). The test flags fail or pass based on the comparison.
+Consider an assembly test in Algorithm~\ref{algo:mrw} that intends verification of a memory module. The test writes a value into a memory location (Line~\ref{algo:mrw:write}). The data is later read from the same location (Line~\ref{algo:mrw:read}) and compared with the original value written into the location (Line~\ref{algo:mrw:compare}). The test flags fail or pass based on the comparison.
 
 The test verifies a single write/read from a memory location. Ideally the values written to the memory location should match the value read from the memory and test completes with a pass. Now consider a case where the comparison fails. This could occur due to many reasons. Following are a few scenarios which can lead to a failure:
 \begin{itemize}
@@ -98,7 +99,7 @@ Consider a string $tolower()$ program. The program reads an input string in uppe
 
 
 
-\vspace{1.5cm}
+%\vspace{1.5cm}
 \IncMargin{1em}
 \begin{algorithm}[h]
 \DontPrintSemicolon
@@ -111,12 +112,13 @@ Consider a string $tolower()$ program. The program reads an input string in uppe
   $c \longleftarrow c + CONST $\;
  }\;
 
-\caption{Memory Read-Write}
+\caption{String Lower Case Conversion}
+\label{algo:lcc}
 \end{algorithm}\DecMargin{1em}
 
-\vspace{1.5cm}
+%\vspace{1.5cm}
 
-The program converts each character from upper case to lower case in a loop, to achieve the result. This program can fail due to many reasons. Let us consider a couple of scenarios.
+The program in Algorithm~\ref{algo:lcc} converts each character from upper case to lower case in a loop, to achieve the result. This program can fail due to many reasons. Let us consider a couple of scenarios.
 
 \begin{itemize}
 
@@ -147,8 +149,17 @@ Figure~\ref{fig:tolower_debug.ps} depicts a typical debug process for this case.
 \item $state f$: Need computation values of loop init condition.
 \end{enumerate}
 
+\section {NECESSITY TO ENHANCE MANUAL VERIFICATION}
+\label{sec:enhancement.tex.nemv}
+
+Debug engineer has to extract required information whenever needed, manually from assembly files, linked object files and processor execution logs. Correlation of information between different files is also required to make a successful debug. Such manual extraction of information and correlation of it, though may seam obvious consumes considerable debug time and is error prone. Hence an enhancement to such manual process, if available, would considerably decrease the time required to debug an issue.
+
+Information exists in processor execution log, assembly file and list file. Correlation of list file and execution log file can be accomplished by correlating address. For each cycle the Instruction pointer register (RIP) hold the current and next instruction address. The verification engineer has to search through the files for address values to correlate cycles in log file with lines in list file. As observed in Section~\ref{sec:enhancement.tex.sdcic}, data extraction and correlation from different files are required at different stages of debug to effectively debug how and why the test failed.
+
 \section {ENHANCING MANUAL VERIFICATION}
-Debug engineer has to extract required information whenever needed, manually from assembly files, linked object files and processor execution logs. Correlation of information between different files is also required to make a successful debug. Such manual extraction of information and correlation of it, though may seam obvious consumes considerable debug time and is error prone. Hence an enhancement to such manual process, if available, would considerably decrease the time required to debug an issue. It is possible to lay down the requirements of such an enhancement
+\label{sec:enhancement.tex.emv}
+
+After analysing debug process, it is very evident that availabitily of correlated information while during debug process would enhance it in a big way.  In this thesis, we are proposing a Graphical User Interface (GUI) which will help in navigating through the log files quickly, aiding in comparison with list file and also some additional features to help in faster analysis of failure cause. The interface will help to get rid of traditional method of comparing Instruction Pointer Register (RIP) values and string search by providing graphs that will connect each cycle in log file with corresponding asm line code. The proposed interface enhances the data navigation through log files and failure analysis.  It is possible to lay down the requirements of such an enhancement
 
 \begin{description}
 \item[Visualisation of Execution Flow] Visual representation of data is always very appealing, than without a visual representations. In our case, if there exists a visual representation of execution control flow, it would be obvious if a loop had executed and if so, how many times it was.
@@ -159,9 +170,6 @@ Debug engineer has to extract required information whenever needed, manually fro
 \item[Code listing] It would aid debug when source code is listed along with its context, on any point of execution.
 \end{description}
 
-After analysing debug process, it is very evident that availabitily of correlated information while during debug process would enhance it in a big way.  In this thesis, we are proposing a Graphical User Interface (GUI) which will help in navigating through the log files quickly, aiding in comparison with list file and also some additional features to help in faster analysis of failure cause. The interface will help to get rid of traditional method of comparing Instruction Pointer Register (RIP) values and string search by providing graphs that will connect each cycle in log file with corresponding asm line code. The proposed interface enhances the data navigation through log files and failure analysis.  To visualise the information, a web-browser is a default choice. It also could execute {\it javascript} program inside it, that makes customisable.
-
-Information exists in processor execution log, assembly file and list file. Correlation of list file and execution log file is done by comparing the address values. For each cycle the Instruction pointer register (RIP) hold the current and next instruction address. The verification engineer has to search through the files for address values to correlate cycles in log file with lines in list file. As observed in the cases considered in the previous section, this comparison at each stage and verification of processor action and states are required to understand how and why the test failed.
 
 %In general for different test and error possibilities, all information regarding the processors execution flow is required. From the point of failure, a trace back through the execution log details and corresponding comparison with the expected assembly code action must be made. 
 %The above cases show that main aspect of failure analysis is co-relating the execution information with the test code and tracing the execution flow. 

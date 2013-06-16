@@ -1,101 +1,160 @@
 \chapter{INTERFACE IMPLEMENTATION}
 \label{chap:GUI_impl.tex}
-The GUI provides user friendly and easy data navigation which will reduce debug efforts. All relevant processor execution log information and asm test details are provided to the user through a web interface. The interface uses data visualization JavaScript features to develop graphical representation of the log information. Features of the GUI are designed such that, traversing through the log information and comparison with the asm list file lines are made easy.  Major processor operations are categorized and extracted to have a clear view of processor actions.  From analysis done in Chapter 3, the following sets of features are expected to help the user and are our main design objective while implementing the interface:
-\begin{itemize}
+\section{INTERFACE}
+The necessity to enhance manual debug methodology has been established in Section~\ref{sec:enhancement.tex.nemv} and certain requirements of such an interface is established in Section~\ref{sec:enhancement.tex.emv}. This chapter concentrates on design and implementation of the debug interface.
 
-\item[-] Visualizing the processor execution flow in each thread
-\item[-] Information regarding each Memory write/read, I/O write/read, Branching etc
+The debug interface is aimed at being intuitive and user friendly. It should aid data navigation so as to reduce manual efforts. If user requires to refer to actual processor execution log or assembly code, it should be readily availalbe through the interface. The interface should also provide graphical representation of processor execution log, to aid traversal and filtering of processor activity. The interface should aid traversing through processor execution easy.  Critical events made by processor should be extracted, categorized and made availabe to user.
+
+In addition to interface requirements listed in Section~\ref{sec:enhancement.tex.emv}, the following set of features would also aid in debug:
+
+\begin{itemize}
+\item[-] Visualizing thread-wise execution flow
+\item[-] Ability to highlight instances of critical activities such as Memory write/read, I/O write/read, Branching etc
 \item[-] Interrupt and exception happening during execution
-\item[-] Easy traversal to the asm instruction line.
-\item[-] Register values at each instances
-\item[-] Comparison of register values between two cycles
-\item[-] All the cycle information provided by the cycle in execution log for detailed reference.
+\item[-] Assembly code traversal and its linkage with execution flow
+\item[-] Register current state value traversal and its linkage with execution flow
+\item[-] Comparison of register values between arbitrary instances of execution
+\item[-] Simulation cycle of execution event
 \end{itemize}
-Once the simulation is completed and failure is reported the debug phase starts. This is where the role of GUI comes. From the vast information provided by the logs and test files, interfaces have to capture and represent relevant information to the user. The following section details the implementation and features of the proposed GUI. 
 
-\section {INTERFACE IMPLEMENTATION}
-GUI is implemented as a HTML web page. Each test case will have its one set of log files and asm list files. The interfaces implementation starts by taking these files are input.  Two programming languages are used for implementation:
-\begin{itemize}
-\item[-] Python Script for data extraction and correlating related information.
-\item[-] JavaScript for designing the interface features and user interaction.
-\end{itemize}
-Figure x shows the implementation of GUI.
+Every stimulus is a unique assembly test and hence the debug interface should be as generic as possible. It should be able to accomodate any relevant assembly test, accompanied with execution logs.
+
+%Once the simulation is completed and failure is reported the debug phase starts. This is where the role of GUI comes. From the vast information provided by the logs and test files, interfaces have to capture and represent relevant information to the user. The following section details the implementation and features of the proposed GUI. 
+
+\subsection {CHOOSING GUI}
+There are multitude of languages providing GUI capability, the project doesnot need a very sophisticated GUI implementation. Moreover the interface should aid remote debug and if possible thee should not be any requirement for any user to install a tool-kit or library for the debug interface to be used. Hence the decision to use web-browser as the debug interface was a default choice. A web browser could also execute {\it javascripts} and that makes it customisable. The design is also scalable and aids introduction of new features for debug with ease.
+
+Each stimulus will have its own set of assembly test files and execution log files. The interfaces implementation starts by consuming these files. Two programming languages are used for implementation:
+\begin{description}
+\item[Python Script] for data extraction and correlating related information.
+\item[JavaScript] for designing the interface features and user interaction.
+\end{description}
 
 \addtocontents{toc}{\protect\setcounter{tocdepth}{2}}
 %\figurename{} 
-\begin{figure}[H]
+\begin{figure}[h]
 \centering
 \includegraphics[width=5.5in]{./figures/gui_impl.eps}
 \caption{GUI Implementation} 
 \label{fig:gui_impl.eps}
 \end{figure}
 
- Major implementation steps
+Figure~\ref{fig:gui_impl.eps} depicts information extraction and use of different scripts to achieve the same. Major implementation steps
 \begin{itemize}
-\item[-] The asm list file and processor execution file informations are extracted by python script.
-\item[-] A top level python program will manipulate these information are convert it to JavaScript objects. 
-\item[-] JavaScript code for developing user interactive features is written.
-\item[-] The top level python program will combine the data extracted and javascriot code and generate a single HTML page. 
+\item[-] Extraction of information from assembly list file and processor execution log by python script.
+\item[-] Correlation of information from previous step.
+\item[-] Coding generic JavaScript code for user interactions.
+\item[-] Top level python program to manipulate available information and to convert it to JavaScript information. 
+\item[-] The top level python program will combine the data extracted and javascriot code to generate a single HTML page. 
 \end{itemize}
-Inputs to the implementation are Execution log file and Asm list files. To develop the GUI the user has to execute the top level python script with these two files as input argument. The script will generate an output file which is the interface web page. Major processes involved in implementation are detailed below. 
 
+The whole infrastructure is packaged neatly. Given execution log file and assembly list file, the top level python script generates the HTML interface web page. Different stages involved in this conversions are described in the following sections. 
 
-\subsection {EXTRACTING ASM FILE INFORMATION}
-The test code is written in x-86 assembly language. While debugging the instructions and values in the asm file is the expected action or value.  Each cycle in processor execution log corresponds to a particular code line in asm. However the asm code written by the verification engineer is the unscheduled code without any memory address details. For cycle comparison with execution log, the asm test file is complied first.  This is done by an assembler. Figure x shows how an asm test file is converted to a list file which hold an expanded, loop unrolled, scheduled code with memory details included.  
+\subsection {INTERFACE}
+GUI is targetted to run on any browser, hence layout design is done using {\it HTML}\nomenclature{HTML}{Hyper Text Markup Language}. However for providing interactive features to the user, a much more powerful language is need along with HTML and default choice is JavaScript.
+
+\emph {\bf JavaScript (JS)} is an interpreted computer programming language. It is  implemented as part of web browsers so that client-side scripts could react to user inputs, customize the browser, communicate asynchronously, and to filter contents being displayed. It is a multi-paradigm language, supporting object-oriented, imperative, and functional programming styles.  
+In addition a style sheet language called CSS\nomenclature{CSS}{Cascading Style Sheets} is used for describing the presentation semantics (the look and formatting) of the interface page written in HTML.
+
 %\figurename{} 
 %\figurename{} 
-\begin{figure}[H]
+\begin{figure}[h]
+\centering
+\includegraphics[width=3.5in]{./figures/html.ps}
+\caption{Web Page Generation}
+\label{fig:impl:wpg}
+\end{figure}
+
+Resultant HTML page embeds JavaScript routines and style sheets. This is done by the top level python script. Figure~\ref{fig:impl:wgp} shows a representation of information flow.
+
+
+\subsection{JS DATASTRUCTURE}
+All dynamic features of the interface are handled by JS\nomenclature{JS}{JavaScript} script routines. Data input to the JS is the extracted information from execution log files and list files. The top level python script converts the extracted objects into JS data array ``$dataArray[]$'' ; where each array element coresponds to an active thread. Active threads refer to active core or processor in a multiprocessor system.  
+
+\IncMargin{1em}
+\begin{algorithm}[h]
+\DontPrintSemicolon
+\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output} \SetKwFunction{KwFn}{CreateDataArray}
+\KwFn {}
+\BlankLine
+\Begin{
+\For {i in activeThreads}{\;
+		\For {$log$ in logObj}{\;
+		\If{log.Id == i}{
+		Append $log \rightarrow	DataArray[i]$\;
+		}
+}
+}
+}
+\caption{Creating JavaScript Object}
+\end{algorithm}\DecMargin{1em}
+
+
+
+Once the extracted information is converted to JS compatiable data, the interface features can utilize this. The layout for various GUI features called windows, are designed using HTML and CSS code. All dynamic interactive featurers are handled by embedded JS script in HTML web page. Later sections introduces different windows availabe in the web page.
+
+\section {EXTRACTION OF INFORMATION}
+The first step in creating a generic debug interface is to extract relevant information and convert it to a format that could be loaded by the debug interface.
+
+\subsection {STIMULUS}
+Stimulus is written in X-86 assembly language. The engineer is expected to debug this stimulus. Each cycle in processor execution log corresponds to a particular assembly code. An assembler is used to assemble to object code, in that process each instruction is also mapped to a particular address. Figure~\ref{impl.tex:assembler} shows this process which also produces a list file which hold an macro expanded, loop unrolled, assembled code with corresponding address details. The configuration file defines certain random operands, segmentation, gdt, ldt, page tables to aid in assembling process. The include files contribute common routines used across different assembly stimuluses.
+
+%However, the written by the verification engineer is the unscheduled code without any memory address details. For cycle comparison with execution log, the asm test file is complied first.
+
+\begin{figure}[h]
 \centering
 \includegraphics[width=3.5in]{./figures/asm.ps}
 \caption{Assembler}
+\label{impl.tex:assembler}
 \end{figure}
 
 
-A 64-bit assembler assembles asm test file, configuration file (that define the random operands, segmentation, gdt, ldt, page tables, etc,) and the include files together to generate an assembly list file [1].
-\begin{figure}[H]
+\begin{figure}[h]
 \centering
 \includegraphics[width=4.5in]{./figures/list.ps}
 \caption{Asm List File Extraction}
+\label{impl.tex:listextr}
 \end{figure}
-List file holds details of instructions; opcodes and operand, linear address, module/register configuration details etc. For the purpose of correlating informations, a python script will extract relevant information corresponding to each instruction line in the list file.  For each line number the script will create an object which will have the following parameters.
+
+List file holds a wealth of details including instructions, opcodes, operand, linear address, module/register configuration details etc. A {\it python} script is used to extract relevant information corresponding to each instruction line in the list file. In this project, the following information is extracted for each instruction from the  list file:
 \begin{itemize}
 	\item[-] Base and offset address value
 	\item[-] Instruction line number
 	\item[-] The assembly code
 \end{itemize}
 
-Figure x shows how python script will read the input asm list file and generate a data structure of list objects corresponding to each line. 
+The {\it python} script internally contains a data structure of list objects, which helps in adding features to the script with ease (Figure~\ref{impl.tex:listextr}). 
 
-\subsection {EXTRACTING EXECUTION LOG INFORMATION}
-The second input to the implementation is the execution log file. As explained in previous chapters, debugging require detail traversal through this log file as it holds instruction by instruction execution details which include register states, thread details, flags information etc and other data which help in tracing out the cause of failure. 
+\subsection {EXECUTION LOG}
+Execution log file contains instruction by instruction execution details from simulation. It also includes register states, thread details, flag values and other details which help in tracing out the cause of failure. As explained in previous chapters, debugging require detail traversal through this log file. 
 
-All details given in the log file in reference to each cycle are to be extracted. The python code will extract this as well are generate a data base of log file object corresponding to each cycle of execution. These are classes with properties corresponding to major operations and register values. Each thread will have a separate handle with objects corresponding to each cycle of operation in that thread. Figure x shows how the script will read the input execution log file and generate log file objects.
-Each object in the log file will have the following properties associated with it:
+Details in the log file with reference to each cycle is required to be extracted. {\it Python} script is used to extract these informations as well and a comprehensive data structure is created. The data structure objects contain properties corresponding to major operations and register values. Thread details are handled as seperate data structures as it aids processing thread-wise informations. Following properties are extracted from execution log file for every execution event
+
+%Figure x shows how the script will read the input execution log file and generate log file objects.
 
 \begin{itemize}
- \item[-] Thread number
+ \item[-]  Thread number
  \item[-]  Mode of operation
  \item[-]  Cycle number
  \item[-]  Linear address
  \item[-]  Memory write, Memory read, I/O write/read, Code read
  \item[-]  Branch target (linear address)
- \item[-]  Registers updated with new value
+ \item[-]  New values of registers, if modified
 \end{itemize}
 
 
-\subsection {Correlating asm file objects and log file objects}
+\subsection {INFORMATION CORRELATION}
 
-Once both the input files are processed, next step is correlating the asm file object and log file object. The top level python script will combine these these to in pairs based on the address mapping. As x86 architecture follows segmented memory model along with paging, address translation is required for generating the linear/physical address [2]. For each object in the generated list file class, calculate the linear address as follows:
+Once both the input files are processed, next step is to correlate assembly with execution log. A {\it python} script can accompish this by correlating respective data structures based on linear addresses. As x86 architecture follows segmented memory model along with paging, address translation is required for generating the linear/physical address\cite{SS:AMD64-V2}. Linear address is calculated as
 \\
 \centerline{Linear address = Base address + Offset value}
 \\
-For each object in the log file class, find the corresponding list file object based on the linear address value and combine the objects.
 
 
-\vspace{1.5cm}
+%\vspace{1.5cm}
 
 \IncMargin{1em}
-\begin{algorithm}[H]
+\begin{algorithm}[h]
 \DontPrintSemicolon
 \SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output} \SetKwFunction{KwFn}{CreateDataArray}
 
@@ -120,55 +179,12 @@ Start: \;
 }
 End \;
 \caption{Combining List and Log File Information}
+\label{impl:algo:cllf}
 \end{algorithm}\DecMargin{1em}
 
-\vspace{1.5cm}
-Now we have a set of objects that hold log details and are linked to corresponding asm file line. Once this stage is completed we have completed all the data extraction and next phase is building the interface.
+%\vspace{1.5cm}
 
-\subsection {DEVELOP THE INTERFACE}
-
-The final step is developing the interface. As the GUI is web based, layout design is done using HTML (Hyper Text Markup Language). However for providing interactive features to the user a much more powerful language is need along with HTML and we use JavaScript.
-
-\emph {\bf JavaScript (JS)} is an interpreted computer programming language. It is  implemented as part of web browsers so that client-side scripts could interact with the user, control the browser, communicate asynchronously, and alter the document content that was displayed. It is a multi-paradigm language, supporting object-oriented, imperative, and functional programming styles.
-
-In addition a style sheet language called CSS (Cascading Style Sheets) is used for describing the presentation semantics (the look and formatting) of the interface page written in HTML.
-%\figurename{} 
-%\figurename{} 
-\begin{figure}[H]
-\centering
-\includegraphics[width=3.5in]{./figures/html.ps}
-\caption{Web Page Generation}
-\end{figure}
-
-
-The JavScript program and the style sheet will we embedded inside the HTML code. This connection is done by the top level python script. Figure x shows the schematic of how the files are combined with the data.
-
-
-
-\subsubsection{CREATING JS OBJECTS}
-All the dynamic features of the interface is handled by JS script. The data input to the JS is the extracted information from log files andlist files. The top level python script will convert the extracted objects into JS data array "$dataArray[]$" ; where each array element coresponds to an active thread. Active threads refer to active core or processor in a multiprocessor system.  
-
-\IncMargin{1em}
-\begin{algorithm}[H]
-\DontPrintSemicolon
-\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output} \SetKwFunction{KwFn}{CreateDataArray}
-\KwFn {}
-\BlankLine
-\Begin{
-\For {i in activeThreads}{\;
-		\For {$log$ in logObj}{\;
-		\If{log.Id == i}{
-		Append $log \rightarrow	DataArray[i]$\;
-		}
-}
-}
-}
-\caption{Creating JavaScript Object}
-\end{algorithm}\DecMargin{1em}
-
-
-
-Once the extracted information is converted to JS compatiable data, the interface features can utilize this. The layout for various GUI features called windows, are designed using HTML and CSS code. All the dynamic interactive featurers are handled by the JS script embedded in the final HTML web page. The following section introduces the differend windows developed for the GUI.
+For each object of execution log, the corresponding list file object could be found based on linear address value. Once found, both are cross-linked to aid further processing. The alogorithm employed in this search is depicted in Algorithm~\ref{impl:algo:cllf}. Data extraction is complete with this linkage and the result is execution log objects linked to corresponding assembly objects.
 
 \section {GUI FEATURES}
 
@@ -184,7 +200,7 @@ For the developement of execution graph we are using Dygraph JavaScript Visualiz
 For building the graph, input to the Dygraph is independent axis values followed by depended axis values. For each thread, a different graph is generated. The x-axis is cycle number and y-axis is the list file line number. Algorithm x explains hw the graph is build.
 
 \IncMargin{1em}
-\begin{algorithm}[H]
+\begin{algorithm}[h]
 \DontPrintSemicolon
 \SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output} \SetKwFunction{KwFn}{CreateGraph}
 \KwFn{}
@@ -216,7 +232,7 @@ Another feature provided by register window is comparison between register value
 This window is activated by the point onClick CallBack function evoked when a point is clicked on Dygraph. The function will update the register window rows set by the HTML code eg. regRow[RFLAG], regRow[RBX] etc. Also there will be a comparison with the reference point set. 
 
 \IncMargin{1em}
-\begin{algorithm}[H]
+\begin{algorithm}[h]
 \DontPrintSemicolon
 \SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output} \SetKwFunction{KwFn}{pointonClickCallBack}
 \KwFn{element}
@@ -240,7 +256,7 @@ Instruction window give the asm file lines. A selection in execution graph will 
 This window is also activated by the onClick CallBack function evoked when a point is clicked on Dygraph. The function will update the instruction window set by the HTML code.
 
 \IncMargin{1em}
-\begin{algorithm}[H]
+\begin{algorithm}[h]
 \DontPrintSemicolon
 \SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output} \SetKwFunction{KwFn}{onClickCallBack}
 \KwFn{element}{;\
