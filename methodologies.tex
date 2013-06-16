@@ -7,15 +7,15 @@ Another approach could be to capture test vectors from RTL simulation followed b
 
 
 \section{EARLY DUAL-SIM METHODOLOGY}
-Early method for gate level simulation was a dual-sim or simulation-after-simulation approach. Here RTL simulation was done initially with test bench components. The test vectors for gatesims were generated during this RTL simulation using ``\$display'' or VCD (value change dump). During netlist simulation, these test vectors were used as stimulus and comparison was done with the RTL output vectors. ~\figurename{~\ref{fig:early.eps}} shows the simulation flow. % Meera : 1. Figure x, 2. Have some good diagrams
+Early method for gate level simulation was a dual-sim or simulation-after-simulation approach. Here RTL simulation was done initially with test bench components. The test vectors for gatesims were generated during this RTL simulation using ``\$display'' or VCD (value change dump). During netlist simulation, these test vectors were used as stimulus and comparison was done with the RTL output vectors. ~\figurename{~\ref{fig:early.ps}} shows the simulation flow. % Meera : 1. Figure x, 2. Have some good diagrams
 %Naren: need this para re-write with references to figure
 
 %\figurename{} 
 \begin{figure}[H]
 \centering
-\includegraphics[width=4in, height=3.5in]{./figures/early.eps}
+\includegraphics[width=4in, height=3.5in]{./figures/early.ps}
 \caption{Early Dual-Sim Flow}
-\label{fig:early.eps}
+\label{fig:early.ps}
 \end{figure}
 
 This dual-sim approach is widely used across industry due to its many advantages. The main advantage of sim after sim is that it had the best simulation performance with least compute requirements. However the earlier implementation of this method had multiple disadvantages which became more prevalent with increasing design complexity.
@@ -40,7 +40,7 @@ This dual-sim approach is widely used across industry due to its many advantages
 \end{figure}
 
 
- In Cosim methodology, a single combined simulation with behavioral RTL design and netlist with all of the required RTL stimulus components is made. In this simulation, behavioral RTL and gate models are run in lock-step with their inputs tied and the comparison of the behavioral RTL and gate outputs is done ``on the fly''. ~\figurename{~\ref{fig:cosim_flow.eps}} shows cosim flow.
+ In Cosim methodology, a single combined simulation with behavioral RTL design and netlist with all of the required RTL stimulus components is made. In this simulation, behavioral RTL and gate models are run in lock-step with their inputs tied and the comparison of the behavioral RTL and gate outputs is done ``on the fly''. ~\figurename{~\ref{fig:cosim_flow.ps}} shows cosim flow.
 
 
 
@@ -50,7 +50,7 @@ This dual-sim approach is widely used across industry due to its many advantages
 \centering
 \includegraphics[width=4in, height=1.5in]{./figures/cosim_flow.ps}
 \caption{Co-sim Based Gatesim Flow}
-\label{fig:cosim_flow.eps}
+\label{fig:cosim_flow.ps}
 \end{figure}
 
 Major steps involved in this flow are:

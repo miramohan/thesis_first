@@ -44,7 +44,7 @@ Processor tests are C/assembly program written to assert that the processor unde
 
 
 %\figurename{} 
-\begin{figure}[H]
+\begin{figure}[h]
 \centering
 \includegraphics[width=5.5in]{./figures/selftest.ps}
 \caption{Self-Test} 
@@ -72,11 +72,11 @@ The following section details the features and functions of simulator and interf
 
 
 %\figurename{} 
-\begin{figure}[H]
+\begin{figure}[h]
 \centering
-\includegraphics[width=4.5in]{./figures/interface.eps}
+\includegraphics[width=4.5in]{./figures/interface.ps}
 \caption{RTL-Reference Model Cosimulation} 
-\label{fig:interface.eps}
+\label{fig:interface.ps}
 \end{figure}
 
 
@@ -100,7 +100,7 @@ Main functions of this interface includes
 	\item[Interfacing with the memory model] Tell memory model what operations are seen by the RTL. 
 \end{description}
 
-
+\label{verif:exelog}
 During the course of simulation, the ILS generates log files holding processor's program execution details. These are called ``\emph {processor execution log}''s. These log files will contain cycle by cycle information regarding register states, memory values, flags, threads etc. Basically all the comparison and debugging will require these information.
 
 Once a failure is reported, simulation terminates and it would be required to be debugged. For root-causing the failure, verification engineer needs to trace through this processor execution log. Mismatches with reference model values provide information regarding the cause of failure.

@@ -54,7 +54,7 @@ The test code is written in x-86 assembly language. While debugging the instruct
 A 64-bit assembler assembles asm test file, configuration file (that define the random operands, segmentation, gdt, ldt, page tables, etc,) and the include files together to generate an assembly list file [1].
 \begin{figure}[H]
 \centering
-\includegraphics[width=4.5in]{./figures/list.eps}
+\includegraphics[width=4.5in]{./figures/list.ps}
 \caption{Asm List File Extraction}
 \end{figure}
 List file holds details of instructions; opcodes and operand, linear address, module/register configuration details etc. For the purpose of correlating informations, a python script will extract relevant information corresponding to each instruction line in the list file.  For each line number the script will create an object which will have the following parameters.

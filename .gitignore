@@ -1,4 +1,5 @@
-.*.sw*
+*.sw*
+~*
 thesis.aux
 thesis.dvi
 thesis.lof
@@ -10,3 +11,4 @@ thesis.toc
 thesis.ilg
 thesis.nls
 thesis.brf
+figures/*.ps
