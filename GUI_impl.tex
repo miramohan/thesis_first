@@ -41,13 +41,14 @@ Inputs to the implementation are Execution log file and Asm list files. To devel
 
 
 \subsection {EXTRACTING ASM FILE INFORMATION}
-The test code is written in x-86 assembly language. While debugging the instructions and values in the asm file is the expected action or value.  Each cycle in processor execution log corresponds to a particular code line in asm. However the asm code written by the verification engineer is the unscheduled code without any memory address details. For cycle comparison with execution log, the asm test file is complied first.  This is done by an assembler. Figure x shows how an asm test file is converted to a list file which hold an expanded, loop unrolled, scheduled code with memory details included.  
+The test code is written in x-86 assembly language. While debugging the instructions and values in the asm file is the expected action or value.  Each cycle in processor execution log corresponds to a particular code line in asm. However the asm code written by the verification engineer is the unscheduled code without any memory address details. For cycle comparison with execution log, the asm test file is complied first.  This is done by an assembler. ~\figurename{~\ref{fig:asm.ps}}  shows how an asm test file is converted to a list file which hold an expanded, loop unrolled, scheduled code with memory details included.  
 %\figurename{} 
 %\figurename{} 
 \begin{figure}[H]
 \centering
 \includegraphics[width=3.5in]{./figures/asm.ps}
 \caption{Assembler}
+\label{fig:asm.ps}
 \end{figure}
 
 
@@ -56,6 +57,8 @@ A 64-bit assembler assembles asm test file, configuration file (that define the 
 \centering
 \includegraphics[width=4.5in]{./figures/list.ps}
 \caption{Asm List File Extraction}
+\label{fig:list.ps}
+
 \end{figure}
 List file holds details of instructions; opcodes and operand, linear address, module/register configuration details etc. For the purpose of correlating informations, a python script will extract relevant information corresponding to each instruction line in the list file.  For each line number the script will create an object which will have the following parameters.
 \begin{itemize}
@@ -68,8 +71,14 @@ Figure x shows how python script will read the input asm list file and generate 
 
 \subsection {EXTRACTING EXECUTION LOG INFORMATION}
 The second input to the implementation is the execution log file. As explained in previous chapters, debugging require detail traversal through this log file as it holds instruction by instruction execution details which include register states, thread details, flags information etc and other data which help in tracing out the cause of failure. 
+\begin{figure}[H]
+\centering
+\includegraphics[width=4.5in]{./figures/log.ps}
+\caption{Execution Log File Extraction}
+\label{fig:log.ps}
+\end{figure}
 
-All details given in the log file in reference to each cycle are to be extracted. The python code will extract this as well are generate a data base of log file object corresponding to each cycle of execution. These are classes with properties corresponding to major operations and register values. Each thread will have a separate handle with objects corresponding to each cycle of operation in that thread. Figure x shows how the script will read the input execution log file and generate log file objects.
+All details given in the log file in reference to each cycle are to be extracted. The python code will extract this as well are generate a data base of log file object corresponding to each cycle of execution. These are classes with properties corresponding to major operations and register values. Each thread will have a separate handle with objects corresponding to each cycle of operation in that thread.  ~\figurename{~\ref{fig:log.ps}}  shows how the script will read the input execution log file and generate log file objects.
 Each object in the log file will have the following properties associated with it:
 
 \begin{itemize}
@@ -138,6 +147,7 @@ In addition a style sheet language called CSS (Cascading Style Sheets) is used f
 \centering
 \includegraphics[width=3.5in]{./figures/html.ps}
 \caption{Web Page Generation}
+\label{fig:html.ps}
 \end{figure}
 
 
