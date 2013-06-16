@@ -1,11 +1,11 @@
 \chapter{INTERFACE IMPLEMENTATION}
 \label{chap:GUI_impl.tex}
 \section{INTERFACE}
-The necessity to enhance manual debug methodology has been established in \sectionname{\ref{sec:enhancement.tex.nemv}} and certain requirements of such an interface is established in \sectionname{\ref{sec:enhancement.tex.emv}}. This chapter concentrates on design and implementation of the debug interface.
+The necessity to enhance manual debug methodology has been established in Section~\ref{sec:enhancement.tex.nemv} and certain requirements of such an interface is established in Section~\ref{sec:enhancement.tex.emv}. This chapter concentrates on design and implementation of the debug interface.
 
 The debug interface is aimed at being intuitive and user friendly. It should aid data navigation so as to reduce manual efforts. If user requires to refer to actual processor execution log or assembly code, it should be readily availalbe through the interface. The interface should also provide graphical representation of processor execution log, to aid traversal and filtering of processor activity. The interface should aid traversing through processor execution easy.  Critical events made by processor should be extracted, categorized and made availabe to user.
 
-In addition to interface requirements listed in \sectionname{\ref{sec:enhancement.tex.emv}}, the following set of features would also aid in debug:
+In addition to interface requirements listed in Section~\ref{sec:enhancement.tex.emv}, the following set of features would also aid in debug:
 
 \begin{itemize}
 \item[-] Visualizing thread-wise execution flow
@@ -226,7 +226,7 @@ Register window is used in displaying instantaneous register values at any execu
 	\item[-] Stack Pointer (RSP)
 \end{itemize}
 
-Another important feature provided by register window is a comparision of register values between two different execution points. It highlights differences in register values with different colours, to capture user's attention with ease. The diff is between {\it reference execution point} and {\selected execution point}. {\it Reference execution point} is choosen by the {\it set~marker} button.
+Another important feature provided by register window is a comparision of register values between two different execution points. It highlights differences in register values with different colours, to capture user's attention with ease. The diff is between {\it reference execution point} and {\it selected execution point}. {\it Reference execution point} is choosen by the {\it set~marker} button.
 
 \subsubsection{IMPLEMENTATION}
 
@@ -283,7 +283,7 @@ In addition to the instruction and register information, the relevant processor 
 %Implementation of Execution log window is given in algorithm x along with instruction window.
 
 \subsection{MARKERS}
-As it was discussed in \sectionname{\ref{sec:impl:rww}}, markers are used to ``mark'' reference execution point through a ``Set Marker'' button. Button ``Clear Marker'' could  be used to clear the marker.
+As it was discussed in Section~\ref{sec:impl:rww}, markers are used to ``mark'' reference execution point through a ``Set Marker'' button. Button ``Clear Marker'' could  be used to clear the marker.
 
 \subsubsection{IMPLEMENTATION}
 
