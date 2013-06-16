@@ -179,25 +179,25 @@ Start: \;
 }
 End \;
 \caption{Combining List and Log File Information}
-\label{impl:algo:cllf}
+\label{algo:impl:cllf}
 \end{algorithm}\DecMargin{1em}
 
 %\vspace{1.5cm}
 
-For each object of execution log, the corresponding list file object could be found based on linear address value. Once found, both are cross-linked to aid further processing. The alogorithm employed in this search is depicted in Algorithm~\ref{impl:algo:cllf}. Data extraction is complete with this linkage and the result is execution log objects linked to corresponding assembly objects.
+For each object of execution log, the corresponding list file object could be found based on linear address value. Once found, both are cross-linked to aid further processing. The alogorithm employed in this search is depicted in Algorithm~\ref{algo:impl:cllf}. Data extraction is complete with this linkage and the result is execution log objects linked to corresponding assembly objects.
 
 \section {GUI FEATURES}
 
 \subsection {EXECUTION FLOW GRAPH}
-Main feature of the web page is the graph showing the execution flow of the code. Here asm list file line numbers are plotted against the cycle during which it is executed. All the active threads have different graphs which are tabbed. Hovering the mouse over any point on the graph will display x and y axis values. 
+Main feature of debug interface is the graph showing the execution flow of the code. It is obtained by plotting asm list file line numbers against the execution cycle during which it is executed. All the active threads have different graphs which are tabbed. Hovering the mouse over any execution point on the graph will display $X$ and $Y$ axis values. Features include zoom-in, zoom-out of plot. Double click at any point is featured to zoom-out completely. On clicking on any execution point, selects the point and sychronises data across windows. Proximity click feature helps in automatically choosing nearest execution point for further analysis.
  
-This zoom enabled data graphs also provides onclick selection of specific operations e.g: Branching, Memory Write, Memory Read, Code Read etc, which will display the instances of selected operation. Each operation is distinguished by its color.   
+The flow graph also features customisable selection of specific processor operations out of Branching, Memory Write, Memory Read, Code Read. This helps in filtering redundant execution points those may not be of interest to the engineer. Each distinct processor operation could be distinguished by color coding.   
 
-\subsubsection {Implementation}
+\subsubsection {IMPLEMENTATION}
 
-For the developement of execution graph we are using Dygraph JavaScript Visualization Library []. This will provide inbuild functions that enable zooming, x-y axis value display and point onClick call backs. onClick CallBack() function is called when ever a point on Dygraph is clicke and this function actives many other window.
+Execution flow graph is created with Dygraph JavaScript Visualization Library\cite{http:dygraphs}. The library provides inbuilt functions that enable zooming, x-y axis value display and point ``{\it onClick}'' callbacks. {\it onClick CallBack()} function is called whenever an execution point on Dygraph is clicked. The function has been extended to activate other windows and to synchronize components across windows.
 
-For building the graph, input to the Dygraph is independent axis values followed by depended axis values. For each thread, a different graph is generated. The x-axis is cycle number and y-axis is the list file line number. Algorithm x explains hw the graph is build.
+Graph could be built by providing independent axis values followed by depended axis values. For each thread, a different graph is generated but layered out on different HTML tabs. The x-axis is cycle number and y-axis is the list file line number. Algorithm~\ref{algo:impl:ceg} shows the pseudo-code used in building the graph in our application.
 
 \IncMargin{1em}
 \begin{algorithm}[h]
@@ -213,11 +213,12 @@ For building the graph, input to the Dygraph is independent axis values followed
 }
 }
 \caption{Creating Execution Graph}
+\label{algo:impl:ceg}
 \end{algorithm}\DecMargin{1em}
 
-\section {REGISTER WATCH WINDOW}
-
-Register window capture and display updated register values at a specific instance. Each thread holds its own copy of registers/flags. A selection of point on the execution flow graph will update the register window with values at that instant in the selected thread. Values of following registers and flags are provided to the user:
+\subsection {REGISTER WATCH WINDOW}
+\label{sec:impl:rww}
+Register window is used in displaying instantaneous register values at any execution point. Under the hood, thread based register values are maintained seperately, as it aids user switching back and forth between threads of execution without loosing data on each thread. At any instant the register window holds the values of {\it selected} execution point. Selection could be changed by simply clicking on a different execution point. Register window provides values of following registers to the user:
 \begin{itemize}
 	\item[-] 64 bit general purpose registers (RAX, RBX, RCX etc)
 	\item[-] RFLAG (64 bit)
@@ -225,11 +226,11 @@ Register window capture and display updated register values at a specific instan
 	\item[-] Stack Pointer (RSP)
 \end{itemize}
 
-Another feature provided by register window is comparison between register values at two different instances that is between a reference point set by Set Marker button and current selection. 
+Another important feature provided by register window is a comparision of register values between two different execution points. It highlights differences in register values with different colours, to capture user's attention with ease. The diff is between {\it reference execution point} and {\selected execution point}. {\it Reference execution point} is choosen by the {\it set~marker} button.
 
-\subsubsection{Implementation}
+\subsubsection{IMPLEMENTATION}
 
-This window is activated by the point onClick CallBack function evoked when a point is clicked on Dygraph. The function will update the register window rows set by the HTML code eg. regRow[RFLAG], regRow[RBX] etc. Also there will be a comparison with the reference point set. 
+The values contained in register window is updated when a different execution point is selected in the execution flow graph. This event also trigges there comparison of current values with the reference point. Algorithm~\ref{algo:impl:crw} lists the pseudo-code used in updating register window values.
 
 \IncMargin{1em}
 \begin{algorithm}[h]
@@ -246,14 +247,16 @@ regRow$[reg]$ $\leftarrow$ element.$[reg]$ \;
 }
 }
 \caption{Creating Register Window}
+\label{algo:impl:crw}
 \end{algorithm}\DecMargin{1em}
 
 \subsection {INSTRUCTION WINDOW}
 
-Instruction window give the asm file lines. A selection in execution graph will be reflected in this window by highlighting the asm file instruction corresponding to the selected point. Also the context of the selected line that is its preceding and succeeding instructions are also available in this window.
-\subsubsection{Implementation}
+Instruction window lists the assembly code corresponding to the selected execution point. Context around the assembly code is also displayed to aid debug. This window is also updated when a different execution point is selected in execution graph. The window highlights assembly code for visual attention of the user.
 
-This window is also activated by the onClick CallBack function evoked when a point is clicked on Dygraph. The function will update the instruction window set by the HTML code.
+\subsubsection{IMPLEMENTATION}
+
+The pseudo-code used to update values in this window is shown in Algorithm~\ref{algo:impl:ciel}.
 
 \IncMargin{1em}
 \begin{algorithm}[h]
@@ -270,21 +273,20 @@ Add $item.logInfo \rightarrow$ ExecutionLogWindow\;
 }
 }
 \caption{Creating Instruction and Execution Log Window}
+\label{algo:impl:ciel}
 \end{algorithm}\DecMargin{1em}
 
 \subsection {EXECUTION LOG WINDOW}
 
-In addition to the instruction and register information, all the processor execution log information regarding the selected
-instruction is also provided through execution log window.  This collected information is stored as a log file object propert "{\emph logInfo}". 
+In addition to the instruction and register information, the relevant processor execution log in its actuality would be useful to the user as it contains different information that may not be presented by the debug interface. Having this information readily accessable to user also assures the user that the data extracted through processing by different scripts is indeed correct. Internally these informations are stored as a JavaScript object "{\emph logInfo}". 
 
-Implementation of Execution log window is given in algorithm x along with instruction window.
+%Implementation of Execution log window is given in algorithm x along with instruction window.
 
-\subsection{SET AND CLEAR MARKER}
-These two options allow setting or removing a reference point with which current register values are compared against.
+\subsection{MARKERS}
+As it was discussed in Section~\ref{sec:impl:rww}, markers are used to ``mark'' reference execution point through a ``Set Marker'' button. Button ``Clear Marker'' could  be used to clear the marker.
 
-\subsubsection{Implementation}
+\subsubsection{IMPLEMENTATION}
 
-Set and Clear buttons are set using HTML form options. These elements have onClick call backs. On clicking Setbutton call back will set add values to reference register section and on click clear will remove the values in reference section.
-
+Set and Clear buttons are implemented using HTML form's callback feature. A {\it JavaScript} variable is used to store the reference execution point.
 
 
