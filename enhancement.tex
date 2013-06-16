@@ -81,7 +81,7 @@ In case~3~\ref{algo:mrw:case3}, if care is not taken in choosing processor mode 
 \label{fig:mrw_debug.ps}
 \end{figure}
 
-Figure~\ref{fig:mrw_debug.ps} depicts a typical debug process. Note that there could be other causes for failure as depicted in states $j, k, & m$. During debug, the engineer needs access to certain information as listed here
+Figure~\ref{fig:mrw_debug.ps} depicts a typical debug process. Note that there could be other causes for failure as depicted in states $j, k, \& m$. During debug, the engineer needs access to certain information as listed here
 \begin{enumerate}
 \item $state b$: Examine Read to address, examine data obtained.
 \item $state c$: Obtain all accesses occurred to same address, find the latest write to same address.
@@ -107,9 +107,9 @@ Consider a string $tolower()$ program. The program reads an input string in uppe
 \Input{$string$}
 \Output{$string$}
 \BlankLine
- \For{every character $c$ in string}
+ \For{every character $c$ in string}{\;
   $c \longleftarrow c + CONST $\;
- \Endfor
+ }\;
 
 \caption{Memory Read-Write}
 \end{algorithm}\DecMargin{1em}
