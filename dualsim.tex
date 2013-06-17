@@ -1,6 +1,6 @@
 \chapter{IMPROVED DUAL-SIM APPROACH TO GATESIM}
 \label{chap:dualsim.tex}
-Analyzing limitations associated with \emph{early dual-sim approach} shows that the main cause of inefficiency was the method used to capture, store, and applying test vectors onto the netlist. Analyzing limitations associated with \emph{co-sim approach}, it was inferred that the cause was bulky test-bench components associated with RTL simulations. Hence an improved solution would contain minimal testbench components retained and have an efficient method to capture, store, and apply test vectors. 
+After analyzing limitations associated with \emph{early dual-sim approach} it could be inferred that the main cause of inefficiency was the method used to capture, store, and apply test vectors onto the netlist. Analyzing limitations associated with \emph{co-sim approach}, it could be inferred that the cause was bulky test-bench components associated with RTL simulations. Hence an improved solution would contain minimal testbench components retained and have an efficient method to capture, store, and apply test vectors. 
 
 Test vectors are nothing but signal values at specific point in time. There are already different formats to store this information efficiently. FSDB \nomenclature{FSDB}{Fast Signal Database} is one such format. Hence it was suggested to improve gatesim methodology using FSDB itself as the format to store test vectors. The proposed solution should also improve on
 
@@ -20,8 +20,8 @@ The improved methodology becomes a dual-simulation methodology with two separate
 
 
 
-\section {DUAL-SIM FLOW}
-In dual simulation approach the idea is to have two simulation but unlike co-sim not in parallel.  Instead here the simulations are separate from each other. We run the RTL simulation which will have test bench components for generating test vectors that will drive the inputs. This same test vectors are required for simulating the netlist environment. In cosimulation the same test bench will provide the stimulus to RTL and netlist. However in a dual simulation environment first RTL simulation will happen and the generated test vectors are stored in FSDB, which is used for simulating netlist. ~\figurename{~\ref{fig:gatesim_flow.ps}} gives the flow of proposed dual-sim approach.  
+\section {IMPROVED METHODOLOGY}
+In dual simulation methodology the idea is to have two seperate simulations unlike co-sim. Both these simulations are completely independet except for the stimulus vector file. In the first unmodified RTL simulation (together with test bench components) dump is enabled in FSDB format. This FSDB dump is used as test vectors for the following netlist simulation. In co-simulation methodology the same test bench will provide stimulus to RTL and netlist. ~\figurename{~\ref{fig:gatesim_flow.ps}} shows a flow diagram of proposed dual-sim methodology.  
 \begin{figure}[h]
 \centering
 \includegraphics[width=6in]{./figures/gatesim_flow.ps}
@@ -29,16 +29,13 @@ In dual simulation approach the idea is to have two simulation but unlike co-sim
 \label{fig:gatesim_flow.ps}
 \end{figure}
 
-Major steps involved in this flow are:
-
-\begin{enumerate}
-	\item Run RTL simulation
-
-	RTL simulation is done along with test bench components for generating test vectors and verification. This is the same build for RTL verification stage. The simulation signals needs to be dumped into FSDB and for this the signal dump should be enabled during the run.
-	\item As in the case of co simulation, Gatesim files need to be generated from input files obtained from LEC. Same infrastructure used in co-sim can be used for this.
-	\item Get the gatesim build. Here the build structure will have the netlist and gatesim files only. RTL and the bulky testbench components are absent.
-	\item Run simulation with specific FSDB file.
-\end{enumerate}
+Stages associated with this methodology are
+\begin{description}
+	\item[RTL simulation] RTL simulation is done along with test bench components for generating test vectors and verification. This is the same build for RTL verification stage. The simulation signals needs to be dumped into FSDB and for this the signal dump should be enabled during the run. FSDB stimulus vector has to be generated for every stimulus envisioned to be applied onto the netlist.
+	\item[Gatesim infrastructure] As in the case of co-simulation, gatesim files need to be generated from files obtained from LEC flow. Same infrastructure used in co-sim is used for this and hence no additional effort is required when the methodology is modified. Note that this step needed to be done only once.
+	\item[Gatesim Build] Gatesim build could be obtained after compiling and eloborating the design netlist and infrastructure files with a simulator. The build would be devoid of RTL design and non-gatesim verification infrastructure. Note that this step needed to be done only once.
+	\item[Gatesim simulation] Run all envisioned stimulus vectors onto the netlist.
+\end{description}
 
 
 \section{IMPLEMENTATION}

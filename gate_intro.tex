@@ -34,7 +34,7 @@ Gatesims are particularly effective for the following verification
 	\item[-]Analog-circuit and digital circuit co-verification
 \end{itemize}
 
-Finally, Gatesim is a great confidence-booster in ensuring the high quality of the netlist. It lowers the risk of finding design, methodology or process issues in silicon.
+Finally, gatesim is a great confidence-booster in ensuring the high quality of the netlist. It lowers the risk of finding design, methodology or process issues in silicon.
 
 
 
@@ -43,7 +43,7 @@ Finally, Gatesim is a great confidence-booster in ensuring the high quality of t
 
 Gatesims are targetted on post-layout netlist and that is almost clean of RTL bugs. The netlist also passes through couple of important verification steps such as Logic Equivalence Check (LEC) and Static Timing Analysis (STA), before it is targeted for Gatesims.
 
-\emph {\bf LEC}: Logic Equivalence Check (LEC) is a formal verification tool that compares a reference design against a derived design to prove equivalence or to report differences.  LEC does not require test patterns. Instead, LEC uses Boolean arithmetic techniques to prove equivalence between two design descriptions\cite{ieee:boolean}. Although LEC uses sophisticated formal algorithms to identify, map, and compare nodes in the netlists, the complexity is hidden from the user\cite{lec}. %meera: what's this: [ieee] @naren: updated with cite for ieee page..
+\emph {\bf LEC}: Logic Equivalence Check (LEC) is a formal verification tool that compares a reference design against a derived design to prove equivalence or to report differences.  LEC does not require test patterns. Instead, LEC uses Boolean arithmetic techniques to prove equivalence between two design descriptions\cite{ieee:boolean}. Although LEC uses sophisticated formal algorithms to identify, map, and compare nodes in the netlists, the complexity is hidden from the user\cite{lec}.
 
 \emph {\bf STA}: Static Timing Analysis does a input-independent timing analysis of the gate level netlist. It asserts if the circuit could operate flawless without timing issues. It computes the worst-case behaviour of the circuit, over all possible manufacturing variables. STA tools are at ease in handling a complex design with huge number of paths as they consider one path at a time (whether they are real or potential false paths). 
 
