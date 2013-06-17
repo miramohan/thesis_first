@@ -6,7 +6,7 @@
 During simulation of a processor core, the linked program image is loaded in processor's memory followed by its execution. Most modern microprocessors adopt instruction level parallelism for high throughput. Micro-architectural features like instruction pipeline, superscalar execution, register renaming, speculative execution, branch prediction etc. are employed in order to exploit instruction level parallelism.  These micro architecture features work together for high execution throughput. All these internal operations results in a complex execution flow with multiple operations happening in each cycle with different levels of dependencies between data, instruction and memory.
 
 
-As explanined in Section~\ref{verif:exelog} execution log file captures important information regarding the processor state and activity during execution of program code. This could be considered as history of events in the simulation. Each entry in the log file contains the following information regarding processor execution:
+As explained in Section~\ref{verif:exelog} execution log file captures important information regarding the processor state and activity during execution of program code. This could be considered as history of events in the simulation. Each entry in the log file contains the following information regarding processor execution:
 \begin{itemize}
 	\item The instruction number, simulation cycle and opcode
 	\item Thread Id (relevant in multi-core and multi-processor)
@@ -23,7 +23,7 @@ On the onset of simulation failure, these information are vital in debugging the
 
 \section {SAMPLE DEBUG CASES IN CONSIDERATION}
 \label{sec:enhancement.tex.sdcic}
-Let us consider two simple assembly tests as case studies to demonstrate the usefullness of processor execution log during debug of a self~test failure.
+Let us consider two simple assembly tests as case studies to demonstrate the usefulness of processor execution log during debug of a self~test failure.
 \subsection {TEST A}
 \label{case:testa}
 
@@ -163,9 +163,9 @@ After analysing debug process, it is very evident that availabitily of correlate
 
 \begin{description}
 \item[Visualisation of Execution Flow] Visual representation of data is always very appealing, than without a visual representations. In our case, if there exists a visual representation of execution control flow, it would be obvious if a loop had executed and if so, how many times it was.
-\item[Navigating Execution Flow] In the visual representation of execution flow, it would also aid deubg when user is able to navigate to point of interest by mouse~guestures on such representation. For eg. if program code exists across different source files, the user would be able to navigate to the point of interest with ease.
-\item[Processor State Information] At any exeuction point, it would help the debug engineer if processor state information such as SP\nomenclature{SP}{Stack Pointer}, PC\nomenclature{PC}{Program Counter}, SR\nomenclature{SR}{Status Register} are readily accessable.
-\item[Processor State Information Change] It would aid debug to be able to list the differences in Processor State Information between two arbitary points of execution.
+\item[Navigating Execution Flow] In the visual representation of execution flow, it would also aid debug when user is able to navigate to point of interest by mouse~gestures on such representation. For eg. if program code exists across different source files, the user would be able to navigate to the point of interest with ease.
+\item[Processor State Information] At any execution point, it would help the debug engineer if processor state information such as SP\nomenclature{SP}{Stack Pointer}, PC\nomenclature{PC}{Program Counter}, SR\nomenclature{SR}{Status Register} are readily accessible.
+\item[Processor State Information Change] It would aid debug to be able to list the differences in Processor State Information between two arbitrary points of execution.
 \item[Processor Writes and Reads] It would aid debug if processor writes and reads could be easily listed. It would also help if in such listing one could classify between IO accesses and memory accesses.
 \item[Code listing] It would aid debug when source code is listed along with its context, on any point of execution.
 \end{description}

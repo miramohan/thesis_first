@@ -64,7 +64,7 @@ For RTL simulation the RTL sources and test bench files are compiled first and a
 
 
 
-Once the RTL simulation completes with VCS signal dump option enabled, a .fsdb file is generated. This file is the vector source for netlist simulation. For each design and for each test condition, we need to perform dump enabled RTL simulation initially before going to netlist simulation. This is a onetime simulation from gate level verification point of view.
+Once the RTL simulation completes with VCS signal dump option enabled, a .fsdb file is generated. This file is the vector source for netlist simulation. For each design and for each test condition, we need to perform dump enabled RTL simulation initialy before going to netlist simulation. This is a onetime simulation from gate level verification point of view.
 
 
 \subsection{USING FSDB AS TEST VECTORS}
@@ -149,7 +149,7 @@ In the previous section we have discussed extracting FSDB, accessing it in a tim
 ~\figurename{~\ref{fig:netlis_sim.ps}} shows data flow for applying test vectors onto the netlist and how final comparison is done.
 
 \subsubsection{DUMMY RTL}
-The test vectors obtained from the FSDB are applied to a dummy RTL module. Dummy RTL module has no logic other than the RTL signal list that are required for netlist simulation, that is the driving Input signals and the output signal for RTL-Netlist output comparison. The DKI attach will link these empty RTL signals with DKI signal objects, and any change in DKI object is reflected as change in value of the attached dummy RTL signal. ~\figurename{~\ref{fig:dummy.ps}} shows a code snippet of dummy RTL module. The input and output signal list from the original RTL code is consired as "{\emph reg}" in dummy RTL module.
+The test vectors obtained from the FSDB are applied to a dummy RTL module. Dummy RTL module has no logic other than the RTL signal list that are required for netlist simulation, that is the driving Input signals and the output signal for RTL-Netlist output comparison. The DKI attach will link these empty RTL signals with DKI signal objects, and any change in DKI object is reflected as change in value of the attached dummy RTL signal. ~\figurename{~\ref{fig:dummy.ps}} shows a code snippet of dummy RTL module. The input and output signal list from the original RTL code is considered as "{\emph reg}" in dummy RTL module.
 
 
 \begin{figure}[h]
@@ -161,7 +161,7 @@ The test vectors obtained from the FSDB are applied to a dummy RTL module. Dummy
 
 \subsubsection{DUMMY RTL DRIVING NETLIST}
 
-Dummy RTL signal which is having the original RTL signal values from FSDB through C++ routine will drive the netlist input signals. This is done by regular Verilog module instatiation of netlist top level module with dummy RTL inputs driving the netlist input. ~\figurename{~\ref{fig:instant.ps}} gives a snippet of this Verilog instatiation of netlist module.
+Dummy RTL signal which is having the original RTL signal values from FSDB through C++ routine will drive the netlist input signals. This is done by regular Verilog module instantiation of netlist top level module with dummy RTL inputs driving the netlist input. ~\figurename{~\ref{fig:instant.ps}} gives a snippet of this Verilog instantiation of netlist module.
 
 \begin{figure}[h]
 \centering

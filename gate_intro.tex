@@ -1,9 +1,9 @@
 \chapter{GATE LEVEL SIMULATION}
 \label{chap:gate_intro.tex}
 
-In a typical VLSI design flow for verification, the first step after RTL level model of the design availabilty is writing behavioral test bench for functional verification. The functionally verified RTL goes through design synthesis during which it is mapped into low level design components in terms of primitives or logic gates. Synthesis is mostly an automated process using a ``{\it synthesizer}'' tool that converts RTL-level design source code into corresponding gate-level netlist mappings. This netlist is also called the pre-layout netlist.
+In a typical VLSI design flow for verification, the first step after RTL level model of the design availability is writing behavioral test bench for functional verification. The functionally verified RTL goes through design synthesis during which it is mapped into low level design components in terms of primitives or logic gates. Synthesis is mostly an automated process using a ``{\it synthesizer}'' tool that converts RTL-level design source code into corresponding gate-level netlist mappings. This netlist is also called the pre-layout netlist.
 
-The pre-layout netlist that was obtained from synthesis is then fed into a layout tool which maps the gate primities to silicon structures such as channels, gates, vias, etc. During this process certain modifications are done on netlist but it should not alter its functionality to its corresponding RTL. To validate this, another netlist called the post-layout netlist is generated back from the layed-out silicon structures by the layout tool itself. Validation is made by running LEC tool over both pre-layout and post-layout netlists or between post-layout netlist and RTL.
+The pre-layout netlist that was obtained from synthesis is then fed into a layout tool which maps the gate primitives to silicon structures such as channels, gates, vias, etc. During this process certain modifications are done on netlist but it should not alter its functionality to its corresponding RTL. To validate this, another netlist called the post-layout netlist is generated back from the layed-out silicon structures by the layout tool itself. Validation is made by running LEC tool over both pre-layout and post-layout netlists or between post-layout netlist and RTL.
 
 Though it would be ideal to use post-layout netlist for the purpose of gatesims, it would be too late in the design process. So work on gatesims starts with pre-layout netlist and progresses to post-layout netlist as it becomes available. ~\figurename{~\ref{fig:vlsi_design.ps}} depicts progress of gatesim with respect to other design flows.
 
@@ -41,7 +41,7 @@ Finally, gatesim is a great confidence-booster in ensuring the high quality of t
 
 \section{LIMITATIONS OF LEC AND STA}
 
-Gatesims are targetted on post-layout netlist and that is almost clean of RTL bugs. The netlist also passes through couple of important verification steps such as Logic Equivalence Check (LEC) and Static Timing Analysis (STA), before it is targeted for Gatesims.
+Gatesims are targeted on post-layout netlist and that is almost clean of RTL bugs. The netlist also passes through couple of important verification steps such as Logic Equivalence Check (LEC) and Static Timing Analysis (STA), before it is targeted for Gatesims.
 
 \emph {\bf LEC}: Logic Equivalence Check (LEC) is a formal verification tool that compares a reference design against a derived design to prove equivalence or to report differences.  LEC does not require test patterns. Instead, LEC uses Boolean arithmetic techniques to prove equivalence between two design descriptions\cite{ieee:boolean}. Although LEC uses sophisticated formal algorithms to identify, map, and compare nodes in the netlists, the complexity is hidden from the user\cite{lec}.
 
@@ -49,19 +49,19 @@ Gatesims are targetted on post-layout netlist and that is almost clean of RTL bu
 
 
 
-These formal static verification techniques are much faster and evolved than simulation based methods. However these verification methodologies, in spite of advancements in tools, cannot cover all verification requirements on netlist. In addtition to reassuring results obtained by formal methods, gatesim helps in filling up the gaps left by these methods. 
+These formal static verification techniques are much faster and evolved than simulation based methods. However these verification methodologies, in spite of advancements in tools, cannot cover all verification requirements on netlist. In addition to reassuring results obtained by formal methods, gatesim helps in filling up the gaps left by these methods. 
 
 Limitations of LEC, which could be covered by Gatesims are:
 \begin{itemize}
 	\item Limitation of Static Equivalence Checking tools to catch all X-propagation or X-generation issues.
-	\item Two-state methodologies can miss RTl-versus-netlist simulation and RTL-versus-RTL simulation differences.
+	\item Two-state methodologies can miss RTL-versus-netlist simulation and RTL-versus-RTL simulation differences.
 	\item Incorrect mapping issues due to naming at sub-block level which can result in false pass. This will not be reported at the sub-block level LEC, but Gatesims can flag such incorrect connectivity.
 \end{itemize}
 
 Limitations of STA, which could be covered by Gatesims are:
 \begin{itemize}
-	\item \emph{\bf X-propogation:} STA deals only with logic domain of logic-0 and logic-1. There could be many sources of indeterministic states in the design such as uninitialized flops, output of memories, synchronisers, etc. Such indeterministic state value ($X$), could propagate through and cause failure of operation. Gatesim acurately models this behaviour and but STA does not.
-	\item \emph{\bf Asynchronous Interfaces:} STA ignores certain asynchronous paths called as ``false paths'', like with analog blocks or primary IO's. And hence, STA cannot verify timing between digital and analog blocks whereous Gatesims could.
+	\item \emph{\bf X-propagation:} STA deals only with logic domain of logic-0 and logic-1. There could be many sources of indeterministic states in the design such as uninitialized flops, output of memories, synchronisers, etc. Such indeterministic state value ($X$), could propagate through and cause failure of operation. Gatesim accurately models this behaviour and but STA does not.
+	\item \emph{\bf Asynchronous Interfaces:} STA ignores certain asynchronous paths called as ``false paths'', like with analog blocks or primary IO's. And hence, STA cannot verify timing between digital and analog blocks where as Gatesims could.
 	\item \emph{\bf Reset sequence:} Verifying that all flip-flops resets into their required logical value. STA cannot check this as certain declarations such as initial values on signal are not synthesizable and are verified only during simulation.
 	\item \emph{\bf Asynchronous clock-domain crossings:} STA does not check if the indeterministic value $X$ produced for one clock cycle when logic passes clock domains, is suppressed or not.
 \end{itemize}
@@ -84,7 +84,7 @@ Some of the design flaws, those missed by other methods but caught by gatesims:
 	Glitches are produced by combinational logic, and are not of concern in synchronous circuits as they are suppressed before next clock. Glitches in clock and reset paths are of concern. Here all methodologies fall short and gatesims are good in finding such issues.
 
 \item \emph{\bf Uninitialized states in design}
-	Source of un-initialized design states ($X$) could be easily found in gatesims. After identifying such scenarios appropriate initialization modelling needs to be performed to proceed with Gate simulation flow.
+	Source of un-initialized design states ($X$) could be easily found in gatesims. After identifying such scenarios appropriate initialization modeling needs to be performed to proceed with Gate simulation flow.
 
 \item \emph{\bf Partitioning Issues}
 	Design is partitioned to ease front-end design flows such as synthesis, STA, layout and LEC. Such act introduces discontinuity in such flows such as wrong constraints for different partitions and so forth. Gatesims are good at catching such issues, if appropriate stimulus is chosen.

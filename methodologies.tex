@@ -30,7 +30,7 @@ This dual-sim method was widely used across industry due to its many advantages.
 
 
 \section{CO-SIM BASED GATESIM METHODOLOGY}
- Cosim-based methodology was conceived to solve some problems that existed with earlier dual-sim approach. To its advantage, the new method enabled ease of debug while maintaining consistent input vectors (devoid of sampling errors). It also made results comparision and debug easier. ~\figurename{~\ref{fig:cosim.ps}} shows how stimulus is appiled to netlist and comparison of output is done in cosim method. %FIXME: Check last line
+ Cosim-based methodology was conceived to solve some problems that existed with earlier dual-sim approach. To its advantage, the new method enabled ease of debug while maintaining consistent input vectors (devoid of sampling errors). It also made results comparision and debug easier. ~\figurename{~\ref{fig:cosim.ps}} shows how stimulus is applied to netlist and comparison of output is done in cosim method. %FIXME: Check last line
  
 \begin{figure}[h!]
 \centering
@@ -71,13 +71,13 @@ Major steps involved in this flow are:
 	\begin{itemize}
 		\item[-]Netlist to be verified
 		\item[-]Complete RTL of SoC
-		\item[-]Test bench components in its entierity
+		\item[-]Test bench components in its entirety
 		\item[-]Gatesim files
 	\end{itemize}
 
 	\item \emph{\bf Run cosimulation of RTL and netlist}
 
-	Runing co-simulation is very similar to running RTL simulation. Output files include $<$testname$>$.out which contains the simulation transcript of the entire test and $<$testname$>$.fsdb (waveform dump file). The simulation transcript also contains gatesim errors called as ``miscompares''.
+	Running co-simulation is very similar to running RTL simulation. Output files include $<$testname$>$.out which contains the simulation transcript of the entire test and $<$testname$>$.fsdb (waveform dump file). The simulation transcript also contains gatesim errors called as ``miscompares''.
 \end{enumerate}
 
 
@@ -90,7 +90,7 @@ Co-sim based Gatesim overcame all known limitations associated with early method
 In order to better understand these limitations certain experimental analysis were done. Experiments showed that the simulation performance of gatesim was affected sometimes as low as $10\%$ with respect to its counterpart RTL simulations. This indicates that:
 
 \begin{itemize}
-	\item[-]RTL Simulations contribute major to simulation preformance than netlist.
+	\item[-]RTL Simulations contribute major to simulation performance than netlist.
 	\item[-]Simulator spends more time in simulating RTL and verification components than netlist.
 \end{itemize}
 
