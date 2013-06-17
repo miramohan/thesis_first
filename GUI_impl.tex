@@ -230,7 +230,7 @@ Another important feature provided by register window is a comparision of regist
 
 \subsubsection{IMPLEMENTATION}
 
-The values contained in register window is updated when a different execution point is selected in the execution flow graph. This event also trigges there comparison of current values with the reference point. Algorithm~\ref{algo:impl:crw} lists the pseudo-code used in updating register window values.
+The values contained in register window is updated when a different execution point is selected in the execution flow graph. This event also trigges comparison of current values with the reference point. Algorithm~\ref{algo:impl:crw} lists the pseudo-code used in updating register window values.
 
 \IncMargin{1em}
 \begin{algorithm}[h]
@@ -278,7 +278,7 @@ Add $item.logInfo \rightarrow$ ExecutionLogWindow\;
 
 \subsection {EXECUTION LOG WINDOW}
 
-In addition to the instruction and register information, the relevant processor execution log in its actuality would be useful to the user as it contains different information that may not be presented by the debug interface. Having this information readily accessable to user also assures the user that the data extracted through processing by different scripts is indeed correct. Internally these informations are stored as a JavaScript object "{\emph logInfo}". 
+In addition to the instruction and register information, the relevant processor execution log in its actuality would be useful to the user as it contains different information that may not be presented by the debug interface. Having this information readily accessable to user also assures the user that the data extracted through processing by different scripts is indeed correct. Internally these informations are stored as a JavaScript object "{\it logInfo}". 
 
 %Implementation of Execution log window is given in algorithm x along with instruction window.
 
