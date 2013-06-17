@@ -8,7 +8,7 @@ The pre-layout netlist that was obtained from synthesis is then fed into a layou
 Though it would be ideal to use post-layout netlist for the purpose of gatesims, it would be too late in the design process. So work on gatesims starts with pre-layout netlist and progresses to post-layout netlist as it becomes available. ~\figurename{~\ref{fig:vlsi_design.ps}} depicts progress of gatesim with respect to other design flows.
 
 %\figurename{} 
-\begin{figure}[H]
+\begin{figure}[h]
 \centering
 \includegraphics[width=3.5in]{./figures/vlsi_design.ps}
 \caption{Design Flow}
@@ -98,6 +98,7 @@ Some of the design flaws, those missed by other methods but caught by gatesims:
 
 
 \section{ISSUES FACED BY GATESIM}
+\label{intro:sec:ifg}
 At system level, Gatesim is one of the most challenging verification task. This is because as design complexity increases, the limitations with gatesims become more prominent. Important difficulties associated with gate level simulation are:
 \begin{itemize}
 
@@ -109,4 +110,3 @@ At system level, Gatesim is one of the most challenging verification task. This 
 
 \end{itemize}
 
-%FIXME: Naren: Need to solve issues faced is not well established
