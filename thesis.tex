@@ -1,6 +1,7 @@
+%\documentclass[a4paper,11pt]{book}
 \documentclass[a4paper,12pt]{report}
 \usepackage[utf8x]{inputenc}
-
+\usepackage{array}
 %\documentclass[a4paper,12pt]{article}
 % \addtolength{\hoffset}{-1.5cm}
 % \addtolength{\textwidth}{3.5cm}
@@ -36,7 +37,7 @@
 %\makeglossaries
 
 %\usepackage{hyperref}
-%\usepackage{subfloat}
+\usepackage{subfloat}
 \usepackage{multirow} %% To combile two or more rows in a table
 \usepackage[super]{natbib}
 \usepackage[super]{nth} %% For writing 2nd, 3rd, 4th etc by just writing \nth{1}. Requires nth.sty file to be in the working directory.
@@ -51,7 +52,7 @@
 %\usepackage{acronym} %% For acronyms
 %\usepackage[usenames,dvipsnames]{color}
 %\usepackage[round]{natbib}
-\usepackage{hyperref}%% To use hyperlinks to all citations
+\usepackage[pagebackref]{hyperref}%\usepackage{hyperref}%% To use hyperlinks to all citations
 \hypersetup{
 % colorlinks, citecolor=black,
 % pagebackref=true,
@@ -159,26 +160,42 @@ in\\
 %Dept of E \& C, NITK \\
 \vspace{15pt}
 {\em Under the Guidance of} \\
-
 \vspace{10pt}
-{\Large {Dr. M. S. Bhat \hspace{1in} Mr. Narendran. K}} \\
+\hspace{-0.35in}{\Large {Dr. M. S. Bhat \hspace{1.5in} Mr. Narendran. K }} \\
 \hspace{-0.05in} Professor \hspace{2in} SMTS Design Engineer\\
-\hspace{-0.05in}Dept of E \& C, NITK \hspace{1.45in} AMD India Pvt. Ltd\\
+\hspace{-0.45in}Dept of E \& C, NITK \hspace{1.65in} AMD India Pvt. Ltd\\
+
+%\vspace{10pt}
+%{\Large {Dr. M. S. Bhat \hspace{1in} Mr. Narendran. K}} \\
+%\hspace{-0.05in} Professor \hspace{2in} SMTS Design Engineer\\
+%\hspace{-0.05in}Dept of E \& C, NITK \hspace{1.5in} AMD India Pvt. Ltd\\
 \vspace{-0.05in}
+\begin{table}[h!]
+   \hspace{.3in}  \begin{tabular}{ccc}	
+	 			
+        \hspace{.5cm}  \begin{minipage}{.5\textwidth}
+      \includegraphics[width=0.85in, height=0.85in]{./figures/Surthkal_logo.eps}
+    \end{minipage}
+    &
+    \begin{minipage}{.5\textwidth}
+		\includegraphics[width=1.2in, height=0.6in]{./figures/amd_logo.eps}
+     \end{minipage}
+      \end{tabular}
+%\caption*{logo}
+ \end{table}
 
 %\vspace{10pt}
 %\hspace{-.5in}{\Large {Dr. M. S. Bhat \hspace{2in} Mr. Narendran. K}} \\
 %\hspace{-1.4in}Professor \hspace{2.50in} SMTS Design Engineer\\
 %
 %\hspace{-0.45in}Dept of E \& C, NITK \hspace{1.65in} AMD India Pvt. Ltd\\
-\vspace{-0.05in}
+\vspace{-0.25in}
 %\begin{figure*}[htp]
 %\hspace{0.6in} \subfigure{\includegraphics[height=0.85in,width=0.85in]{./figures/Surthkal_logo.eps}}\hspace{2.1in}
 %   \subfigure{\includegraphics[height=0.6in,width=1.2in]{./figures/amd_logo.eps}}
 %\end{figure*}
 
 \
-\vspace{10pt}
  {Thesis}  \\
 {\emph {Submitted in partial fulfillment of the requirements for the degree of}} \\
 \vspace{10pt}
@@ -332,6 +349,7 @@ in\\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BIO DATA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \pagestyle{plain}
+
 \section*{\centering BIODATA}
 \begin{tabular}{lll}
 %\begin{center}
@@ -356,7 +374,7 @@ Email id		&:	&miramohan@gmail.com			\\
 %List of publications 	&:	&1					\\
 %\end{center}
 \end{tabular}
-\addcontentsline{toc}{section}{BIODATA}
+%\addcontentsline{toc}{section}{BIODATA}
 
 
 
