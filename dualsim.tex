@@ -22,7 +22,7 @@ The improved methodology becomes a dual-simulation methodology with two separate
 
 \section {DUAL-SIM FLOW}
 In dual simulation approach the idea is to have two simulation but unlike co-sim not in parallel.  Instead here the simulations are separate from each other. We run the RTL simulation which will have test bench components for generating test vectors that will drive the inputs. This same test vectors are required for simulating the netlist environment. In cosimulation the same test bench will provide the stimulus to RTL and netlist. However in a dual simulation environment first RTL simulation will happen and the generated test vectors are stored in FSDB, which is used for simulating netlist. ~\figurename{~\ref{fig:gatesim_flow.ps}} gives the flow of proposed dual-sim approach.  
-\begin{figure}[H]
+\begin{figure}[h]
 \centering
 \includegraphics[width=6in]{./figures/gatesim_flow.ps}
 \caption{Dual Sim}
@@ -58,7 +58,7 @@ As discussed in previous section, the tests vectors for netlist simulation are s
 
 For RTL simulation the RTL sources and test bench files are compiled first and an executable file is generated for running the simulation. During the simulation VCS generate log files or reports giving details of the simulation. One feature provided by VCS is parallel FSDB dump. For this VCS have options to enable "{\emph dump}" during simulation run. This will dump all the {\emph signals} involved in RTL simulation and these FSDB dump files are used by waveform viewers as signal source.
 
-\begin{figure}[H]
+\begin{figure}[h]
 \centering
 \includegraphics[width=4.5in, height=3.5in]{./figures/RTL_sim.ps}
 \caption{RTL Simulation}
@@ -73,7 +73,7 @@ Once the RTL simulation completes with VCS signal dump option enabled, a .fsdb f
 \subsection{USING FSDB AS TEST VECTORS}
 Once the FSDB file is generated, next stage is extracting the signal values from this file and converting it into test vectors that can be applied for netlist simulation.  ~\figurename{~\ref{fig:fsdb.ps}} shows the layout of programming infrastructure developed for this.
 
-\begin{figure}[H]
+\begin{figure}[h]
 \centering
 \includegraphics[width=5in, height=3in]{./figures/fsdb.ps}
 \caption{Accessing FSDB Signals}
@@ -85,7 +85,7 @@ Once the FSDB file is generated, next stage is extracting the signal values from
 \paragraph{Extracting data from FSDB:}In FSDB signals are stored in binary format and can be accessed only by specific tools or using some appropriate APIs.  In this project we are using FSDB APIs provided by Verdi. These API's allow us to access each signal separately. 
 
 
-\begin{figure}[H]
+\begin{figure}[h]
 \centering
 \includegraphics[width=4.5in, height=3.5in]{./figures/verdi.ps}
 \caption{API For Accessing FSDB Signals}
@@ -107,7 +107,7 @@ However just attaching to the signal is not enough. A larger C++ infrastructure 
 The C++ infrastructure will open the FSDB file and initiate a playback through the file. Whenever a signal that is attached using APIs changes, the C++ will identify this and will ensure the changed value is made available to the netlist simulation.  Figure x shows the complete flow of the C++ routine developed for FSDB signal access, conversion and application onto Verilog component.
 
 
-\begin{figure}[H]
+\begin{figure}[h]
 \centering
 \includegraphics[width=6in]{./figures/cpp.ps}
 \caption{C++ Routine for FSDB Signal Extraction}
@@ -127,7 +127,7 @@ Once signals are accessed from FSDB file by API's and C++ routine developed next
 In this work we are using DKI which is an API that is supported only by VCS. This has the advantage of less simulation overhead and smaller memory footprint compared to VPI interface.
 For converting FSDB signal format to DKI format, we are assigning signal values of the FSDB signal object to a corresponding DKI signal object. Similar to the creation of FSDB signal object list, create a DKI object list corresponding to the RTL signals. 
 
-\begin{figure}[H]
+\begin{figure}[h]
 \centering
 \includegraphics[width=3.5in, height=3in]{./figures/dki.ps}
 \caption{FSDB Format to DKI format}
@@ -142,7 +142,7 @@ Whenever the C++ moves in time and identify a change in signal value in FSDB sig
 In the previous section we have discussed extracting FSDB, accessing it in a time based manner and converting it to a format that can interact with Verilog. Next step is using these signals for netlist simulation.
 
 
-\begin{figure}[H]
+\begin{figure}[h]
 \centering
 \includegraphics[width=5in, height=3.5in]{./figures/netlist_sim.ps}
 \caption{Netlist Simulation}
@@ -155,7 +155,7 @@ In the previous section we have discussed extracting FSDB, accessing it in a tim
 The test vectors obtained from the FSDB are applied to a dummy RTL module. Dummy RTL module has no logic other than the RTL signal list that are required for netlist simulation, that is the driving Input signals and the output signal for RTL-Netlist output comparison. The DKI attach will link these empty RTL signals with DKI signal objects, and any change in DKI object is reflected as change in value of the attached dummy RTL signal. ~\figurename{~\ref{fig:dummy.ps}} shows a code snippet of dummy RTL module. The input and output signal list from the original RTL code is consired as "{\emph reg}" in dummy RTL module.
 
 
-\begin{figure}[H]
+\begin{figure}[h]
 \centering
 \includegraphics[width=3.5in]{./figures/dummy.ps}
 \caption{Dummy RTL}
@@ -166,7 +166,7 @@ The test vectors obtained from the FSDB are applied to a dummy RTL module. Dummy
 
 Dummy RTL signal which is having the original RTL signal values from FSDB through C++ routine will drive the netlist input signals. This is done by regular Verilog module instatiation of netlist top level module with dummy RTL inputs driving the netlist input. ~\figurename{~\ref{fig:instant.ps}} gives a snippet of this Verilog instatiation of netlist module.
 
-\begin{figure}[H]
+\begin{figure}[h]
 \centering
 \includegraphics[width=4in]{./figures/instant.ps}
 \caption{Netlist Instantiation}
@@ -179,7 +179,7 @@ Now during simulation the netlist inputs are driven by the dummy RTL signals.
 
 During the simulation, a testbench compare module (compare.v) will have cycle by cycle comparison of the netlist output signal vs the dummyRTL signals which corresponds to the original RTL output signals. ~\figurename{~\ref{fig:compare.ps}} is a code snippet showing comparison of an output signal. 
 
-\begin{figure}[H]
+\begin{figure}[h]
 \centering
 \includegraphics[width=6in]{./figures/compare.ps}
 \caption{Cycle Compare Output Signals}
