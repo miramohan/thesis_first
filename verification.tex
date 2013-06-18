@@ -7,8 +7,7 @@ In SoC design methodology, the first step is to define the specifications. Once 
 
 
 
-Functional verification validates that the design meets the requirements. Test cases are created based on specifications. Various aspects of data and control flow are verified by passing information between external environments, communication with I/O devices,  software interactions etc. [ieee]
-
+Functional verification validates that the design meets the requirements. Test cases are created based on specifications. Various aspects of data and control flow are verified by passing information between external environments, communication with I/O devices,  software interactions etc. 
  
 \section {VERIFICATION}
 
@@ -65,7 +64,7 @@ To aid execution flow, RTL is simulated along with an instruction level referenc
 
 
 \subsection {CO-SIMULATION}
-The instruction level reference simulator (ILS) \nomenclature{ILS}{Instruction Level Simulator} is an x86/x86-64 compatible model, generally written in software languages such as {\it c++}. It models the processor in great detail including registers, caches and modes of operation. The test provides stimulus to both the RTL and reference models. An interface between RTL and reference model compares the states after each instruction retire and report any mismatch. 
+The instruction level reference simulator (ILS) \nomenclature{ILS}{Instruction Level Simulator} is an x86/x86-64 compatible model, generally written in software languages such as {\it C++}. It models the processor in great detail including registers, caches and modes of operation. The test provides stimulus to both the RTL and reference models. An interface between RTL and reference model compares the states after each instruction retire and report any mismatch. 
 
 The following section details the features and functions of simulator and interface. 
 
