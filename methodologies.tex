@@ -30,6 +30,7 @@ This dual-sim method was widely used across industry due to its many advantages.
 
 
 \section{CO-SIM BASED GATESIM METHODOLOGY}
+\label{sec:method:csgs}
  Cosim-based methodology was conceived to solve some problems that existed with earlier dual-sim approach. To its advantage, the new method enabled ease of debug while maintaining consistent input vectors (devoid of sampling errors). It also made results comparision and debug easier. ~\figurename{~\ref{fig:cosim.ps}} shows how stimulus is applied to netlist and comparison of output is done in cosim method. %FIXME: Check last line
  
 \begin{figure}[h!]
@@ -60,9 +61,9 @@ Major steps involved in this flow are:
 
 	Input to gatesims are obtained from LEC flow. The list includes the netlist file, files holding information regarding IO/Register mapping, gate defines, compare enables and testbench force files. These inputs from LEC stage are processed by a set of scripts for developing intermediate files which are needed by cosim build infrastructure. These files are exclusively required for netlist simulations and described below
 	\begin{itemize}
-		\item[gatesim.v] instantiates top level netlist and ties its inputs with the behavioral RTL.
-		\item[compare.v] contains comparators those compare the outputs and register mappings, for each cycle of simulation.
-		\item[forces.v] contains all the force/release/assign commands for the gates corresponding to RTL force/release/assign statements. Forces are required in the design to shorten reset, initialize training parameters, initialize fuses among other things.
+		\item[{\bf gatesim.v}] instantiates top level netlist and ties its inputs with the behavioral RTL.
+		\item[{\bf compare.v}] contains comparators those compare the outputs and register mappings, for each cycle of simulation.
+		\item[{\bf forces.v}] contains all the force/release/assign commands for the gates corresponding to RTL force/release/assign statements. Forces are required in the design to shorten reset, initialize training parameters, initialize fuses among other things.
 	\end{itemize}
 
 	\item \emph{\bf Getting gatesim build} 
