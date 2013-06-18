@@ -107,9 +107,7 @@ Process~\textcircled{f} are a set of comparators those keep checking the behavio
 
 \section{STIMULUS APPLICATOR}
 \label{sec:dualsim:sa}
-
-\subsection{USING FSDB AS TEST-VECTORS}
-Once the FSDB file is generated, next stage is extracting the signal values from this file and converting it into test-vectors that can be applied for netlist simulation.  ~\figurename{~\ref{fig:fsdb.ps}} shows the layout of programming infrastructure developed for this.
+Process~\textcircled{b} is a layered software infrastructure for the purpose of stimulus application onto the dummy-RTL. ~\figurename{~\ref{fig:fsdb.ps}} shows four different layers of the applicator. Together they accomplish transporting vector stimulus from FSDB file and finally delivering it to the netlist simulation. The first layer used to access FSDB file is provided by {\it Verdi} tool itself. It is available as a pre-built object\cite{Verdi:FsdbReader}, which could be linked with. The remaining three-layers of the infrastructure has been developed as part of this project and implemented as {\it C} and {\it C++} code.
 
 \begin{figure}[h]
 \centering
@@ -118,10 +116,8 @@ Once the FSDB file is generated, next stage is extracting the signal values from
 \label{fig:fsdb.ps}
 \end{figure}
 
-~\figurename{~\ref{fig:fsdb.ps}} shows how test-vectors are obtained from .fsdb file and attached onto the netlist simulation flow. The various stages involved are explained below.
-
-\paragraph{Extracting data from FSDB:}In FSDB signals are stored in binary format and can be accessed only by specific tools or using some appropriate APIs.  In this project we are using FSDB APIs provided by Verdi. These API's allow us to access each signal separately. 
-
+\subsection{EXTRACTING STIMULUS}
+FSDB is a binary file format for storing signal value change information. This format commonly used across the {\it Verdi} toolset and no other program has enough information to decode data from those files. But {\it Verdi} toolset, provides APIs\cite{Verdi:FsdbReader} \nomenclature{API}{Application Programmer's Interface} to be interfaced with. This project make use of those APIs, to accomplish desired task of accessing design signals at any point in time.
 
 \begin{figure}[h]
 \centering
@@ -130,44 +126,73 @@ Once the FSDB file is generated, next stage is extracting the signal values from
 \label{fig:verdi.eps}
 \end{figure}
 
-Once the list of RTL signals that need to be extracted is decided, make FSDB signals object handles corresponding to each signal. FSDB signal objects are also defined by the API and allow signals in FSDB file to be attached to these objects. Special "{\emph Attach()}" routines are provided for signal attach with objects.
-
-However just attaching to the signal is not enough. A larger C++ infrastructure is required for accessing signals for gatesim because of the following reasons:
+In order to successfully extract signal values from stored FSDB file the following needs to be done
 \begin{enumerate}
-\item Values contained in FSDB needs to be accessed in time-based fashion.
-\item Typical netlist contained hundreds of stimulus points with many wider bus-signals.
+\item[Handle FSDB file] In this process approprite FSDB file needs to be ``opened'' and be ``closed'' after all operations are completed. {\it Verdi} provides routines \textt{ffrOpen()/ ffrOpen2()} and \textt{ffrClose()} for these purposes respectively.
+\item[Obtain signal handle] In this process handle to signals of interest needs to be obtained through APIs. Sample routine \textt{MyTreeCBFunc}\cite[p.~3]{Verdi:FsdbReader} is already provided by {\it Verdi}.
+\item[Access signal values] Once signal handle is obtained, the signal's value at this point in time could be obtained by routine \textt{ffrGetVC()}.
 \end{enumerate}
+
+\subsection{TIME BASED TRAVERSAL}
+\begin{figure}[h]
+\centering
+\includegraphics[scale=1]{./figures/time_access.ps}
+\caption{Time Based Application of Stimulus}
+\label{fig:dualsim:tbas}
+\end{figure}
+
+\figurename{\ref{fig:dualsim:tbas}} shows sequences of actions that would occur during simulation. At any simulation time `M', it would be required to apply the stimulus to all signals of interest. After  this, control is transferred to simulator which computes  the states values at time `M'. The event driven simulation  would proceed in this fashion for all subsequent event times until it reaches the next stimulus point `N'. Series of actions that took place for time `M' would be repeated for time `N'  and so forth.
+
+List of RTL signals those need to be extracted would be refined over time, as netlist becomes stable. In this particular application, it would  be required  to obtain values of all signals of interest at the desired  instant. This type of traversal is called as time-based-traversal. Sample routine \textt{tb.cpp}\cite[p.~28]{Verdi:FsdbReader} is already provided by {\it Verdi}. In this application, a larger C++ infrastructure is required to be built since
+\begin{enumerate}
+\item Number of RTL signals those needs to be extracted is huge. Hence a seperate data structure is required.
+\item Accessing of signal values in time-based fashion could be abstracted out.
+\item Signal sizes vary from 1 to hundredes, so handling of different sized signals could be made uniform by {\t C++} routine abstraction.
+\end{enumerate}
+
+
+\subsection{VALUE CONVERSION TO DKI}
+FSDB exports signals values in its custom 8-bit format, but that can't be used directly by any simulator. These values needs to get converted to a format that could be understood by the simulator. {\it Verilog} language\cite{ieee:v:2005} provides many standard interfaces such as PLI, VPI (or PLI 2.0) for this purpose. The drawback with these standard interfaces are that they are too slow when huge vectors are in consideration (like gatesims). Conversions to and from string based format is very timeconsuming as it was observed.
+
+In order to overcome these limitations, VCS provides a non-standard interface called as DKI \nomenclature{DKI}{Direct-C Kernel Interface}. This interface has the advantage of less simulation overhead and smaller memory footprint compared to VPI interface. Hence DKI was choosen for this project.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=1]{./figures/dki.ps}
+\caption{FSDB Format to DKI format}
+\label{fig:dki.eps}
+\end{figure}
+
+Signal values could be retrived through {\it Verdi} APIs, as listed in speudo-code below.
+\begin{verbatim}
+  byte_T *vc_ptr;
+  /* vc_ptr should be assigned to particular signals value change */
+
+  // convert verilog bits to unsigned int
+  uint retVal=0;
+  uint8 bit;
+  for (int i=0; i<=(msb-lsb); i++) {
+    bit = vc_ptr[i+LBit-msb];
+    retVal = (retVal<<1)
+           | (bit==FSDB_BT_VCD_1 || (bit==FSDB_BT_VCD_X));
+  } 
+\end{verbatim}
+DKI provides direct interface to internal representation of any simulator object. Such retrieved signal values could be assigned to VCS's object as per instructions in {\it VCS User Guide}\cite[Section~C~Language~Interface>~Direct~C]{VCS:vcs.pdf}.
+
+\subsection{INTERACTION WITH SIMULATOR}
+
 The C++ infrastructure will open the FSDB file and initiate a playback through the file. Whenever a signal that is attached using APIs changes, the C++ will identify this and will ensure the changed value is made available to the netlist simulation.  Figure x shows the complete flow of the C++ routine developed for FSDB signal access, conversion and application onto Verilog component.
 
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=6in]{./figures/cpp.ps}
+\includegraphics[scale=1]{./figures/cpp.ps}
 \caption{C++ Routine for FSDB Signal Extraction}
 \label{fig:cpp.eps}
 \end{figure}
 
-
-
-
 A set of RTL signal accessed at time based manner and applied onto netlist is effectively doing the job of test-vectors as vectors are nothing but signal values at different instants of time.
 Once signals are accessed from FSDB file by API's and C++ routine developed next step is applying it onto netlist. However Verilog based netlist cannot directly interact with extracted FSDB format objects. For this a conversion stage is required.  
-
-
-
-
-\paragraph{Convert FSDB format to DKI format}: The FSDB format signals are converted to a standard format that can work with Verilog. There are many interfaces that allow Verilog-C interaction such as PLI, VPI (or PLI 2.0) or DKI. 
-In this work we are using DKI which is an API that is supported only by VCS. This has the advantage of less simulation overhead and smaller memory footprint compared to VPI interface.
-For converting FSDB signal format to DKI format, we are assigning signal values of the FSDB signal object to a corresponding DKI signal object. Similar to the creation of FSDB signal object list, create a DKI object list corresponding to the RTL signals. 
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=3.5in, height=3in]{./figures/dki.ps}
-\caption{FSDB Format to DKI format}
-\label{fig:dki.eps}
-\end{figure}
-
-
 
 Whenever the C++ moves in time and identify a change in signal value in FSDB signal, an assign statement will assign the new FSDB signal value to DKI signal object.  These DKI signals can drive Verilog signals by using "{\emph Attach}" routine provided by API, that ties together DKI object with RTL signal. 
 
