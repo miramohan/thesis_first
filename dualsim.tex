@@ -25,7 +25,7 @@ The improved methodology becomes a dual-simulation methodology with two separate
 In dual simulation methodology the idea is to have two seperate simulations unlike co-sim. Both these simulations are completely independet except for the stimulus vector file. In the first unmodified RTL simulation (together with test bench components) dump is enabled in FSDB format. This FSDB dump is used as test-vectors for the following netlist simulation. In co-simulation methodology the same test bench will provide stimulus to RTL and netlist. ~\figurename{~\ref{fig:gatesim_flow.ps}} shows a flow diagram of proposed dual-sim methodology.  
 \begin{figure}[h]
 \centering
-\includegraphics[width=6in]{./figures/gatesim_flow.ps}
+\includegraphics[scale=0.55]{./figures/gatesim_flow.ps}
 \caption{Dual Sim}
 \label{fig:gatesim_flow.ps}
 \end{figure}
@@ -45,7 +45,7 @@ For this project we had used {\it VCS Verilog simulator} developed by {\it Synop
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=4.5in, height=3.5in]{./figures/RTL_sim.ps}
+\includegraphics[scale=0.5]{./figures/RTL_sim.ps}
 \caption{RTL Simulation}
 \label{fig:RTL_sim.eps}
 \end{figure}
@@ -56,7 +56,7 @@ For this project we had used {\it VCS Verilog simulator} developed by {\it Synop
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=5in, height=3.5in]{./figures/netlist_sim.ps}
+\includegraphics[scale=0.65]{./figures/netlist_sim.ps}
 \caption{Netlist Simulation}
 \label{fig:netlist_sim.ps}
 \end{figure}
@@ -76,7 +76,7 @@ When test-vectors were applied from FSDB to {\it Verilog} design, it was found t
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=3.5in]{./figures/dummy.ps}
+\includegraphics[scale=0.75]{./figures/dummy.ps}
 \caption{Dummy-RTL}
 \label{fig:dummy.ps}
 \end{figure}
@@ -86,7 +86,7 @@ Stimulus from dummy-RTL module is applied onto netlist by {\it Verilog} by conne
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=4in]{./figures/instant.ps}
+\includegraphics[scale=0.75]{./figures/instant.ps}
 \caption{Netlist Instantiation}
 \label{fig:instant.ps}
 \end{figure}
@@ -99,7 +99,7 @@ Process~\textcircled{f} are a set of comparators those keep checking the behavio
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=6in]{./figures/compare.ps}
+\includegraphics[scale=0.75]{./figures/compare.ps}
 \caption{Cycle Compare Output Signals}
 \label{fig:compare.ps}
 \end{figure}
@@ -125,7 +125,7 @@ Once the FSDB file is generated, next stage is extracting the signal values from
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=4.5in, height=3.5in]{./figures/verdi.ps}
+\includegraphics[scale=0.65]{./figures/verdi.ps}
 \caption{API For Accessing FSDB Signals}
 \label{fig:verdi.eps}
 \end{figure}
