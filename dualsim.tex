@@ -163,8 +163,8 @@ In order to overcome these limitations, VCS provides a non-standard interface ca
 \label{fig:dki.eps}
 \end{figure}
 
-Signal values could be retrived through {\it Verdi} APIs, as listed in speudo-code below.
-\begin{verbatim}
+Signal values could be retrived through {\it Verdi} APIs, as listed in speudo-code in Listing~\ref{ex:dualsim:rvf}.
+\begin{newlisting}[caption=Retrieving Values from FSDB,label=ex:dualsim:rvf]
   byte_T *vc_ptr;
   /* vc_ptr should be assigned to particular signals value change */
 
@@ -176,8 +176,8 @@ Signal values could be retrived through {\it Verdi} APIs, as listed in speudo-co
     retVal = (retVal<<1)
            | (bit==FSDB_BT_VCD_1 || (bit==FSDB_BT_VCD_X));
   } 
-\end{verbatim}
-DKI provides direct interface to internal representation of any simulator object. Such retrieved signal values could be assigned to VCS's object as per instructions in {\it VCS User Guide}\cite[Section~C~Language~Interface>~Direct~C]{VCS:vcs.pdf}.
+\end{newlisting}
+DKI provides direct interface to internal representation of simulator object. Signal values retrieved from FSDB could be assigned to VCS's object as per instructions in {\it VCS User Guide}\cite[Section~C~Language~Interface>~Direct~C]{VCS:vcs.pdf}.
 
 \subsection{INTERACTION WITH SIMULATOR}
 

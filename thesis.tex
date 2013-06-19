@@ -79,6 +79,12 @@
 \fancyfoot[R]{\textit{Dept. of ECE, NITK Surathkal}}
 \fancyfoot[C]{\thepage}
 
+\usepackage{listings}
+\lstnewenvironment{newlisting}[1][]{
+    \renewcommand*{\lstlistingname}{Code}
+    \lstset{fancyvrb=true,basicstyle=\footnotesize,captionpos=b,xleftmargin=2em,#1}
+}{}
+
 \begin{document}
 %\maketitle
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% title page  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -255,10 +261,15 @@ in\\
 %\pagestyle{plain}
 \addcontentsline{toc}{section}{LIST OF TABLES}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LIST OF TABLES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LIST OF ALGORITHMS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \addcontentsline{toc}{section}{LIST OF ALGORITHMS}
 \listofalgorithms
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LIST OF LISTINGS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\addcontentsline{toc}{section}{LIST OF LISTINGS}
+\lstlistoflistings
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Symbols and Abbreviations %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
