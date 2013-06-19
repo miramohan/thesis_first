@@ -214,13 +214,21 @@ Delta-delay is the simulation time difference between next stimulus point with r
   }
   if ((cur_time.hltag.L != nxt_time.hltag.L) || (cur_time.hltag.H != nxt_time.hltag.H)) {
     uint64 delta = (((uint64)(nxt_time.hltag.H - cur_time.hltag.H))<<32) | (nxt_time.hltag.L - cur_time.hltag.L);
-    ScheduleAfterDelayCallback(delta, this);
+    ScheduleAfterDelayCallback(delta, this); /* This routine would be called back again after the delta */
   }
 
   /* Do assignments */
   for (uint32 ui=0; ui<num_sigs; ui++) {
     /* Assign FSDB value of signal to DKI object */
   }
+
+  /* Finish if no more stimulus */
+  if ((cur_time.hltag.L == nxt_time.hltag.L) && (cur_time.hltag.H == nxt_time.hltag.H)) {
+    /* Finish simulation */
+  }
+
+  /* Will be used during recursive call */
+  cur_time = nxt_time;
 \end{newlisting}
 
 \begin{figure}[h]
