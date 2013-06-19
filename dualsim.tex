@@ -128,9 +128,9 @@ FSDB is a binary file format for storing signal value change information. This f
 
 In order to successfully extract signal values from stored FSDB file the following needs to be done
 \begin{enumerate}
-\item[Handle FSDB file] In this process approprite FSDB file needs to be ``opened'' and be ``closed'' after all operations are completed. {\it Verdi} provides routines \textt{ffrOpen()/ ffrOpen2()} and \textt{ffrClose()} for these purposes respectively.
-\item[Obtain signal handle] In this process handle to signals of interest needs to be obtained through APIs. Sample routine \textt{MyTreeCBFunc}\cite[p.~3]{Verdi:FsdbReader} is already provided by {\it Verdi}.
-\item[Access signal values] Once signal handle is obtained, the signal's value at this point in time could be obtained by routine \textt{ffrGetVC()}.
+\item[Handle FSDB file] In this process approprite FSDB file needs to be ``opened'' and be ``closed'' after all operations are completed. {\it Verdi} provides routines \texttt{ffrOpen()/ ffrOpen2()} and \texttt{ffrClose()} for these purposes respectively.
+\item[Obtain signal handle] In this process handle to signals of interest needs to be obtained through APIs. Sample routine \texttt{MyTreeCBFunc}\cite[p.~3]{Verdi:FsdbReader} is already provided by {\it Verdi}.
+\item[Access signal values] Once signal handle is obtained, the signal's value at this point in time could be obtained by routine \texttt{ffrGetVC()}.
 \end{enumerate}
 
 \subsection{TIME BASED TRAVERSAL}
@@ -143,7 +143,7 @@ In order to successfully extract signal values from stored FSDB file the followi
 
 \figurename{\ref{fig:dualsim:tbas}} shows sequences of actions that would occur during simulation. At any simulation time `M', it would be required to apply the stimulus to all signals of interest. After  this, control is transferred to simulator which computes  the states values at time `M'. The event driven simulation  would proceed in this fashion for all subsequent event times until it reaches the next stimulus point `N'. Series of actions that took place for time `M' would be repeated for time `N'  and so forth.
 
-List of RTL signals those need to be extracted would be refined over time, as netlist becomes stable. In this particular application, it would  be required  to obtain values of all signals of interest at the desired  instant. This type of traversal is called as time-based-traversal. Sample routine \textt{tb.cpp}\cite[p.~28]{Verdi:FsdbReader} is already provided by {\it Verdi}. In this application, a larger C++ infrastructure is required to be built since
+List of RTL signals those need to be extracted would be refined over time, as netlist becomes stable. In this particular application, it would  be required  to obtain values of all signals of interest at the desired  instant. This type of traversal is called as time-based-traversal. Sample routine \texttt{tb.cpp}\cite[p.~28]{Verdi:FsdbReader} is already provided by {\it Verdi}. In this application, a larger C++ infrastructure is required to be built since
 \begin{enumerate}
 \item Number of RTL signals those needs to be extracted is huge. Hence a seperate data structure is required.
 \item Accessing of signal values in time-based fashion could be abstracted out.
