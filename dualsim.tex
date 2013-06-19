@@ -231,18 +231,18 @@ Delta-delay is the simulation time difference between next stimulus point with r
   cur_time = nxt_time;
 \end{newlisting}
 
-\begin{figure}[h]
-\centering
-\includegraphics[scale=1]{./figures/cpp.ps}
-\caption{C++ Routine for FSDB Signal Extraction}
-\label{fig:cpp.eps}
-\end{figure}
-
-The C++ infrastructure will open the FSDB file and initiate a playback through the file. Whenever a signal that is attached using APIs changes, the C++ will identify this and will ensure the changed value is made available to the netlist simulation.  Figure x shows the complete flow of the C++ routine developed for FSDB signal access, conversion and application onto Verilog component.
-A set of RTL signal accessed at time based manner and applied onto netlist is effectively doing the job of test-vectors as vectors are nothing but signal values at different instants of time.
-Once signals are accessed from FSDB file by API's and C++ routine developed next step is applying it onto netlist. However Verilog based netlist cannot directly interact with extracted FSDB format objects. For this a conversion stage is required.  
-
-Whenever the C++ moves in time and identify a change in signal value in FSDB signal, an assign statement will assign the new FSDB signal value to DKI signal object.  These DKI signals can drive Verilog signals by using "{\emph Attach}" routine provided by API, that ties together DKI object with RTL signal. 
-
-In the previous section we have discussed extracting FSDB, accessing it in a time based manner and converting it to a format that can interact with Verilog. Next step is using these signals for netlist simulation.
+%\begin{figure}[h]
+%\centering
+%\includegraphics[scale=1]{./figures/cpp.ps}
+%\caption{C++ Routine for FSDB Signal Extraction}
+%\label{fig:cpp.eps}
+%\end{figure}
+%
+%The C++ infrastructure will open the FSDB file and initiate a playback through the file. Whenever a signal that is attached using APIs changes, the C++ will identify this and will ensure the changed value is made available to the netlist simulation.  Figure x shows the complete flow of the C++ routine developed for FSDB signal access, conversion and application onto Verilog component.
+%A set of RTL signal accessed at time based manner and applied onto netlist is effectively doing the job of test-vectors as vectors are nothing but signal values at different instants of time.
+%Once signals are accessed from FSDB file by API's and C++ routine developed next step is applying it onto netlist. However Verilog based netlist cannot directly interact with extracted FSDB format objects. For this a conversion stage is required.  
+%
+%Whenever the C++ moves in time and identify a change in signal value in FSDB signal, an assign statement will assign the new FSDB signal value to DKI signal object.  These DKI signals can drive Verilog signals by using "{\emph Attach}" routine provided by API, that ties together DKI object with RTL signal. 
+%
+%In the previous section we have discussed extracting FSDB, accessing it in a time based manner and converting it to a format that can interact with Verilog. Next step is using these signals for netlist simulation.
 
