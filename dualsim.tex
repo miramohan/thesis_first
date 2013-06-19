@@ -180,7 +180,7 @@ Signal values could be retrived through {\it Verdi} APIs, as listed in speudo-co
 DKI provides direct interface to internal representation of simulator object. Signal values retrieved from FSDB could be assigned to VCS's object as per instructions in {\it VCS User Guide}\cite[Section~C~Language~Interface>~Direct~C]{VCS:vcs.pdf}.
 
 \subsection{INTERACTION WITH SIMULATOR}
-
+Having obtained vector values and having the capability to apply it to the simulator, the final part of stimulus application is to have the ability to stop simulator at will and trigger new vector application. Since advanced simulators like VCS are event based, the interruption on simulation  has to be done on need basis rather than on every unit dealy.
 The C++ infrastructure will open the FSDB file and initiate a playback through the file. Whenever a signal that is attached using APIs changes, the C++ will identify this and will ensure the changed value is made available to the netlist simulation.  Figure x shows the complete flow of the C++ routine developed for FSDB signal access, conversion and application onto Verilog component.
 
 
