@@ -3,7 +3,7 @@
 
 \section {PROCESSOR EXECUTION DETAILS}
 
-During simulation of a processor core, the linked program image is loaded in processor's memory followed by its execution. Most modern microprocessors adopt instruction level parallelism for high throughput. Micro-architectural features like instruction pipeline, superscalar execution, register renaming, speculative execution, branch prediction etc. are employed in order to exploit instruction level parallelism.  These micro architecture features work together for high execution throughput. All these internal operations results in a complex execution flow with multiple operations happening in each cycle with different levels of dependencies between data, instruction and memory.
+During simulation of a processor core, the linked program image is loaded in processor's memory followed by its execution. Most modern microprocessors adopt instruction level parallelism for high throughput. Micro-architectural features like instruction pipeline, superscalar execution, register renaming, speculative execution, branch prediction etc. are employed in order to exploit instruction level parallelism.  These micro-architecture features work together for high execution throughput. All these internal operations results in a complex execution flow with multiple operations happening in each cycle having different levels of dependencies between data, instruction and memory.
 
 
 As explained in Section~\ref{verif:exelog} execution log file captures important information regarding the processor state and activity during execution of program code. This could be considered as history of events in the simulation. Each entry in the log file contains the following information regarding processor execution:
@@ -63,31 +63,32 @@ Consider an assembly test in Algorithm~\ref{algo:mrw} that intends verification 
 
 The test verifies a single write/read from a memory location. Ideally the values written to the memory location should match the value read from the memory and test completes with a pass. Now consider a case where the comparison fails. This could occur due to many reasons. Following are a few scenarios which can lead to a failure:
 \begin{itemize}
-\item [Case 1]: If from another thread of program execution, the control bit for bank selection is changed during the execution, the data read will be from wrong memory location, leading to a failure. \label{algo:mrw:case1}
+\item [Case 1:] If from another thread of program execution, the control bit for bank selection is changed during the execution, the data read would be from wrong memory location, leading to a failure. \label{mrw:case1}
 
-\item [Case 2]: If the address value is invalid. This can happen when the test generates a random address value for storing the data and this value might not exist in the current selected memory bank range. \label{algo:mrw:case2}
+\item [Case 2:] If the address value is invalid. This can happen when the test generates a random address value for storing the data and this value might not exist in the current selected memory bank range. \label{mrw:case2}
 
-\item [Case 3]:  If the register $Reg D$ chosen is unavailable in this mode of processor operation. This will cause the wrong data to be updated into the memory and comparison fails. \label{algo:mrw:case3}
+\item [Case 3:] If the register $Reg D$ chosen is unavailable in this mode of processor operation. This causes the wrong data to be updated into the memory and comparison fails. \label{mrw:case3}
 \end{itemize}
 
 \subsubsection{Debug Process}
-In case~1~\ref{algo:mrw:case1}, the memory bank selected should stay same throughout the program execution. Any change in memory bank selects will cause the read operation to take value from wrong memory block, leading to a self-test failure.
-In case~2~\ref{algo:mrw:case2}, given that each memory block has a fixed size, if the generated random address generated is not in valid range of offset, then this error could occur.
-In case~3~\ref{algo:mrw:case3}, if care is not taken in choosing processor mode prior to the test execution, and if $Reg D$ is either completely or partly unavailable (like 32~bit mode Vs 16~bit mode), then this error could occur.
+In Case~1, the memory bank selected should stay same throughout the program execution. Any change in memory bank selects would cause the read operation to take value from wrong memory block, leading to a self-test failure. 
+In Case~2, given that each memory block has a fixed size, if the generated random address generated is not in valid range of offset, then this error could occur. 
+In Case~3, if care is not taken in choosing processor mode prior to the test execution, and if $Reg D$ is either completely or partly unavailable (like 32~bit mode Vs 16~bit mode), then this error could occur.
 
 \begin{figure}[h]
 \centering
+
 \includegraphics[scale=0.9]{./figures/mrw_debug.ps}
 \caption{Illustration of debug process : Test A} 
 \label{fig:mrw_debug.ps}
 \end{figure}
 
-\figurename{\ref{fig:mrw_debug.ps}} depicts a typical debug process. Note that there could be other causes for failure as depicted in $states \textcircled{j}, \textcircled{k}, \& \textcircled{m}$. During debug, the engineer needs access to certain information as listed here
+\figurename{\ref{fig:mrw_debug.ps}} depicts a typical debug process. Note that there could be other causes for failure as depicted in $states \textcircled{j}, \textcircled{k}, \& \textcircled{m}$. During debug, the engineer needs access to certain information as listed here:
 \begin{enumerate}
 \item $state~\textcircled{b}$: Examine Read to address, examine data obtained.
 \item $state~\textcircled{c}$: Obtain all accesses occurred to same address, find the latest write to same address.
 \item $state~\textcircled{d}$: Examine data written to latest write to same address.
-\item $state~\textcircled{e}$: What is the bank select location, did it change between write and read.
+\item $state~\textcircled{e}$: What is the bank select location? Did it change between write and read?
 \item $state~\textcircled{f}$: Which program code changed bank select?
 \item $state~\textcircled{l}$: What is processor mode?
 \item $state~\textcircled{i}$: What was the random address that got generated?
@@ -108,11 +109,10 @@ Consider a string $tolower()$ program. The program reads an input string in uppe
 \Input{$string$}
 \Output{$string$}
 \BlankLine
- \For{every character $c$ in string}{\;
+ \For{every character $c$ in string}{
   $c \longleftarrow c + CONST $\;
- }\;
-
-\caption{String Lower Case Conversion}
+ }
+ \caption{String Lower Case Conversion}
 \label{algo:lcc}
 \end{algorithm}\DecMargin{1em}
 
@@ -122,15 +122,15 @@ The program in Algorithm~\ref{algo:lcc} converts each character from upper case 
 
 \begin{itemize}
 
-\item [Case 1]: Consider that the loop variable is not initialised incorrectly. Loop variables are used as the index variable to select every character of the string. This will lead to an invalid conversion. \label{algo:tolow:case1}
+\item [Case 1:] Consider that the loop variable is not initialised incorrectly. Loop variables are used as the index variable to select every character of the string. This would lead to an invalid conversion. \label{algo:tolow:case1}
 
-\item [Case 2]: If loop exit condition is wrong, then the loop could terminate early. \label{algo:tolow:case2}
+\item [Case 2:] If loop exit condition is wrong, then the loop could terminate early. \label{algo:tolow:case2}
 \end{itemize}
 
 \subsubsection{Debug Process}
 
-In case~1~\ref{algo:tolow:case1}, initialisation of loop variable is the cause and could be found by looking at value of the variable just after loop is entered. If after the completion of loop execution for the first time, if the first character remains un-modified, then that also suggests an initialisation problem.
-In case~2~\ref{algo:tolow:case2}, the resulting string after loop exit would normally have characters unmodified towards the end. This case could be identified with such symptom.
+In Case~1, initialisation of loop variable is the cause and could be found by looking at value of the variable just after loop is entered. If after the completion of loop execution for the first time, if the first character remains un-modified, then that also suggests an initialisation problem.
+In Case~2, the resulting string after loop exit would normally have characters unmodified towards the end. This case could be identified with such symptom.
 
 \begin{figure}[h]
 \centering
@@ -152,22 +152,22 @@ In case~2~\ref{algo:tolow:case2}, the resulting string after loop exit would nor
 \section {NECESSITY TO ENHANCE MANUAL VERIFICATION}
 \label{sec:enhancement.tex.nemv}
 
-Debug engineer has to extract required information whenever needed, manually from assembly files, linked object files and processor execution logs. Correlation of information between different files is also required to make a successful debug. Such manual extraction of information and correlation of it, though may seam obvious consumes considerable debug time and is error prone. Hence an enhancement to such manual process, if available, would considerably decrease the time required to debug an issue.
+Debug engineer has to extract required information whenever needed manually from assembly files, linked object files and processor execution logs. Correlation of information between different files is also required to make a successful debug. Such manual extraction of information and correlation of it, though may seem obvious consumes considerable debug time and is error prone. Hence an enhancement to such manual process, if available, would considerably decrease the time required to debug an issue.
 
-Information exists in processor execution log, assembly file and list file. Correlation of list file and execution log file can be accomplished by correlating address. For each cycle the Instruction pointer register (RIP) hold the current and next instruction address. The verification engineer has to search through the files for address values to correlate cycles in log file with lines in list file. As observed in Section~\ref{sec:enhancement.tex.sdcic}, data extraction and correlation from different files are required at different stages of debug to effectively debug how and why the test failed.
+Information exists in processor execution log, assembly file and list file. Correlation of list file and execution log file can be accomplished by correlating address. For each cycle the Instruction Pointer Register (RIP) hold the current and next instruction address. The verification engineer has to search through the files for address values to correlate cycles in log file with lines in list file. As observed in Section~\ref{sec:enhancement.tex.sdcic}, data extraction and correlation from different files are required at different stages of debug to effectively debug {\it how} and {\it why} the test failed.
 
 \section {ENHANCING MANUAL VERIFICATION}
 \label{sec:enhancement.tex.emv}
 
-After analysing debug process, it is very evident that availabitily of correlated information while during debug process would enhance it in a big way.  In this thesis, we are proposing a Graphical User Interface (GUI) which will help in navigating through the log files quickly, aiding in comparison with list file and also some additional features to help in faster analysis of failure cause. The interface will help to get rid of traditional method of comparing Instruction Pointer Register (RIP) values and string search by providing graphs that will connect each cycle in log file with corresponding asm line code. The proposed interface enhances the data navigation through log files and failure analysis.  It is possible to lay down the requirements of such an enhancement
+After analysing debug process, it is evident that availabitily of correlated information during debug process would enhance it in a big way.  In this thesis, we are proposing a Graphical User Interface (GUI) which would help in navigating through the log files quickly, aiding in comparison with list file and also some additional features to help in faster analysis of failure cause. The interface helps to get rid of traditional method of comparing Instruction Pointer Register (RIP) values and string search by providing graphs that would connect each cycle in log file with corresponding asm line code. The proposed interface enhances the data navigation through log files and failure analysis.  It is possible to lay down the requirements of such an enhancement:
 
 \begin{description}
-\item[Visualisation of Execution Flow] Visual representation of data is always very appealing, than without a visual representations. In our case, if there exists a visual representation of execution control flow, it would be obvious if a loop had executed and if so, how many times it was.
-\item[Navigating Execution Flow] In the visual representation of execution flow, it would also aid debug when user is able to navigate to point of interest by mouse~gestures on such representation. For eg. if program code exists across different source files, the user would be able to navigate to the point of interest with ease.
-\item[Processor State Information] At any execution point, it would help the debug engineer if processor state information such as SP\nomenclature{SP}{Stack Pointer}, PC\nomenclature{PC}{Program Counter}, SR\nomenclature{SR}{Status Register} are readily accessible.
-\item[Processor State Information Change] It would aid debug to be able to list the differences in Processor State Information between two arbitrary points of execution.
-\item[Processor Writes and Reads] It would aid debug if processor writes and reads could be easily listed. It would also help if in such listing one could classify between IO accesses and memory accesses.
-\item[Code listing] It would aid debug when source code is listed along with its context, on any point of execution.
+\item[Visualisation of Execution Flow] Visual representation of data is always very appealing. In this case, if there exists a visual representation of execution control flow, it would be obvious if a loop was executed and if so, how many times it was.
+\item[Navigating Execution Flow:] In the visual representation of execution flow, it would also aid debug when user is able to navigate to point of interest by mouse~gestures on such representation. For eg. if program code exists across different source files, the user would be able to navigate to the point of interest with ease.
+\item[Processor State Information:] At any execution point, it would help the debug engineer if processor state information such as SP\nomenclature{SP}{Stack Pointer}, PC\nomenclature{PC}{Program Counter}, SR\nomenclature{SR}{Status Register} etc are readily accessible.
+\item[Processor State Information Change:] It would aid debug if it is able to list the differences in Processor State Information between two arbitrary points of execution.
+\item[Processor Writes and Reads:] It would aid debug if processor writes and reads could be easily listed. It would also help if in such listing one could classify between IO accesses and memory accesses.
+\item[Code listing:] It would aid debug when source code is listed along with its context, on any point of execution.
 \end{description}
 
 %In general for different test and error possibilities, all information regarding the processors execution flow is required. From the point of failure, a trace back through the execution log details and corresponding comparison with the expected assembly code action must be made. 

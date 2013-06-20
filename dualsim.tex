@@ -169,9 +169,9 @@ FSDB is a binary file format for storing signal value change information. This f
 
 In order to successfully extract signal values from stored FSDB file the following needs to be done
 \begin{enumerate}
-\item[Handle FSDB file] In this process approprite FSDB file needs to be ``opened'' and be ``closed'' after all operations are completed. {\it Verdi} provides routines \texttt{ffrOpen()/ ffrOpen2()} and \texttt{ffrClose()} for these purposes respectively.
-\item[Obtain signal handle] In this process handle to signals of interest needs to be obtained through APIs. Sample routine \texttt{MyTreeCBFunc}\cite[p.~3]{Verdi:FsdbReader} is already provided by {\it Verdi}.
-\item[Access signal values] Once signal handle is obtained, the signal's value at this point in time could be obtained by routine \texttt{ffrGetVC()}.
+	\item[Handle FSDB file] In this process approprite FSDB file needs to be ``opened'' and be ``closed'' after all operations are completed. {\it Verdi} provides routines \texttt{ffrOpen()/ ffrOpen2()} and \texttt{ffrClose()} for these purposes respectively.
+	\item[Obtain signal handle] In this process handle to signals of interest needs to be obtained through APIs. Sample routine \texttt{MyTreeCBFunc}\cite[p.~3]{Verdi:FsdbReader} is already provided by {\it Verdi}.
+	\item[Access signal values] Once signal handle is obtained, the signal's value at this point in time could be obtained by routine \texttt{ffrGetVC()}.
 \end{enumerate}
 
 \subsection{TIME BASED TRAVERSAL}

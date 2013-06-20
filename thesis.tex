@@ -1,5 +1,5 @@
-%\documentclass[a4paper,11pt]{book}
-\documentclass[a4paper,12pt]{report}
+\documentclass[a4paper,11pt]{book}
+%\documentclass[a4paper,12pt]{report}
 \usepackage[utf8x]{inputenc}
 \usepackage{array}
 %\documentclass[a4paper,12pt]{article}
@@ -29,17 +29,17 @@
 \usepackage{shorttoc}
 \usepackage{verbatim}
 \usepackage{float}
-\usepackage{subfig}  %% For placing pictures side by side
+%\usepackage{subfig}  %% For placing pictures side by side
 \usepackage{fmtcount}
 \linespread{1.5}%% To change the distance between lines
 %\usepackage[toc]{glossaries}  %% Refer Userguide. Nomenclature is easier to use.
 %\usepackage[acronym,toc]{glossaries}
 %\makeglossaries
-
+\usepackage[square]{natbib}
 %\usepackage{hyperref}
-\usepackage{subfloat}
+%\usepackage{subfloat}
 \usepackage{multirow} %% To combile two or more rows in a table
-\usepackage[super]{natbib}
+%\usepackage[super]{natbib}
 \usepackage[super]{nth} %% For writing 2nd, 3rd, 4th etc by just writing \nth{1}. Requires nth.sty file to be in the working directory.
 \newcommand{\tsp}{\textsuperscript} %% For writing kth, nth etc where \nth doesnt work. instead of writing \textsuperscript{th}, just write \tsp{th}
 \usepackage{fixltx2e} %% To use the below \textsubscript
@@ -52,20 +52,23 @@
 %\usepackage{acronym} %% For acronyms
 %\usepackage[usenames,dvipsnames]{color}
 %\usepackage[round]{natbib}
-\usepackage[pagebackref]{hyperref}%\usepackage{hyperref}%% To use hyperlinks to all citations
-\hypersetup{
-% colorlinks, citecolor=black,
-% pagebackref=true,
- linktoc=all,
- hyperindex=true,
- linktocpage=true,
- pdfauthor={Meera Mohan, Narendran Kumaragurunathan},
- pdftitle={Interactive Offline Interface To Debug Simulation Failure, Improved Dual Simulation Approach to Gatesim},
- pdfsubject={VLSI},
- pdfkeywords={Simulation Debug, x86, Gatesim},
- pdfcreator={LaTeX},
- bookmarks=true
-}%% Check hyperref manual for details
+\usepackage[colorlinks=true,linkcolor=blue]{hyperref}
+
+%\usepackage[pagebackref]{hyperref}%\usepackage{hyperref}%% To use hyperlinks to all citations
+%\hypersetup{linktocpage=true,}
+%\hypersetup{
+%% colorlinks, citecolor=black,
+%% pagebackref=true,
+% linktoc=all,
+% hyperindex=true,
+% linktocpage=true,
+% pdfauthor={Meera Mohan, Narendran Kumaragurunathan},
+% pdftitle={Interactive Offline Interface To Debug Simulation Failure, Improved Dual Simulation Approach to Gatesim},
+% pdfsubject={VLSI},
+% pdfkeywords={Simulation Debug, x86, Gatesim},
+% pdfcreator={LaTeX},
+% bookmarks=true
+%}%% Check hyperref manual for details
 \usepackage[all]{hypcap} %% To point to the top of the tables and pictures rather than at the bottom
 
 
@@ -255,22 +258,36 @@ in\\
 %\pagestyle{plain}
 \listoffigures
 \addcontentsline{toc}{section}{LIST OF FIGURES}
-
+%\nopagebreak
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LIST OF TABLES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\newpage
+%\listoftables
+%\addcontentsline{toc}{section}{LIST OF TABLES}
+
 \newpage
-\listoftables
+\begin{minipage}[b]{1\linewidth}
+    \listoftables
+		\addcontentsline{toc}{section}{LIST OF TABLES}
+\end{minipage}
+
+\begin{minipage}[b]{1\linewidth}
+    \listofalgorithms
+		\addcontentsline{toc}{section}{LIST OF ALGORITHMS}
+\end{minipage}
+
+%\listoftables
 %\pagestyle{plain}
-\addcontentsline{toc}{section}{LIST OF TABLES}
+%\addcontentsline{toc}{section}{LIST OF TABLES}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LIST OF ALGORITHMS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage
-\addcontentsline{toc}{section}{LIST OF ALGORITHMS}
-\listofalgorithms
+%\newpage
+%\addcontentsline{toc}{section}{LIST OF ALGORITHMS}
+%\listofalgorithms
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LIST OF LISTINGS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\newpage
-%\addcontentsline{toc}{section}{LIST OF LISTINGS}
-%\lstlistoflistings
+\newpage
+\addcontentsline{toc}{section}{LIST OF LISTINGS}
+\lstlistoflistings
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Symbols and Abbreviations %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
