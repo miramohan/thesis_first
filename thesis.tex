@@ -35,7 +35,7 @@
 %\usepackage[toc]{glossaries}  %% Refer Userguide. Nomenclature is easier to use.
 %\usepackage[acronym,toc]{glossaries}
 %\makeglossaries
-\usepackage[square]{natbib}
+%\usepackage{natbib}
 %\usepackage{hyperref}
 %\usepackage{subfloat}
 \usepackage{multirow} %% To combile two or more rows in a table
@@ -51,7 +51,7 @@
 \renewcommand\nomname{SYMBOLS AND ABBREVIATIONS}   %% For changing the Heading from Nomenclature to Symbols and Abbreviations.
 %\usepackage{acronym} %% For acronyms
 %\usepackage[usenames,dvipsnames]{color}
-%\usepackage[round]{natbib}
+\usepackage[round]{natbib}
 \usepackage[colorlinks=true,linkcolor=blue]{hyperref}
 
 %\usepackage[pagebackref]{hyperref}%\usepackage{hyperref}%% To use hyperlinks to all citations
@@ -70,7 +70,7 @@
 % bookmarks=true
 %}%% Check hyperref manual for details
 \usepackage[all]{hypcap} %% To point to the top of the tables and pictures rather than at the bottom
-
+\usepackage{url}
 
 \setlength{\headheight}{15.2pt}
 \pagestyle{fancy}
@@ -370,10 +370,10 @@ in\\
 
 
 \chapter{REFERENCES}
-\bibliographystyle{IEEEtran}
-\input{ref.tex}
+\bibliographystyle{nitk}
+%\input{ref_thesis.tex}
 %\addcontentsline{toc}{section}{REFERENCES}
-\bibliography{reference}
+\bibliography{reference}{}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BIO DATA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage

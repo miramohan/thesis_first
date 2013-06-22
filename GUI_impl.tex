@@ -22,9 +22,9 @@ Every stimulus is a unique assembly test and hence the debug interface should be
 %Once the simulation is completed and failure is reported the debug phase starts. This is where the role of GUI comes. From the vast information provided by the logs and test files, interfaces have to capture and represent relevant information to the user. The following section details the implementation and features of the proposed GUI. 
 
 \subsection {CHOOSING GUI}
-There are multitude of languages providing GUI capability, the project dies not need a very sophisticated GUI implementation. Moreover the interface should aid remote debug and if possible thee should not be any requirement for any user to install a tool-kit or library for the debug interface to be used. Hence the decision to use web-browser as the debug interface was a default choice. A web browser could also execute {\it javascripts} and that makes it customisable. The design is also scalable and aids introduction of new features for debug with ease.
+There are multitude of languages providing GUI capability, the project does not need a very sophisticated GUI implementation. Moreover the interface should aid remote debug and if possible there should not be any requirement for any user to install a tool-kit or library for the debug interface to be used. Hence the decision to use web-browser as the debug interface was a default choice. A web browser could also execute {\it JavaScrips} and that makes it customisable. The design is also scalable and aids introduction of new features for debug with ease.
 
-Each stimulus will have its own set of assembly test files and execution log files. The interfaces implementation starts by consuming these files. Two programming languages are used for implementation:
+Each stimulus has its own set of assembly test files and execution log files. The interfaces implementation starts by consuming these files. Two programming languages are used for implementation:
 \begin{description}
 \item[Python Script] for data extraction and correlating related information.
 \item[JavaScript] for designing the interface features and user interaction.
@@ -39,22 +39,24 @@ Each stimulus will have its own set of assembly test files and execution log fil
 \label{fig:gui_impl.eps}
 \end{figure}
 
-\figurename{\ref{fig:gui_impl.eps}} depicts information extraction and use of different scripts to achieve the same. Major implementation steps
+\figurename{\ref{fig:gui_impl.eps}} depicts information extraction and use of different scripts to achieve the same. 
+
+{\bf Major implementation steps:}
 \begin{itemize}
-\item[-] Extraction of information from assembly list file and processor execution log by python script.
+\item[-] Extraction of information from assembly list file and processor execution log by {\it Python} script.
 \item[-] Correlation of information from previous step.
-\item[-] Coding generic JavaScript code for user interactions.
-\item[-] Top level python program to manipulate available information and to convert it to JavaScript information. 
-\item[-] The top level python program will combine the data extracted and javascript code to generate a single HTML page. 
+\item[-] Coding generic {\it JavaScript} code for user interactions.
+\item[-] Top level {\it Python} program to manipulate available information and to convert it to {\it JavaScript} information. 
+\item[-] The top level {\it Python} program combines the data extracted and {\it JavaScript}  code to generate a single {\it HTML} page. 
 \end{itemize}
 
-The whole infrastructure is packaged neatly. Given execution log file and assembly list file, the top level python script generates the HTML interface web page. Different stages involved in this conversions are described in the following sections. 
+The whole infrastructure is packaged neatly. Given execution log file and assembly list file, the top level {\it Python} script generates the {\it HTML} interface web page. Different stages involved in this conversions are described in the following sections. 
 
 \subsection {INTERFACE}
-GUI is targeted to run on any browser, hence layout design is done using {\it HTML}\nomenclature{HTML}{Hyper Text Markup Language}. However for providing interactive features to the user, a much more powerful language is need along with HTML and default choice is JavaScript.
+GUI is targeted to run on any browser, hence layout design is done using {\it HTML}\nomenclature{HTML}{Hyper Text Markup Language}. However for providing interactive features to the user, a much more powerful language is need along with {\it HTML} and default choice is {\it JavaScript}.
 
-\emph {\bf JavaScript (JS)} is an interpreted computer programming language. It is  implemented as part of web browsers so that client-side scripts could react to user inputs, customize the browser, communicate asynchronously, and to filter contents being displayed. It is a multi-paradigm language, supporting object-oriented, imperative, and functional programming styles.  
-In addition a style sheet language called CSS\nomenclature{CSS}{Cascading Style Sheets} is used for describing the presentation semantics (the look and formatting) of the interface page written in HTML.
+\emph {\bf JavaScript (JS)} is an interpreted computer programming language. It is  implemented as part of web browsers so that client-side scripts could react to user inputs, customize the browser, communicate asynchronously and to filter contents being displayed. It is a multi-paradigm language, supporting object-oriented, imperative and functional programming styles.  
+In addition a style sheet language called {\it CSS}\nomenclature{CSS}{Cascading Style Sheets} is used for describing the presentation semantics (the look and formatting) of the interface page written in {\it HTML}.
 
 %\figurename{} 
 %\figurename{} 
@@ -65,11 +67,11 @@ In addition a style sheet language called CSS\nomenclature{CSS}{Cascading Style 
 \label{fig:html.ps}
 \end{figure}
 
-Resultant HTML page embeds JavaScript routines and style sheets. This is done by the top level python script. \figurename{\ref{fig:html.ps}} shows a representation of information flow.
+Resultant {\it HTML} page embeds {\it JavaScript} routines and style sheets. This is done by the top level {\it Python} script. \figurename{\ref{fig:html.ps}} shows a representation of information flow.
 
 
 \subsection{JS DATA STRUCTURE}
-All dynamic features of the interface are handled by JS\nomenclature{JS}{JavaScript} script routines. Data input to the JS is the extracted information from execution log files and list files. The top level python script converts the extracted objects into JS data array ``$dataArray[]$'' ; where each array element corresponds to an active thread. Active threads refer to active core or processor in a multiprocessor system.  
+All dynamic features of the interface are handled by JS\nomenclature{JS}{JavaScript} script routines. Data input to the JS is the extracted information from execution log files and list files. The top level {\it Python} script converts the extracted objects into JS data array ``$dataArray[]$'' (Algorithm~\ref{algo:impl:js}); where each array element corresponds to an active thread. Active threads refer to active core or processor in a multiprocessor system.  
 
 \IncMargin{1em}
 \begin{algorithm}[h]
@@ -78,8 +80,8 @@ All dynamic features of the interface are handled by JS\nomenclature{JS}{JavaScr
 \KwFn {}
 \BlankLine
 \Begin{
-\For {i in activeThreads}{\;
-		\For {$log$ in logObj}{\;
+\For {i in activeThreads}{
+		\For {$log$ in logObj}{
 		\If{log.Id == i}{
 		Append $log \rightarrow	DataArray[i]$\;
 		}
@@ -87,17 +89,18 @@ All dynamic features of the interface are handled by JS\nomenclature{JS}{JavaScr
 }
 }
 \caption{Creating JavaScript Object}
+\label{algo:impl:js}
 \end{algorithm}\DecMargin{1em}
 
 
 
-Once the extracted information is converted to JS compatible data, the interface features can utilize this. The layout for various GUI features called windows, are designed using HTML and CSS code. All dynamic interactive features are handled by embedded JS script in HTML web page. Later sections introduces different windows available in the web page.
+Once the extracted information is converted to JS compatible data, the interface features can utilize this. The layout for various GUI features called windows, are designed using {\it HTML} and {\it CSS} code. All dynamic interactive features are handled by embedded JS script in {\it HTML} web page. Later sections introduces different windows available in the web page.
 
 \section {EXTRACTION OF INFORMATION}
 The first step in creating a generic debug interface is to extract relevant information and convert it to a format that could be loaded by the debug interface.
 
 \subsection {STIMULUS}
-Stimulus is written in X-86 assembly language. The engineer is expected to debug this stimulus. Each cycle in processor execution log corresponds to a particular assembly code. An assembler is used to assemble to object code, in that process each instruction is also mapped to a particular address. \figurename{\ref{impl.tex:assembler}} shows this process which also produces a list file which hold an macro expanded, loop unrolled, assembled code with corresponding address details. The configuration file defines certain random operands, segmentation, gdt, ldt, page tables to aid in assembling process. The include files contribute common routines used across different assembly stimuli.
+Stimulus is written in X-86 assembly language. The engineer is expected to debug this stimulus. Each cycle in processor execution log corresponds to a particular assembly code. An assembler is used to assemble the object code, and in that process each instruction is also mapped to a particular address. \figurename{\ref{impl.tex:assembler}} shows this process which also produces a list file which hold an macro expanded, loop unrolled, assembled code with corresponding address details. The configuration file defines certain random operands, segmentation, gdt, ldt, page tables to aid in assembling process. The include files contribute common routines used across different assembly stimuli.
 
 %However, the written by the verification engineer is the unscheduled code without any memory address details. For cycle comparison with execution log, the asm test file is complied first.
 
@@ -116,19 +119,19 @@ Stimulus is written in X-86 assembly language. The engineer is expected to debug
 \label{impl.tex:listextr}
 \end{figure}
 
-List file holds a wealth of details including instructions, opcodes, operand, linear address, module/register configuration details etc. A {\it python} script is used to extract relevant information corresponding to each instruction line in the list file. In this project, the following information is extracted for each instruction from the  list file:
+List file holds a wealth of details including instructions, opcodes, operand, linear address, module/register configuration details etc. A {\it Python} script is used to extract relevant information corresponding to each instruction line in the list file. In this project, the following information is extracted for each instruction from the  list file:
 \begin{itemize}
 	\item[-] Base and offset address value
 	\item[-] Instruction line number
 	\item[-] The assembly code
 \end{itemize}
 
-The {\it python} script internally contains a data structure of list objects, which helps in adding features to the script with ease (\figurename{\ref{impl.tex:listextr}}). 
+The {\it Python} script internally contains a data structure of list objects, which helps in adding features to the script with ease (\figurename{\ref{impl.tex:listextr}}). 
 
 \subsection {EXECUTION LOG}
 Execution log file contains instruction by instruction execution details from simulation. It also includes register states, thread details, flag values and other details which help in tracing out the cause of failure. As explained in previous chapters, debugging require detail traversal through this log file. 
 
-Details in the log file with reference to each cycle is required to be extracted. {\it Python} script is used to extract these informations as well and a comprehensive data structure is created. The data structure objects contain properties corresponding to major operations and register values. Thread details are handled as separate data structures as it aids processing thread-wise informations. Following properties are extracted from execution log file for every execution event
+Details in the log file with reference to each cycle is required to be extracted. {\it Python} script is used to extract these informations as well and a comprehensive data structure is created. The data structure objects contain properties corresponding to major operations and register values. Thread details are handled as separate data structures as it aids processing thread-wise informations. Following properties are extracted from execution log file for every execution event:
 
 %Figure x shows how the script will read the input execution log file and generate log file objects.
 
@@ -145,7 +148,7 @@ Details in the log file with reference to each cycle is required to be extracted
 
 \subsection {INFORMATION CORRELATION}
 
-Once both the input files are processed, next step is to correlate assembly with execution log. A {\it python} script can accomplish this by correlating respective data structures based on linear addresses. As x86 architecture follows segmented memory model along with paging, address translation is required for generating the linear/physical address\cite{SS:AMD64-V2}. Linear address is calculated as
+Once both the input files are processed, next step is to correlate assembly with execution log. A {\it Python} script can accomplish this by correlating respective data structures based on linear addresses. As x86 architecture follows segmented memory model along with paging, address translation is required for generating the linear/physical address~\citep*{SS:AMD64-V2}. Linear address is calculated as:
 \\
 \centerline{Linear address = Base address + Offset value}
 \\
@@ -161,12 +164,12 @@ Once both the input files are processed, next step is to correlate assembly with
 \Input{list file objects$\rightarrow listObj[]$, log file object$\rightarrow logObj[]$}
 \BlankLine
 Start: \;
-\For {each object $list$ in listObj}{\;
-		list.address = list.Base + list.Offset\;
+\For {each object $list$ in listObj}{
+		$list.address$ = $list.Base$ + $list.Offset$\;
 	}
-\For {each object $log$ in logObj}{\;
+\For {each object $log$ in logObj}{
 	set count = 0\;
-	\For {each object $list$ in listObj}{\;
+	\For {each object $list$ in listObj}{
 	 \If{$log.address == list.address$}{
 		Append each $list$.property $\rightarrow$ $log$.property\; \tcp{$log$ properties are lineNo, opcode and address}\label{cmt}
 		count = 1;
@@ -174,7 +177,7 @@ Start: \;
 	}
 	}
 	\If{count == 0}{
-	assert: $"no address match"$
+	assert: $"no_address_match"$
 	}
 }
 End \;
@@ -189,15 +192,15 @@ For each object of execution log, the corresponding list file object could be fo
 \section {GUI FEATURES}
 
 \subsection {EXECUTION FLOW GRAPH}
-Main feature of debug interface is the graph showing the execution flow of the code. It is obtained by plotting asm list file line numbers against the execution cycle during which it is executed. All the active threads have different graphs which are tabbed. Hovering the mouse over any execution point on the graph will display $X$ and $Y$ axis values. Features include zoom-in, zoom-out of plot. Double click at any point is featured to zoom-out completely. On clicking on any execution point, selects the point and syncronizes data across windows. Proximity click feature helps in automatically choosing nearest execution point for further analysis.
+Main feature of debug interface is the graph showing the execution flow of the code. It is obtained by plotting asm list file line numbers against the execution cycle during which it is executed. All the active threads have different graphs which are tabbed. Hovering the mouse over any execution point on the graph displays $X$ and $Y$ axis values. Features include zoom-in, zoom-out of plot. Double click at any point is featured to zoom-out completely. On clicking on any execution point would select the point and syncronizes data across windows. Proximity click feature helps in automatically choosing nearest execution point for further analysis.
  
 The flow graph also features customisable selection of specific processor operations out of Branching, Memory Write, Memory Read, Code Read. This helps in filtering redundant execution points those may not be of interest to the engineer. Each distinct processor operation could be distinguished by color coding.   
 
 \subsubsection {IMPLEMENTATION}
 
-Execution flow graph is created with Dygraph JavaScript Visualization Library\cite{http:dygraphs}. The library provides inbuilt functions that enable zooming, x-y axis value display and point ``{\it onClick}'' callbacks. {\it onClick CallBack()} function is called whenever an execution point on Dygraph is clicked. The function has been extended to activate other windows and to synchronize components across windows.
+Execution flow graph is created with Dygraph JavaScript Visualization Library~\citep*{http:dygraphs}. The library provides inbuilt functions that enable zooming, $X$-$Y$ axis value display and point ``{\it onClick}'' callbacks. {\it onClick CallBack()} function is called whenever an execution point on Dygraph is clicked. The function has been extended to activate other windows and to synchronize components across windows.
 
-Graph could be built by providing independent axis values followed by depended axis values. For each thread, a different graph is generated but layered out on different HTML tabs. The x-axis is cycle number and y-axis is the list file line number. Algorithm~\ref{algo:impl:ceg} shows the pseudo-code used in building the graph in our application.
+Graph could be built by providing independent axis values followed by depended axis values. For each thread, a different graph is generated but layered out on different {\it HTML} tabs. The $X$-axis is cycle number and $Y$-axis is the list file line number. Algorithm~\ref{algo:impl:ceg} shows the pseudo-code used in building the graph in our application.
 
 \IncMargin{1em}
 \begin{algorithm}[h]
@@ -206,8 +209,8 @@ Graph could be built by providing independent axis values followed by depended a
 \KwFn{}
 \BlankLine
 \Begin{
-\For {each i in activeThread}{\;
-\For {each element in dataArray[i]}{\;
+\For {each i in activeThread}{
+\For {each element in dataArray[i]}{
 	Dygraph[i] $\leftarrow [element.cycleNo , element.lineNo]$\;
 	}
 }
@@ -240,9 +243,9 @@ The values contained in register window is updated when a different execution po
 \BlankLine
 \Begin{
 \For {each reg in RegisterSet}{
-regRow$[reg]$ $\leftarrow$ element.$[reg]$ \;
-	\If{(element.$[reg]$ != referenceRow.$[reg]$)}{\;
-		$Highlight  regRow $ \;
+regRow$[reg]$ $\leftarrow$ $element.[reg]$ \;
+	\If{(element.$[reg]$ != referenceRow.$[reg]$)}{
+		$Highlight_regRow $ \;
 	}
 }
 }
@@ -265,7 +268,7 @@ The pseudo-code used to update values in this window is shown in Algorithm~\ref{
 \KwFn{element}{;\
 \BlankLine
 \Begin{
-\For {each item from element-50 to element+50}{\;
+\For {each item from element-50 to element+50}{
 	Add $item.opcode \rightarrow$ InstructionWindow\;
 	}
 
@@ -278,12 +281,15 @@ Add $item.logInfo \rightarrow$ ExecutionLogWindow\;
 
 \subsection {EXECUTION LOG WINDOW}
 
-In addition to the instruction and register information, the relevant processor execution log in its actuality, would be useful to the user as it contains different information that may not be presented by the debug interface. Having this information readily accessible to user also assures the user that the data extracted through processing by different scripts is indeed correct. Internally these informations are stored as a JavaScript object ``{\it logInfo}''.
+In addition to the instruction and register information, the relevant processor execution log in its actuality, would be useful to the user as it contains different information that may not be presented by the debug interface. Having this information readily accessible to user also assures the user that the data extracted through processing by different scripts is indeed correct. Internally these informations are stored as a {\it JavaScript} object ``{\it logInfo}''.
 
+\subsubsection{IMPLEMENTATION}
+
+The pseudo-code used to update values in this window is shown in Algorithm~\ref{algo:impl:ciel}.
 %Implementation of Execution log window is given in algorithm x along with instruction window.
 
 \subsection{MARKERS}
-As it was discussed in Section~\ref{sec:impl:rww}, markers are used to ``mark'' reference execution point through a ``Set Marker'' button. Button ``Clear Marker'' could  be used to clear the marker.
+As it was discussed in Section~\ref{sec:impl:rww}, markers are used to ``mark'' reference execution point through a ``{\it Set Marker}'' button. Button ``{\it Clear Marker}'' could  be used to clear the marker.
 
 \subsubsection{IMPLEMENTATION}
 
