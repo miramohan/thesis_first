@@ -15,7 +15,7 @@ Most SoC verification concentrates on verifying the processor cores and their in
 
 Tests are developed, so that they stimulate the design in a specific manner and compare outcome against expected outcome to assert accuracy of design behaviour. Ideally design should be verified against all possible scenarios that could arise and once it passes all tests, it can be considered as completely verified. In case when a particular test fails, the verification engineer needs to find out the cause of failure with his understanding of design or verification aspect that led to the particular failure. This process of root causing a failure is called as a ``{\it debug}'' in verification. Once root-caused, the engineer then has to suggest appropriate changes to either design, verification or documentation to keep them in unison. 
 
-There are many possible issues that can lead to a test failure. Each test defines conditions for pass and fail. A fail or pass is basically the outcome of a test run. There can be many different causes for failures, with majority of them being:
+There are many possible issues that can lead to a test failure. Each test defines conditions for pass and fail. A fail or pass is basically the outcome of a test run. There can be manly different causes for failures, with majority of them being:
 
 \begin{description}
 	\item[Self check fails:] In a self check failure, the program code running on the simulated processor is able to identify and report a failure. The program tests are written such that they evaluate the results, compare it with desired value and finally report fail or pass. 

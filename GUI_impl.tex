@@ -148,7 +148,7 @@ Details in the log file with reference to each cycle is required to be extracted
 
 \subsection {INFORMATION CORRELATION}
 
-Once both the input files are processed, next step is to correlate assembly with execution log. A {\it Python} script can accomplish this by correlating respective data structures based on linear addresses. As x86 architecture follows segmented memory model along with paging, address translation is required for generating the linear/physical address~\citep*{SS:AMD64-V2}. Linear address is calculated as:
+Once both the input files are processed, next step is to correlate assembly with execution log. A {\it Python} script can accomplish this by correlating respective data structures based on linear addresses. As x86 architecture follows segmented memory model along with paging, address translation is required for generating the linear/physical address~\citep{SS:AMD64-V2}. Linear address is calculated as:
 \\
 \centerline{Linear address = Base address + Offset value}
 \\
@@ -198,7 +198,7 @@ The flow graph also features customisable selection of specific processor operat
 
 \subsubsection {IMPLEMENTATION}
 
-Execution flow graph is created with Dygraph JavaScript Visualization Library~\citep*{http:dygraphs}. The library provides inbuilt functions that enable zooming, $X$-$Y$ axis value display and point ``{\it onClick}'' callbacks. {\it onClick CallBack()} function is called whenever an execution point on Dygraph is clicked. The function has been extended to activate other windows and to synchronize components across windows.
+Execution flow graph is created with Dygraph JavaScript Visualization Library~\citep{http:dygraphs}. The library provides inbuilt functions that enable zooming, $X$-$Y$ axis value display and point ``{\it onClick}'' callbacks. {\it onClick CallBack()} function is called whenever an execution point on Dygraph is clicked. The function has been extended to activate other windows and to synchronize components across windows.
 
 Graph could be built by providing independent axis values followed by depended axis values. For each thread, a different graph is generated but layered out on different {\it HTML} tabs. The $X$-axis is cycle number and $Y$-axis is the list file line number. Algorithm~\ref{algo:impl:ceg} shows the pseudo-code used in building the graph in our application.
 
