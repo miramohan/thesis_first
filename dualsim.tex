@@ -2,17 +2,17 @@
 \label{chap:dualsim.tex}
 After analyzing limitations associated with \emph{early dual-sim approach} it could be inferred that the main cause of inefficiency was the method used to capture, store, and apply test-vectors onto the netlist. Analyzing limitations associated with \emph{co-sim approach}, it could be inferred that the cause was bulky test-bench components associated with RTL simulations. Hence an improved solution would contain minimal testbench components retained and have an efficient method to capture, store, and apply test-vectors. 
 
-Test-vectors are nothing but signal values at specific point in time. There are already different formats to store this information efficiently. FSDB \nomenclature{FSDB}{Fast Signal Database} is one such format. Hence it was suggested to improve gatesim methodology using FSDB itself as the format to store test-vectors. The proposed solution should also improve on
+Test-vectors are nothing but signal values at specific point in time. There are already different formats to store this information efficiently. FSDB \nomenclature{FSDB}{Fast Signal Database} is one such format. Hence it was suggested to improve gatesim methodology using FSDB itself as the format to store test-vectors. The proposed solution should also improve on:
 
 \begin{description}
 	\item[Storage requirements]: Ensuring that storage resources are effectively used
 	\item[Turn-around times]: Should avoid re-build for different test-vectors
 \end{description}
 
-FSDB\cite{SS:Verdi} or Fast Signal Database is a signal data file, similar to VCD\cite{ieee:v:2005} \nomenclature{VCD}{Value Change Dump} but much more compact. This format is in wide use across industry. Quick analysis revealed that FSDB as input test-vectors could be accomplished. Existing API's \nomenclature{API}{Application Programming Interface} provided by Verdi\cite{SS:Verdi} tool set for FSDB format could be used to retrieve values from FSDB. PLI$/$VPI\cite{ieee:v:2005} could be used to drive stimulus onto netlist.
+FSDB~\citep{SS:Verdi} or Fast Signal Database is a signal data file, similar to VCD~\citep{ieee:v:2005} \nomenclature{VCD}{Value Change Dump} but much more compact. This format is in wide use across industry. Quick analysis revealed that FSDB as input test-vectors could be accomplished. Existing API's \nomenclature{API}{Application Programming Interface} provided by Verdi~\citep{SS:Verdi} tool set for FSDB format could be used to retrieve values from FSDB. PLI$/$VPI~\citep{ieee:v:2005} could be used to drive stimulus onto netlist.
 
 
-The improved methodology becomes a dual-simulation methodology with two separate simulations.
+The improved methodology becomes a dual-simulation methodology with two separate simulations:
 \begin{enumerate}
 	\item First simulation with non-gatesim components to generate the test-vectors in FSDB format.
 	\item Second simulation with only gatesim components with capability to apply test-vectors from FSDB directly.
@@ -30,7 +30,7 @@ In dual simulation methodology the idea is to have two seperate simulations unli
 \label{fig:gatesim_flow.ps}
 \end{figure}
 
-Stages associated with this methodology are
+Stages associated with this methodology are:
 \begin{description}
 	\item[RTL simulation] RTL simulation along with test bench components is already being done as part of functional verification. For gatesims, no changes are required except that the simulation signals needs to be dumped into FSDB, through runtime switches. Such FSDB stimulus vectors have to be generated for every stimulus envisioned to be applied onto the netlist. Note that once generated, the stimulus could be reused for repetitive netlist simulations.
 	\item[Gatesim infrastructure] As in the case of co-simulation, gatesim files need to be generated from files obtained from LEC flow. Same infrastructure used in co-sim is used for this and hence no additional effort is required when the methodology is modified. Note that this step needed to be done only once.
@@ -39,7 +39,7 @@ Stages associated with this methodology are
 \end{description}
 
 
-{\bf VCS}: VCS is a high-performance Verilog simulator that  incorporates advanced, high-level abstraction verification  technologies into a single open native platform. VCS provides a fully featured implementation of Verilog language as defined in the {\it IEEE Standard Hardware Description Language} based on {\it Verilog Hardware Description Language (IEEE Std 1364-1995)} and {\it Standard Verilog Hardware Description Language (IEEE Std 1364-2001)}. It supports almost all verification, design and assertion constructs of {\it System Verilog}. It also provides native interfaces like DKI\nomenclature{DKI}{Direct C Kernel Interface} etc. VCS is a compiled code simulator and is widely considered as one of the advanced simulators avialable in the industry.
+{\bf VCS}: VCS is a high-performance {\it Verilog} simulator that  incorporates advanced, high-level abstraction verification  technologies into a single open native platform. VCS provides a fully featured implementation of {\it Verilog} language as defined in the {\it IEEE Standard Hardware Description Language} based on {\it Verilog Hardware Description Language (IEEE Std 1364-1995)} and {\it Standard Verilog Hardware Description Language (IEEE Std 1364-2001)}. It supports almost all verification, design and assertion constructs of {\it System Verilog}. It also provides native interfaces like DKI\nomenclature{DKI}{Direct C Kernel Interface} etc. VCS is a compiled code simulator and is widely considered as one of the advanced simulators avialable in the industry.
 
 For this project we had used {\it VCS Verilog simulator} developed by {\it Synopsys Inc.} for RTL as well as netlist simulations. \figurename{\ref{fig:RTL_sim.eps}} is a self explainatory depction of RTL simulation. The implementation details of this methodology is detailed in following sections. 
 
@@ -52,7 +52,7 @@ For this project we had used {\it VCS Verilog simulator} developed by {\it Synop
 
 
 \subsection{NETLIST SIMULATION FLOW}
-\figurename{\ref{fig:netlist_sim.ps}} shows netlist simulation flow. Process~\textcircled{a} is generation of FSDB stimulus, which is already explained in Section~\ref{sec:dualsim:im}. Process~\textcircled{b} is intricated and is detailed in Section~\ref{sec:dualsim:sa}. Remaining process stages are explained here.
+\figurename {\ref{fig:netlist_sim.ps}} shows netlist simulation flow. Process~\textcircled{a} is generation of FSDB stimulus, which is already explained in Section~\ref{sec:dualsim:im}. Process~\textcircled{b} is intricated and is detailed in Section~\ref{sec:dualsim:sa}. Remaining process stages are explained here.
 
 \begin{figure}[h]
 \centering
@@ -71,7 +71,7 @@ Process stages of netlist simulation flow are:
 \end{enumerate}
 
 \subsection{DUMMY-RTL}
-When test-vectors were applied from FSDB to {\it Verilog} design, it was found that VPI/DKI method of stimulus application is not suitable when driving {\it Verilog} nets. Nets have special behaviour that they needs to be continuously dirven, which in the case of VPI/DKI is through forcing the net. But it was found to have flaky behaviour. Hence it was decided to create a ``dummy-RTL'' module that would contain all the signals those need to be export out of FSDB. These signals would have same size as their actual counterparts but be of type {\it Verilog} ``reg''. Test-vectors from FSDB would be applied to these signals inside dummy-RTL. Listing~\ref{nl:dualsim:dummy} shows a code snippet of dummy-RTL module (Process~\textcircled{c} in \figurename{\ref{fig:netlist_sim.ps}}). All wires, IO signals are of type ``reg'' in dummy-RTL module.
+When test-vectors were applied from FSDB to {\it Verilog} design, it was found that VPI/DKI method of stimulus application is not suitable when driving {\it Verilog} nets. Nets have special behaviour that they needs to be continuously dirven, which in the case of VPI/DKI is through forcing the net. But it was found to have flaky behaviour. Hence it was decided to create a ``dummy-RTL'' module that would contain all the signals those need to be export out of FSDB. These signals would have same size as their actual counterparts but be of type {\it Verilog} ``reg''. Test-vectors from FSDB would be applied to these signals inside dummy-RTL. Listing~\ref{nl:dualsim:dummy} shows a code snippet of dummy-RTL module (Process~\textcircled{c} in \figurename {\ref{fig:netlist_sim.ps}}). All wires, IO signals are of type ``reg'' in dummy-RTL module.
 
 \lstset{language=Verilog,
 basicstyle=\footnotesize,
@@ -96,7 +96,7 @@ endmodule
 
 
 \subsection{SIMULUS APPLICATOR}
-Stimulus from dummy-RTL module is applied onto netlist by {\it Verilog} by connecting ports of netlist while instantiation at gatesim test-bench.  Listing~\ref{nl:dualsim:inst} gives a snippet of this Verilog instantiation of netlist module. There could be certain forces required in certain logic inside netlist, which is accomplished through {\it Verilog}'s ``force'' statement. These forces could be for initialisation, fuses or for hastening reset release.
+Stimulus from dummy-RTL module is applied onto netlist by {\it Verilog} by connecting ports of netlist while instantiation at gatesim test-bench.  Listing~\ref{nl:dualsim:inst} gives a snippet of this {\it Verilog} instantiation of netlist module. There could be certain forces required in certain logic inside netlist, which is accomplished through {\it Verilog}'s ``force'' statement. These forces could be for initialisation, fuses or for hastening reset release.
 
 \lstset{language=Verilog,
 basicstyle=\footnotesize,
@@ -148,7 +148,7 @@ end
 
 \section{STIMULUS APPLICATOR}
 \label{sec:dualsim:sa}
-Process~\textcircled{b} is a layered software infrastructure for the purpose of stimulus application onto the dummy-RTL. ~\figurename{~\ref{fig:fsdb.ps}} shows four different layers of the applicator. Together they accomplish transporting vector stimulus from FSDB file and finally delivering it to the netlist simulation. The first layer used to access FSDB file is provided by {\it Verdi} tool itself. It is available as a pre-built object\cite{Verdi:FsdbReader}, which could be linked with. The remaining three-layers of the infrastructure has been developed as part of this project and implemented as {\it C} and {\it C++} code.
+Process~\textcircled{b} is a layered software infrastructure for the purpose of stimulus application onto the dummy-RTL. ~\figurename{~\ref{fig:fsdb.ps}} shows four different layers of the applicator. Together they accomplish transporting vector stimulus from FSDB file and finally delivering it to the netlist simulation. The first layer used to access FSDB file is provided by {\it Verdi} tool itself. It is available as a pre-built object~\citep{Verdi:FsdbReader}, which could be linked with. The remaining three-layers of the infrastructure has been developed as part of this project and implemented as {\it C} and {\it C++} code.
 
 \begin{figure}[h]
 \centering
@@ -158,7 +158,7 @@ Process~\textcircled{b} is a layered software infrastructure for the purpose of 
 \end{figure}
 
 \subsection{EXTRACTING STIMULUS}
-FSDB is a binary file format for storing signal value change information. This format commonly used across the {\it Verdi} toolset and no other program has enough information to decode data from those files. But {\it Verdi} toolset, provides APIs\cite{Verdi:FsdbReader} \nomenclature{API}{Application Programmer's Interface} to be interfaced with. This project make use of those APIs, to accomplish desired task of accessing design signals at any point in time.
+FSDB is a binary file format for storing signal value change information. This format commonly used across the {\it Verdi} toolset and no other program has enough information to decode data from those files. But {\it Verdi} toolset, provides APIs~\citep{Verdi:FsdbReader} \nomenclature{API}{Application Programmer's Interface} to be interfaced with. This project make use of those APIs, to accomplish desired task of accessing design signals at any point in time.
 
 \begin{figure}[h]
 \centering
@@ -167,11 +167,11 @@ FSDB is a binary file format for storing signal value change information. This f
 \label{fig:verdi.eps}
 \end{figure}
 
-In order to successfully extract signal values from stored FSDB file the following needs to be done
+In order to successfully extract signal values from stored FSDB file the following needs to be done:
 \begin{enumerate}
-	\item[Handle FSDB file] In this process approprite FSDB file needs to be ``opened'' and be ``closed'' after all operations are completed. {\it Verdi} provides routines \texttt{ffrOpen()/ ffrOpen2()} and \texttt{ffrClose()} for these purposes respectively.
-	\item[Obtain signal handle] In this process handle to signals of interest needs to be obtained through APIs. Sample routine \texttt{MyTreeCBFunc}\cite[p.~3]{Verdi:FsdbReader} is already provided by {\it Verdi}.
-	\item[Access signal values] Once signal handle is obtained, the signal's value at this point in time could be obtained by routine \texttt{ffrGetVC()}.
+	\item[-]Handle FSDB file: In this process approprite FSDB file needs to be ``opened'' and be ``closed'' after all operations are completed. {\it Verdi} provides routines \texttt{ffrOpen()/ ffrOpen2()} and \texttt{ffrClose()} for these purposes respectively.
+	\item[-]Obtain signal handle: In this process handle to signals of interest needs to be obtained through APIs. Sample routine \texttt{MyTreeCBFunc}~\citep{Verdi:FsdbReader} is already provided by {\it Verdi}.
+	\item[-]Access signal values: Once signal handle is obtained, the signal's value at this point in time could be obtained by routine \texttt{ffrGetVC()}.
 \end{enumerate}
 
 \subsection{TIME BASED TRAVERSAL}
@@ -182,9 +182,9 @@ In order to successfully extract signal values from stored FSDB file the followi
 \label{fig:dualsim:tbas}
 \end{figure}
 
-\figurename{\ref{fig:dualsim:tbas}} shows sequences of actions that would occur during simulation. At any simulation time `M', it would be required to apply the stimulus to all signals of interest. After  this, control is transferred to simulator which computes  the states values at time `M'. The event driven simulation  would proceed in this fashion for all subsequent event times until it reaches the next stimulus point `N'. Series of actions that took place for time `M' would be repeated for time `N'  and so forth.
+\figurename {\ref{fig:dualsim:tbas}} shows sequences of actions that would occur during simulation. At any simulation time `M', it would be required to apply the stimulus to all signals of interest. After  this, control is transferred to simulator which computes  the states values at time `M'. The event driven simulation  would proceed in this fashion for all subsequent event times until it reaches the next stimulus point `N'. Series of actions that took place for time `M' would be repeated for time `N'  and so forth.
 
-List of RTL signals those need to be extracted would be refined over time, as netlist becomes stable. In this particular application, it would  be required  to obtain values of all signals of interest at the desired  instant. This type of traversal is called as time-based-traversal. Sample routine \texttt{tb.cpp}\cite[p.~28]{Verdi:FsdbReader} is already provided by {\it Verdi}. In this application, a larger C++ infrastructure is required to be built since
+List of RTL signals those need to be extracted would be refined over time, as netlist becomes stable. In this particular application, it would  be required  to obtain values of all signals of interest at the desired  instant. This type of traversal is called as time-based-traversal. Sample routine \texttt{tb.cpp}~\citep{Verdi:FsdbReader} is already provided by {\it Verdi}. In this application, a larger C++ infrastructure is required to be built since
 \begin{enumerate}
 \item Number of RTL signals those needs to be extracted is huge. Hence a seperate data structure is required.
 \item Accessing of signal values in time-based fashion could be abstracted out.
@@ -193,7 +193,7 @@ List of RTL signals those need to be extracted would be refined over time, as ne
 
 
 \subsection{VALUE CONVERSION TO DKI}
-FSDB exports signals values in its custom 8-bit format, but that can't be used directly by any simulator. These values needs to get converted to a format that could be understood by the simulator. {\it Verilog} language\cite{ieee:v:2005} provides many standard interfaces such as PLI, VPI (or PLI 2.0) for this purpose. The drawback with these standard interfaces are that they are too slow when huge vectors are in consideration (like gatesims). Conversions to and from string based format is very timeconsuming as it was observed.
+FSDB exports signals values in its custom 8-bit format, but that can't be used directly by any simulator. These values needs to get converted to a format that could be understood by the simulator. {\it Verilog} language~\citep{ieee:v:2005} provides many standard interfaces such as PLI, VPI (or PLI 2.0) for this purpose. The drawback with these standard interfaces are that they are too slow when huge vectors are in consideration (like gatesims). Conversions to and from string based format is very timeconsuming as it was observed.
 
 In order to overcome these limitations, VCS provides a non-standard interface called as DKI \nomenclature{DKI}{Direct-C Kernel Interface}. This interface has the advantage of less simulation overhead and smaller memory footprint compared to VPI interface. Hence DKI was choosen for this project.
 
@@ -225,10 +225,10 @@ breaklines=true}
 \end{lstlisting}
 \renewcommand{\lstlistingname}{Code}
 
-DKI provides direct interface to internal representation of simulator object. Signal values retrieved from FSDB could be assigned to VCS's object as per instructions in {\it VCS User Guide}\cite[Section~C~Language~Interface>~Direct~C]{VCS:vcs.pdf}.
+DKI provides direct interface to internal representation of simulator object. Signal values retrieved from FSDB could be assigned to VCS's object as per instructions in {\it VCS User Guide}~\citep[Section~C~Language~Interface$>$~Direct~C]{VCS:vcs.pdf}.
 
 \subsection{INTERACTION WITH SIMULATOR}
-Having obtained vector values and having the capability to apply it to the simulator, the final part of stimulus application is to have the ability to stop simulator at will and trigger new vector application. Since advanced simulators like VCS are event based, the interruption on simulation  has to be done on need basis rather than on every unit dealy. This could be accomplished with the use of standard simulator interfaces such as VPI callbacks. Enough documentation on this subject could be found in standard texts\cite{ss:pli:1999}~\cite{sm:pli:1999} and online\cite{wiki:2013:VPI}~\cite{aw:2013:VPI}. Listing~\ref{nl:dualsim:svc} shows a snippet of code that could be used to schedule a callback from simulator by specifying the delta-delay.
+Having obtained vector values and having the capability to apply it to the simulator, the final part of stimulus application is to have the ability to stop simulator at will and trigger new vector application. Since advanced simulators like VCS are event based, the interruption on simulation  has to be done on need basis rather than on every unit dealy. This could be accomplished with the use of standard simulator interfaces such as VPI callbacks. Enough documentation on this subject could be found in standard texts~\citep{ss:pli:1999}~\citep{sm:pli:1999} and online~\citep{wiki:2013:VPI}~\citep{aw:2013:VPI}. Listing~\ref{nl:dualsim:svc} shows a snippet of code that could be used to schedule a callback from simulator by specifying the delta-delay.
 
 %\begin{newlisting}[caption=Scheduling a VPI callback,label=nl:dualsim:svc]
 \lstset{language=C++,
@@ -255,7 +255,7 @@ breaklines=true}
   vpi_free_object(cbHandle);
 \end{lstlisting}
 
-Delta-delay is the simulation time difference between next stimulus point with respect to the current simulation time. Current simulation time could be obtained through VPI \verb|vpi_get_time()| routine. The next stimulus point could be obtained through fsdb routines. Stimulus application is acheived by continously progressing to next stimulus point followed by application of stimulus, as shown in snippet Listing~\ref{nl:dualsim:sar}.
+Delta-delay is the simulation time difference between next stimulus point with respect to the current simulation time. Current simulation time could be obtained through VPI \verb|vpi_get_time()| routine. The next stimulus point could be obtained through FSDB routines. Stimulus application is acheived by continously progressing to next stimulus point followed by application of stimulus, as shown in snippet Listing~\ref{nl:dualsim:sar}.
 
 %\begin{newlisting}[caption=Stimulus Applicator Routine,label=nl:dualsim:sar]
 \lstset{language=C++,
