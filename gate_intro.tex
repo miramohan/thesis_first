@@ -5,7 +5,7 @@ In a typical VLSI design flow for verification, the first step after RTL level m
 
 The pre-layout netlist that was obtained from synthesis is then fed into a layout tool which maps the gate primitives to physical structures such as channels, gates, vias, etc. During this process certain modifications are done on netlist but it should not alter its functionality to its corresponding RTL. To validate this, another netlist called the post-layout netlist is generated back from the layed-out silicon structures by the layout tool itself. Validation is made by running LEC tool over both pre-layout and post-layout netlists or between post-layout netlist and RTL.
 
-Though it would be ideal to use post-layout netlist for the purpose of gatesims, it would be too late in the design process. So work on gatesims starts with pre-layout netlist and progresses to post-layout netlist as it becomes available. ~\figurename{~\ref{fig:vlsi_design.ps}} depicts progress of gatesim with respect to other design flows.
+Though it would be ideal to use post-layout netlist for the purpose of Gatesims, it would be too late in the design process. So work on Gatesims starts with pre-layout netlist and progresses to post-layout netlist as it becomes available. ~\figurename{~\ref{fig:vlsi_design.ps}} depicts progress of Gatesim with respect to other design flows.
 
 %\figurename{} 
 \begin{figure}[h]
@@ -34,7 +34,7 @@ Gatesims are particularly effective for the following verification:
 	\item[-]Analog-circuit and digital circuit co-verification
 \end{itemize}
 
-Finally, gatesim is a great confidence-booster in ensuring the high quality of the netlist. It lowers the risk of finding design, methodology or process issues in silicon.
+Finally, Gatesim is a great confidence-booster in ensuring the high quality of the netlist. It lowers the risk of finding design, methodology or process issues in silicon.
 
 
 
@@ -49,7 +49,7 @@ Gatesims are targeted on post-layout netlist that is almost clean of RTL bugs. T
 
 
 
-These formal static verification techniques are much faster and evolved than simulation based methods. However these verification methodologies, in spite of advancements in tools, cannot cover all verification requirements on netlist. In addition to reassuring results obtained by formal methods, gatesim helps in filling up the gaps left by these methods. 
+These formal static verification techniques are much faster and evolved than simulation based methods. However these verification methodologies, in spite of advancements in tools, cannot cover all verification requirements on netlist. In addition to reassuring results obtained by formal methods, Gatesim helps in filling up the gaps left by these methods. 
 
 Limitations of LEC, which could be covered by Gatesims are:
 \begin{itemize}
@@ -68,7 +68,7 @@ Limitations of STA, which could be covered by Gatesims are:
 
 
 \section{ISSUES CAUGHT BY GATESIM}
-Some of the design flaws, those missed by other methods but caught by gatesims:
+Some of the design flaws, those missed by other methods but caught by Gatesims:
 \begin{enumerate}
 
 \item \emph{\bf $X$-Squashing}
@@ -78,7 +78,7 @@ Some of the design flaws, those missed by other methods but caught by gatesims:
 	Glitches are produced by combinational logic, and are not of concern in synchronous circuits as they are suppressed before next clock. Glitches in clock and reset paths are of concern. Here all methodologies fall short and Gatesims are good in finding such issues.
 
 \item \emph{\bf Uninitialized states in design}
-	Source of un-initialized design states ($X$) could be easily found in gatesims. After identifying such scenarios appropriate initialization modeling needs to be performed to proceed with Gate simulation flow.
+	Source of un-initialized design states ($X$) could be easily found in Gatesims. After identifying such scenarios appropriate initialization modeling needs to be performed to proceed with Gate simulation flow.
 
 \item \emph{\bf Partitioning Issues}
 	Design is partitioned to ease front-end design flows such as synthesis, STA, layout and LEC. Such act introduces discontinuity in flows such as wrong constraints for different partitions and so forth. Gatesims are good at catching such issues, if appropriate stimulus is chosen.
@@ -88,12 +88,12 @@ Some of the design flaws, those missed by other methods but caught by gatesims:
 
 \section{ISSUES FACED BY GATESIM}
 \label{intro:sec:ifg}
-At system level, Gatesim is one of the most challenging verification task. This is because as design complexity increases, the limitations with gatesims become more prominent. Important difficulties associated with gate level simulation are:
+At system level, Gatesim is one of the most challenging verification task. This is because as design complexity increases, the limitations with Gatesims become more prominent. Important difficulties associated with gate level simulation are:
 \begin{itemize}
 
 
 \item[-] Larger turn-around time (run, debug cycle).
-\item[-] Limitation on size of netlist that can be verified through gatesim. This is an indirect cause due to larger build times and run times.
+\item[-] Limitation on size of netlist that can be verified through Gatesim. This is an indirect cause due to larger build times and run times.
 \item[-] Debugging the netlist simulation is challenging.
 \item[-] Large compute and storage resource requirements. 
 

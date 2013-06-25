@@ -48,7 +48,7 @@ The different modes of operations in AMD64 architecture are detailed below:
 \item 64-bit mode: 64-bit mode supports the full range of 64-bit virtual-addressing and register-extension features. This mode is enabled by the operating system on an individual code segment basis. As 64-bit mode supports a 64-bit virtual-address space, it requires a 64-bit operating system and tool chain.
 
 
-\item Compatibility Mode: Compatibility mode allows 64-bit operating systems to run existing 16-bit and 32-bit x86 applications. These legacy applications run in compatibility mode without recompilation. This mode is also enabled by operating system on an individual code segment bases as in 64 bit mode. However unlike 64-bit mode x86 segmentation function similar to legacy x86 architecture using 16-bit or 32-bit protected mode semantics.
+\item Compatibility Mode: Compatibility mode allows 64-bit operating systems to run existing 16-bit and 32-bit x86 applications. These legacy applications run in compatibility mode without recompilation. This mode is also enabled by operating system on an individual code segment bases as in 64 bit mode. However unlike 64-bit mode, x86 segmentation function similar to legacy x86 architecture using 16-bit or 32-bit protected mode semantics.
 
 \end{itemize}
 
@@ -61,7 +61,7 @@ The different modes of operations in AMD64 architecture are detailed below:
 \item Protected Mode: Legacy protected mode supports 16-bit and 32-bit programs with memory segmentation, optional paging, and privilege-checking. Programs in this mode can access up to 4GB of memory space.
 
 
-\item Virtual-8086 Mode: Virtual-8086 mode supports 16-bit real-mode programs running as tasks under protected mode. It uses a simple form of memory segmentation, optional paging, and limited protection-checking. Programs in virtual-8086 mode can access up to 1MB of memory space.
+\item Virtual-8086 Mode: Virtual-8086 mode supports 16-bit real-mode programs running as tasks under protected mode. It uses a simple form of memory segmentation, optional paging and limited protection-checking. Programs in virtual-8086 mode can access up to 1MB of memory space.
 
 
 \item Real Mode: Real mode supports 16-bit programs using register-based memory segmentation. It does not support paging or protection-checking. Programs running in real mode can access up to 1MB of memory space.
@@ -70,7 +70,7 @@ The different modes of operations in AMD64 architecture are detailed below:
 \section{MEMORY ORGANIZATION}
 \addtocontents{toc}{\protect\setcounter{tocdepth}{1}}
 
-The AMD64 architecture organizes memory into virtual memory and physical memory~\citep{SS:AMD64-V2}. Virtual memory and physical-memory spaces are usually different in size with virtual address space being much larger than physical-address memory.  System software relocates applications and data between physical memory and the system hard disk to make it appear that much more memory is available than really exist and then uses the hardware memory-management mechanisms to map the larger virtual-address space into the smaller physical-address space.
+The AMD64 architecture organizes memory into virtual memory and physical memory~\citep{SS:AMD64-V2}. Virtual memory and physical-memory spaces are usually different in size with virtual address space being much larger than physical-address memory.  System software relocates applications and data between physical memory and the system hard disk to make it appear that much more memory is available than what really exist and then uses the hardware memory-management mechanisms to map the larger virtual-address space into the smaller physical-address space.
 
 \subsection {VIRTUAL MEMORY}
 Virtual memory consists of the entire address space available. It is a large linear address space that is translated to a smaller physical address space. Programs uses virtual address space to access locations within the virtual memory space. System software is responsible for managing the relocation of applications and data in virtual memory space using segment-memory management. System software is also responsible for mapping virtual memory to physical memory through the use of page translation.
@@ -88,17 +88,9 @@ Physical addresses are used to directly access main memory. This is the installe
 \begin{itemize}
 
 \item[-] Real Mode- Supports 1 Megabyte of physical-address space using 20-bit physical addresses.
-
 \item[-] Legacy Protected Mode- Supports several different address-space sizes, depending on the translation. supports 4 gigabytes of physical address space using 32-bit physical addresses and when the physical-address size extensions are enabled, the page-translation mechanism can be extended to support 52-bit physical addresses.
-
 \item[-] Long Mode- Supports up to 4 petabytes of physical-address space using 52-bit physical addresses. Long mode requires the use of page-translation and the physical-address size extensions (PAE).
-
 \end{itemize}
-
-
-
-
-
 
 \section{MEMORY MANAGEMENT}
 
@@ -106,10 +98,9 @@ Physical addresses are used to directly access main memory. This is the installe
 
 Memory management refers to the process involved in translating address generated by software to physical address through segmentation and paging. This process is hidden from application software and is handled by system software and processor hardware. 
 
-
 \subsection{SEGMENTATION} 
-Segmentation mainly helps system software to isolate software processes (tasks) and the data used by that process to increase the reliability of system running multiple process simultaneously. The AMD64 architecture is designed to support all forms of legacy segmentation. In 64-bit mode segmentation is not adopted (use flat band segmentation) [AMD64]. Segmentation is, however, used in compatibility mode and legacy mode. 
-~\figurename{~\ref{fig:segmentation.eps}}shows segmented virtual memory.
+Segmentation mainly helps system software to isolate software processes (tasks) and the data used by that process to increase the reliability of system running multiple process simultaneously. The AMD64 architecture is designed to support all forms of legacy segmentation. In 64-bit mode segmentation is not adopted (use flat band segmentation). Segmentation is, however, used in compatibility mode and legacy mode. 
+~\figurename {~\ref{fig:segmentation.eps}} shows segmented virtual memory.
 
 %\figurename{} 
 \begin{figure}[H]
@@ -123,7 +114,7 @@ Segmentation mainly helps system software to isolate software processes (tasks) 
 The segmentation mechanism provides ten segment registers, each of which defines a single segment. Six of these registers (CS, DS, ES, FS, GS, and SS) define user segments. The remaining four segment registers (GDT, LDT, IDT, and TR) define system segments. The segment selector points toward a specific entry in descriptor table. This can be Global Descriptor Table (GDT) or Local Descriptor Table (LDT). The descriptor table entry base value plus the effective address which is the offset from base gives the virtual address. Effective address is calculated from the value stored in general purpose register and a displacement value encoded as part of instruction.
 
 \subsection{PAGING}
-Paging allows software and data to be relocated in physical address space using fixed-size blocks called physical pages. It translation uses a hierarchical data structure called a page-translation table to translate virtual pages into physical pages. Paging also provides protection as access to physical pages by lesser-privileged software can be restricted. ~\figurename{~\ref{fig:paging.eps}}shows an example of paged memory with three levels in the translation-table hierarchy. 
+Paging allows software and data to be relocated in physical address space using fixed-size blocks called physical pages. It translation uses a hierarchical data structure called a page-translation table to translate virtual pages into physical pages. Paging also provides protection as access to physical pages by lesser-privileged software can be restricted. ~\figurename {~\ref{fig:paging.eps}} shows an example of paged memory with three levels in the translation-table hierarchy. 
 
 
 

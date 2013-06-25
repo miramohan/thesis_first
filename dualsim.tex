@@ -1,8 +1,8 @@
 \chapter{IMPROVED DUAL-SIM APPROACH TO GATESIM}
 \label{chap:dualsim.tex}
-After analyzing limitations associated with \emph{early dual-sim approach} it could be inferred that the main cause of inefficiency was the method used to capture, store, and apply test-vectors onto the netlist. Analyzing limitations associated with \emph{co-sim approach}, it could be inferred that the cause was bulky test-bench components associated with RTL simulations. Hence an improved solution would contain minimal testbench components retained and have an efficient method to capture, store, and apply test-vectors. 
+After analyzing limitations associated with \emph{early dual-sim approach} it could be inferred that the main cause of inefficiency was the method used to capture, store, and apply test-vectors onto the netlist. Analyzing limitations associated with \emph{cosim approach}, it could be inferred that the cause was bulky test-bench components associated with RTL simulations. Hence an improved solution would contain minimal testbench components retained and have an efficient method to capture, store, and apply test-vectors. 
 
-Test-vectors are nothing but signal values at specific point in time. There are already different formats to store this information efficiently. FSDB \nomenclature{FSDB}{Fast Signal Database} is one such format. Hence it was suggested to improve gatesim methodology using FSDB itself as the format to store test-vectors. The proposed solution should also improve on:
+Test-vectors are nothing but signal values at specific point in time. There are already different formats to store this information efficiently. FSDB \nomenclature{FSDB}{Fast Signal Database} is one such format. Hence it was suggested to improve Gatesim methodology using FSDB itself as the format to store test-vectors. The proposed solution should also improve on:
 
 \begin{description}
 	\item[Storage requirements]: Ensuring that storage resources are effectively used
@@ -14,15 +14,15 @@ FSDB~\citep{SS:Verdi} or Fast Signal Database is a signal data file, similar to 
 
 The improved methodology becomes a dual-simulation methodology with two separate simulations:
 \begin{enumerate}
-	\item First simulation with non-gatesim components to generate the test-vectors in FSDB format.
-	\item Second simulation with only gatesim components with capability to apply test-vectors from FSDB directly.
+	\item First simulation with non-Gatesim components to generate the test-vectors in FSDB format.
+	\item Second simulation with only Gatesim components with capability to apply test-vectors from FSDB directly.
 \end{enumerate}
 
 
 
 \section {IMPROVED METHODOLOGY}
 \label{sec:dualsim:im}
-In dual simulation methodology the idea is to have two seperate simulations unlike co-sim. Both these simulations are completely independet except for the stimulus vector file. In the first unmodified RTL simulation (together with test bench components) dump is enabled in FSDB format. This FSDB dump is used as test-vectors for the following netlist simulation. In co-simulation methodology the same test bench will provide stimulus to RTL and netlist. ~\figurename{~\ref{fig:gatesim_flow.ps}} shows a flow diagram of proposed dual-sim methodology.  
+In dual simulation methodology the idea is to have two seperate simulations unlike cosim. Both these simulations are completely independet except for the stimulus vector file. In the first unmodified RTL simulation (together with test bench components) dump is enabled in FSDB format. This FSDB dump is used as test-vectors for the following netlist simulation. In cosimulation methodology the same test bench will provide stimulus to RTL and netlist. ~\figurename{~\ref{fig:gatesim_flow.ps}} shows a flow diagram of proposed dual-sim methodology.  
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.55]{./figures/gatesim_flow.ps}
@@ -32,9 +32,9 @@ In dual simulation methodology the idea is to have two seperate simulations unli
 
 Stages associated with this methodology are:
 \begin{description}
-	\item[RTL simulation] RTL simulation along with test bench components is already being done as part of functional verification. For gatesims, no changes are required except that the simulation signals needs to be dumped into FSDB, through runtime switches. Such FSDB stimulus vectors have to be generated for every stimulus envisioned to be applied onto the netlist. Note that once generated, the stimulus could be reused for repetitive netlist simulations.
-	\item[Gatesim infrastructure] As in the case of co-simulation, gatesim files need to be generated from files obtained from LEC flow. Same infrastructure used in co-sim is used for this and hence no additional effort is required when the methodology is modified. Note that this step needed to be done only once.
-	\item[Gatesim Build] Gatesim build could be obtained after compiling and elaborating the design netlist and infrastructure files with a simulator. The build would be devoid of RTL design and non-gatesim verification infrastructure. Note that this step needed to be done only once.
+	\item[RTL simulation] RTL simulation along with test bench components is already being done as part of functional verification. For Gatesims, no changes are required except that the simulation signals needs to be dumped into FSDB, through runtime switches. Such FSDB stimulus vectors have to be generated for every stimulus envisioned to be applied onto the netlist. Note that once generated, the stimulus could be reused for repetitive netlist simulations.
+	\item[Gatesim infrastructure] As in the case of cosimulation, Gatesim files need to be generated from files obtained from LEC flow. Same infrastructure used in cosim is used for this and hence no additional effort is required when the methodology is modified. Note that this step needed to be done only once.
+	\item[Gatesim Build] Gatesim build could be obtained after compiling and elaborating the design netlist and infrastructure files with a simulator. The build would be devoid of RTL design and non-Gatesim verification infrastructure. Note that this step needed to be done only once.
 	\item[Gatesim simulation] Run all envisioned stimulus vectors onto the netlist.
 \end{description}
 
@@ -96,7 +96,7 @@ endmodule
 
 
 \subsection{SIMULUS APPLICATOR}
-Stimulus from dummy-RTL module is applied onto netlist by {\it Verilog} by connecting ports of netlist while instantiation at gatesim test-bench.  Listing~\ref{nl:dualsim:inst} gives a snippet of this {\it Verilog} instantiation of netlist module. There could be certain forces required in certain logic inside netlist, which is accomplished through {\it Verilog}'s ``force'' statement. These forces could be for initialisation, fuses or for hastening reset release.
+Stimulus from dummy-RTL module is applied onto netlist by {\it Verilog} by connecting ports of netlist while instantiation at Gatesim test-bench.  Listing~\ref{nl:dualsim:inst} gives a snippet of this {\it Verilog} instantiation of netlist module. There could be certain forces required in certain logic inside netlist, which is accomplished through {\it Verilog}'s ``force'' statement. These forces could be for initialisation, fuses or for hastening reset release.
 
 \lstset{language=Verilog,
 basicstyle=\footnotesize,
@@ -124,7 +124,7 @@ netlist GATE (
 
 
 \subsection{NETLIST SIMULATION}
-Process~\textcircled{e} is simulation with netlist testbench components. These components are reused form of co-simulation methodology's netlist components (Section~\ref{sec:method:csgs}), with references of actual RTL paths changed to {\it Dummy-RTL}'s paths. Waveform dump needs to be enabled during simulation to enable debug in case of failure. Reference RTL waveform dump file is already available for the user.
+Process~\textcircled{e} is simulation with netlist testbench components. These components are reused form of cosimulation methodology's netlist components (Section~\ref{sec:method:csgs}), with references of actual RTL paths changed to {\it Dummy-RTL}'s paths. Waveform dump needs to be enabled during simulation to enable debug in case of failure. Reference RTL waveform dump file is already available for the user.
 
 
 \subsection{FUNCTION COMPARATORS}
@@ -193,7 +193,7 @@ List of RTL signals those need to be extracted would be refined over time, as ne
 
 
 \subsection{VALUE CONVERSION TO DKI}
-FSDB exports signals values in its custom 8-bit format, but that can't be used directly by any simulator. These values needs to get converted to a format that could be understood by the simulator. {\it Verilog} language~\citep{ieee:v:2005} provides many standard interfaces such as PLI, VPI (or PLI 2.0) for this purpose. The drawback with these standard interfaces are that they are too slow when huge vectors are in consideration (like gatesims). Conversions to and from string based format is very timeconsuming as it was observed.
+FSDB exports signals values in its custom 8-bit format, but that can't be used directly by any simulator. These values needs to get converted to a format that could be understood by the simulator. {\it Verilog} language~\citep{ieee:v:2005} provides many standard interfaces such as PLI, VPI (or PLI 2.0) for this purpose. The drawback with these standard interfaces are that they are too slow when huge vectors are in consideration (like Gatesims). Conversions to and from string based format is very timeconsuming as it was observed.
 
 In order to overcome these limitations, VCS provides a non-standard interface called as DKI \nomenclature{DKI}{Direct-C Kernel Interface}. This interface has the advantage of less simulation overhead and smaller memory footprint compared to VPI interface. Hence DKI was choosen for this project.
 
