@@ -11,18 +11,18 @@ Functional verification validates that the design meets its requirements. Test c
  
 \section {VERIFICATION}
 
-Most SoC verification concentrates on verifying the processor cores and their interactions with SoC level IPs. At this level of abstraction, verification is concentrated on interaction between IPs and on design features those haven't got verified as a sub-system.  Test conditions are written in x86 assembly or in some cases written in high level languages like {\it C++}. The intention of each test is to verify specific functionality of the design and ensure its validity. Test plans must be in sync with specifications and are required to be updated with specification changes. Test methodology should also be adaptable to accomodate such changes or to deal with all possible corner cases and boundary conditions.
+Most SoC verification concentrates on verifying the processor cores and their interactions with SoC level IPs. At this level of abstraction, verification is concentrated on interaction between IPs and on design features those haven't got verified as a sub-system.  Test conditions are written in x86 assembly or in some cases written in high level languages like {\it C++}. The intention of each test is to verify specific functionality of the design and ensure its validity. Test plans must be in sync with specifications and are required to be updated when specifications change. Test methodology should also be adaptable to accomodate such changes and to deal with all possible corner cases and boundary conditions.
 
 Tests are developed, so that they stimulate the design in a specific manner and compare outcome against expected outcome to assert accuracy of design behaviour. Ideally design should be verified against all possible scenarios that could arise and once it passes all tests, it can be considered as completely verified. In case when a particular test fails, the verification engineer needs to find out the cause of failure with his understanding of design or verification aspect that led to the particular failure. This process of root causing a failure is called as a ``{\it debug}'' in verification. Once root-caused, the engineer then has to suggest appropriate changes to either design, verification or documentation to keep them in unison. 
 
-There are many possible issues that can lead to a test failure. Each test defines conditions for pass and fail. A fail or pass is basically the outcome of a test run. There can be manly different causes for failures, with majority of them being:
+There are many possible issues that can lead to a test failure. Each test defines conditions for pass and fail. A fail or pass is basically the outcome of a test run. There can be different causes for failures, with majority of them being:
 
 \begin{description}
 	\item[Self check fails:] In a self check failure, the program code running on the simulated processor is able to identify and report a failure. The program tests are written such that they evaluate the results, compare it with desired value and finally report fail or pass. 
-	\item[Assertion/Checker fails:] Assertion or checker fails are very common kind of failures and occur when a testbench component reports an unexpected behaviour of the design. It could also be a false failure. In general, most checkers or assertions monitor particular design states during the simulation and report failure whenever monitored value deviates from the expected value. 
+	\item[Assertion/Checker fails:] Assertion or checker fails are very common kind of failures and occur when a testbench component reports an unexpected behaviour of the design. It could also be a false failure. In general, most checkers or assertions monitor particular design states during simulation and report failure whenever monitored value deviates from the expected value. 
 \end{description}
 
-In general, a self check fail is caused when program execution deviates from the intended execution flow that was determined for the program under test. Hence the debug of a self check fail would require knowledge of the program under test and its intended execution flow. Without these knowledge, it would be a challenge to debug such fails. This project is aimed to improve debug of such self check fails.
+In general, a self check fail is caused when program execution deviates from the intended execution flow. Hence the debug of a self check fail would require knowledge of the program under test and its intended execution flow. Without this knowledge, it would be a challenge to debug such fails. This project is aimed to improve debug of such self check fails.
 
 %\subsection {DEVELOP TESTS}
 %
@@ -39,24 +39,24 @@ In general, a self check fail is caused when program execution deviates from the
 
 \subsection {SELF CHECK FAILURE}
 
-Processor tests are C/assembly program written to assert that the processor under test is indeed functioning as expected under that specific setup. These processor tests are designed such a way that they are capable of deciding if the processor execution results were successful. These tests are normally hand written by the verification engineer rather than randomly generated.  Hence such tests can string together specific stimulus of interest and determine pass or fail status on its own without relying on other verification components. Such tests are called as ``self~tests''.
+Processor tests are C/assembly program written to assert that the processor under test is indeed functioning as expected under that specific setup. These processor tests are designed such a way that they are capable of deciding if the processor execution results were successful. These tests are normally hand written by the verification engineer rather than randomly generated.  Hence such tests can string together specific stimulus of interest and determine pass or fail status on its own without relying on other verification components. Such tests are called as ``self-tests''.
 
 
 %\figurename{} 
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.65]{./figures/selftest.ps}
-\caption{Self~Test} 
+\caption{Self-Test} 
 \label{fig:selftest.ps}
 \end{figure}
 
-\figurename {\ref{fig:selftest.ps}} details the flow of a self~test. Self~tests are a collection of x86 assembly language program. Tests are compiled by a script which calls an assembler followed by a linker. The final output being a linked binary image can be loaded and executed by the RTL model of DUT\nomenclature{DUT}{Design Under Test}. Stimulus is generated by the test and is applied to the DUT. Comparisons are done by the test itself after which pass/fail result is generated.
+\figurename {\ref{fig:selftest.ps}} details the flow of a self-test. Self-tests are a collection of x86 assembly language program. Tests are compiled by a script which calls an assembler followed by a linker. The final output being a linked binary image that can be loaded and executed by the RTL model of DUT\nomenclature{DUT}{Design Under Test}. Stimulus is generated by the test and is applied to the DUT. Comparisons are done by the test itself after which pass/fail result is generated.
 
 
 
 \section{DEBUGGING A SELF CHECK FAILURE}
 
-Self~tests report the occurrence of test case failure. Once this is available, next step is to analyze the reason for failure.  For this, a traceback from the point of failure to the point of error is required. 
+Self-tests report the occurrence of test case failure. Once this is available, next step is to analyze the reason for failure.  For this, a traceback from the point of failure to the point of error is required. 
 
 A failure message would indicate which check failed that the result is deviating from the desired value. This desired value can be understood from analysing the asm test code. But to understand at which point during execution the design deviated from desired course, detailed information regarding execution flow as well as a reference flow which has the ideal values and status are required. In general, a reference flow could be established by the engineer after understanding and interpreting the test in its completeness.
  
