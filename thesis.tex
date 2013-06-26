@@ -1,5 +1,5 @@
-\documentclass[a4paper,11pt]{book}
-%\documentclass[a4paper,12pt]{report}
+%\documentclass[a4paper,11pt]{book}
+\documentclass[a4paper,12pt]{report}
 \usepackage[utf8x]{inputenc}
 \usepackage{array}
 %\documentclass[a4paper,12pt]{article}
@@ -239,7 +239,7 @@ in\\
 \newpage
 \pagenumbering{roman}
 \pagestyle{plain}
-%%%\input{acknowledge.tex}
+\input{acknowledge.tex}
 \addcontentsline{toc}{section}{ACKNOWLEDGEMENTS}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ABSTRACT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
@@ -265,37 +265,34 @@ in\\
 %\addcontentsline{toc}{section}{LIST OF TABLES}
 
 \newpage
-\begin{minipage}[b]{1\linewidth}
-    \listoftables
-		\addcontentsline{toc}{section}{LIST OF TABLES}
-\end{minipage}
+%\begin{minipage}[b]{1\linewidth}
+%    \listoftables
+%		\addcontentsline{toc}{section}{LIST OF TABLES}
+%\end{minipage}
+%
+%\begin{minipage}[b]{1\linewidth}
+%    \listofalgorithms
+%		\addcontentsline{toc}{section}{LIST OF ALGORITHMS}
+%\end{minipage}
 
-\begin{minipage}[b]{1\linewidth}
-    \listofalgorithms
-		\addcontentsline{toc}{section}{LIST OF ALGORITHMS}
-\end{minipage}
-
-%\listoftables
-%\pagestyle{plain}
-%\addcontentsline{toc}{section}{LIST OF TABLES}
+\listoftables
+\pagestyle{plain}
+\addcontentsline{toc}{section}{LIST OF TABLES}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LIST OF ALGORITHMS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\newpage
-%\addcontentsline{toc}{section}{LIST OF ALGORITHMS}
-%\listofalgorithms
+\newpage
+\addcontentsline{toc}{section}{LIST OF ALGORITHMS}
+\listofalgorithms
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LIST OF LISTINGS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \addcontentsline{toc}{section}{LIST OF LISTINGS}
 \lstlistoflistings
-
+\pagebreak
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Symbols and Abbreviations %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \printnomenclature
 \addcontentsline{toc}{section}{SYMBOLS AND ABBREVIATIONS}
-
-
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PART I : GUI %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -303,6 +300,8 @@ in\\
 \pagestyle{fancy}
 \pagenumbering{arabic}
 \part{}
+
+
 
 
 
@@ -369,7 +368,7 @@ in\\
 \input{conclusion.tex}
 
 
-\chapter{REFERENCES}
+%\chapter{REFERENCES}
 \bibliographystyle{nitk}
 %\input{ref_thesis.tex}
 %\addcontentsline{toc}{section}{REFERENCES}
