@@ -34,28 +34,26 @@ Each stimulus has its own set of assembly test files and execution log files. Th
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.5]{./figures/gui_impl.ps}
-\caption{GUI Implementation} 
+\caption{Interface architecture} 
 \label{fig:gui_impl.eps}
 \end{figure}
 
-\figurename{\ref{fig:gui_impl.eps}} depicts information extraction and use of different scripts to achieve the same. 
-
-{\bf Major implementation steps:}
+\figurename{~\ref{fig:gui_impl.eps}} depicts information extraction and use of different scripts to achieve it. Major stages of architecture are
 \begin{itemize}
-\item[-] Extraction of information from assembly list file and processor execution log by {\it Python} script.
-\item[-] Correlation of information from previous step.
-\item[-] Coding generic {\it JavaScript} code for user interactions.
-\item[-] Top level {\it Python} program to manipulate available information and to convert it to {\it JavaScript} information. 
-\item[-] The top level {\it Python} program combines the data extracted and {\it JavaScript}  code to generate a single {\it HTML} page. 
+\item[-] Two different {\it Python} scripts extract information from assembly list file and processor execution log.
+\item[-] Top-level {\it Python} script to correlate informations.
+\item[-] Common {\it JavaScript} code for user interactions.
+\item[-] Top-level {\it Python} script to convert extracted informations to {\it JavaScript} information. 
+\item[-] Top-level {\it Python} script to generate a single, contained {\it HTML} page.
 \end{itemize}
 
-The whole infrastructure is packaged neatly. Given execution log file and assembly list file, the top level {\it Python} script generates the {\it HTML} interface web page. Different stages involved in this conversions are described in the following sections. 
+The whole infrastructure needs to be packaged cleanly and the {\it HTML} generated needs to be self contained. Different stages involved in this conversion are described in the following sections. 
 
-\subsection {INTERFACE}
-GUI is targeted to run on any browser, hence layout design is done using {\it HTML}\nomenclature{HTML}{Hyper Text Markup Language}. However for providing interactive features to the user, a much more powerful language is need along with {\it HTML} and default choice is {\it JavaScript}.
+\subsection {INTERFACE GUI}
+GUI is targeted to be browser agnostic, hence layout design is done in standard {\it HTML}\nomenclature{HTML}{Hyper Text Markup Language}. However for providing interactive features to the user, a much more powerful language is needed along with {\it HTML} and default choice is {\it JavaScript}.
 
 \emph {\bf JavaScript (JS)} is an interpreted computer programming language. It is  implemented as part of web browsers so that client-side scripts could react to user inputs, customize the browser, communicate asynchronously and to filter contents being displayed. It is a multi-paradigm language, supporting object-oriented, imperative and functional programming styles.  
-In addition a style sheet language called {\it CSS}\nomenclature{CSS}{Cascading Style Sheets} is used for describing the presentation semantics (the look and formatting) of the interface page written in {\it HTML}.
+In addition a style sheet language called {\it CSS}\nomenclature{CSS}{Cascading Style Sheets} is used for describing the presentation semantics (look and formatting) of the interface page written in {\it HTML}.
 
 %\figurename{} 
 %\figurename{} 
@@ -66,11 +64,11 @@ In addition a style sheet language called {\it CSS}\nomenclature{CSS}{Cascading 
 \label{fig:html.ps}
 \end{figure}
 
-Resultant {\it HTML} page embeds {\it JavaScript} routines and style sheets. This is done by the top level {\it Python} script. \figurename{\ref{fig:html.ps}} shows a representation of information flow.
+Resultant {\it HTML} page embeds {\it JavaScript} routines and style sheets so that the interface becomes self contained. This is done by the top level {\it Python} script. \figurename{~\ref{fig:html.ps}} shows a representation of information flow.
 
 
 \subsection{JS DATA STRUCTURE}
-All dynamic features of the interface are handled by JS\nomenclature{JS}{JavaScript} script routines. Data input to the JS is the extracted information from execution log files and list files. The top level {\it Python} script converts the extracted objects into JS data array ``$dataArray[]$'' (Algorithm~\ref{algo:impl:js}); where each array element corresponds to an active thread. Active threads refer to active core or processor in a multiprocessor system.  
+All dynamic features of the interface are handled by {\it JavaScript}\nomenclature{JS}{JavaScript} routines. Data input to these are the extracted information from execution log files and list files. The top level {\it Python} script converts the extracted objects into JS data array ``$dataArray[]$'' (Algorithm~\ref{algo:impl:js}); where each array element corresponds to an active thread. Active thread refers to active core or processor in a multiprocessor system.  
 
 \IncMargin{1em}
 \begin{algorithm}[h]
@@ -93,13 +91,13 @@ All dynamic features of the interface are handled by JS\nomenclature{JS}{JavaScr
 
 
 
-Once the extracted information is converted to JS compatible data, the interface features can utilize this. The layout for various GUI features called windows, are designed using {\it HTML} and {\it CSS} code. All dynamic interactive features are handled by embedded JS script in {\it HTML} web page. Later sections introduces different windows available in the web page.
+Once the extracted information is converted to JS compatible data, the interface features can utilize this. The layout for various GUI features, are designed using {\it HTML} and {\it CSS} code. All dynamic interactive features are handled by embedded JS in {\it HTML} web page. Later sections introduces different windows available in the web page.
 
 \section {EXTRACTION OF INFORMATION}
 The first step in creating a generic debug interface is to extract relevant information and convert it to a format that could be loaded by the debug interface.
 
 \subsection {STIMULUS}
-Stimulus is written in X-86 assembly language. The engineer is expected to debug this stimulus. Each cycle in processor execution log corresponds to a particular assembly code. An assembler is used to assemble the object code, and in that process each instruction is also mapped to a particular address. \figurename{\ref{impl.tex:assembler}} shows this process which also produces a list file which hold an macro expanded, loop unrolled, assembled code with corresponding address details. The configuration file defines certain random operands, segmentation, gdt, ldt, page tables to aid in assembling process. The include files contribute common routines used across different assembly stimuli.
+Stimulus is written in X-86 assembly language. The engineer is expected to debug this stimulus. Each cycle in processor execution log corresponds to a particular assembly code. An assembler is used to assemble the object code, and in that process each instruction is also mapped to a particular address. \figurename{~\ref{impl.tex:assembler}} shows this process which also produces a list file. A list file is a macro expanded, loop unrolled, assembled and linked code. The configuration file defines certain random operands, segmentation, gdt, ldt, page tables to aid in assembling process. The include files contribute common routines used across different assembly stimuli.
 
 %However, the written by the verification engineer is the unscheduled code without any memory address details. For cycle comparison with execution log, the asm test file is complied first.
 
@@ -118,19 +116,13 @@ Stimulus is written in X-86 assembly language. The engineer is expected to debug
 \label{impl.tex:listextr}
 \end{figure}
 
-List file holds a wealth of details including instructions, opcodes, operand, linear address, module/register configuration details etc. A {\it Python} script is used to extract relevant information corresponding to each instruction line in the list file. In this project, the following information is extracted for each instruction from the  list file:
-\begin{itemize}
-	\item[-] Base and offset address value
-	\item[-] Instruction line number
-	\item[-] The assembly code
-\end{itemize}
-
-The {\it Python} script internally contains a data structure of list objects, which helps in adding features to the script with ease (\figurename{\ref{impl.tex:listextr}}). 
+List file holds a wealth of details including instructions, opcodes, operand, linear address, module/register configuration details etc. A {\it Python} script is used to extract relevant information such as address, line number and assembly code. corresponding to each instruction line in the list file.
+The extracted information is stored in a data structure of list objects, which helps in adding features to the script with ease (\figurename{~\ref{impl.tex:listextr}}). 
 
 \subsection {EXECUTION LOG}
-Execution log file contains instruction by instruction execution details from simulation. It also includes register states, thread details, flag values and other details which help in tracing out the cause of failure. As explained in previous chapters, debugging require detail traversal through this log file. 
+Execution log file contains instruction by instruction execution details from simulation. It also includes register states, thread details, flag values and other details which help in root-causing the failure. As explained in previous chapters, debugging require detail traversal through this log file. 
 
-Details in the log file with reference to each cycle is required to be extracted. {\it Python} script is used to extract these informations as well and a comprehensive data structure is created. The data structure objects contain properties corresponding to major operations and register values. Thread details are handled as separate data structures as it aids processing thread-wise informations. Following properties are extracted from execution log file for every execution event:
+Details in the log file with reference to each cycle is required to be extracted. {\it Python} script is used to extract these informations as well and a comprehensive data structure is created. The data structure objects contain properties corresponding to critical events and register values. Thread details are handled as separate data structures as it aids processing thread-wise informations. Following properties are extracted from execution log file for every execution event:
 
 %Figure x shows how the script will read the input execution log file and generate log file objects.
 
@@ -147,7 +139,7 @@ Details in the log file with reference to each cycle is required to be extracted
 
 \subsection {INFORMATION CORRELATION}
 
-Once both the input files are processed, next step is to correlate assembly with execution log. A {\it Python} script can accomplish this by correlating respective data structures based on linear addresses. As x86 architecture follows segmented memory model along with paging, address translation is required for generating the linear/physical address~\citep{SS:AMD64-V2}. Linear address is calculated as:
+Once both the input files are processed, next step is to correlate assembly with execution log. A top-level {\it Python} script could accomplish this by correlating respective data structures based on linear addresses. X86 architecture follows segmented memory model along with paging and address translation is required for generating the linear/physical address~\citep{SS:AMD64-V2}. Linear address is calculated as:
 \\
 \centerline{Linear address = Base address + Offset value}
 \\
@@ -186,18 +178,18 @@ End \;
 
 %\vspace{1.5cm}
 
-For each object of execution log, the corresponding list file object could be found based on linear address value. Once found, both are cross-linked to aid further processing. The algorithm employed in this search is depicted in Algorithm~\ref{algo:impl:cllf}. Data extraction is complete with this linkage and the result is execution log objects linked to corresponding assembly objects.
+For each object of execution log, the corresponding list file object could be found based on linear address value. Once found, both are cross-linked to aid further processing. The pseudo-code for this find is depicted in Algorithm~\ref{algo:impl:cllf}. Data extraction is complete with this linkage and the result is execution log objects linked to corresponding assembly objects.
 
 \section {GUI FEATURES}
 
 \subsection {EXECUTION FLOW GRAPH}
-Main feature of debug interface is the graph showing the execution flow of the code. It is obtained by plotting asm list file line numbers against the execution cycle during which it is executed. All the active threads have different graphs which are tabbed. Hovering the mouse over any execution point on the graph displays $X$ and $Y$ axis values. Features include zoom-in, zoom-out of plot. Double click at any point is featured to zoom-out completely. On clicking on any execution point would select the point and syncronizes data across windows. Proximity click feature helps in automatically choosing nearest execution point for further analysis.
+Main feature of debug interface is the graph showing the execution flow of the code. It is obtained by plotting asm list file line numbers against the execution cycle when it was executed. All active threads have different graphs which are tabbed. Hovering the mouse over any execution point on the graph displays $X$ and $Y$ axis values. Features include zoom-in, zoom-out of plot. Double click at any point is featured to zoom-out completely. Click action on any execution point would select it and syncronizes data across windows. Proximity click feature helps in automatically choosing nearest execution point for further analysis.
  
-The flow graph also features customisable selection of specific processor operations out of Branching, Memory Write, Memory Read, Code Read. This helps in filtering redundant execution points those may not be of interest to the engineer. Each distinct processor operation could be distinguished by color coding.   
+The flow graph also features customisable selection of specific processor operations out of Branching, Memory Write, Memory Read, Code Read. This helps in filtering redundant execution points those may not be of interest to the engineer. Each distinct processor operation could be distinguished by their color codes.   
 
 \subsubsection {IMPLEMENTATION}
 
-Execution flow graph is created with Dygraph JavaScript Visualization Library~\citep{http:dygraphs}. The library provides inbuilt functions that enable zooming, $X$-$Y$ axis value display and point ``{\it onClick}'' callbacks. {\it onClick CallBack()} function is called whenever an execution point on Dygraph is clicked. The function has been extended to activate other windows and to synchronize components across windows.
+Execution flow graph is created with Dygraph JavaScript Visualization Library~\citep{http:dygraphs}. The library provides inbuilt functions that enable zooming, $X$-$Y$ axis value display and point ``{\it onClick}'' callbacks. {\it onClick} callBack function is called whenever an execution point on Dygraph is clicked. The function has been extended to activate other windows and to synchronize components across windows.
 
 Graph could be built by providing independent axis values followed by depended axis values. For each thread, a different graph is generated but layered out on different {\it HTML} tabs. The $X$-axis is cycle number and $Y$-axis is the list file line number. Algorithm~\ref{algo:impl:ceg} shows the pseudo-code used in building the graph in our application.
 
@@ -228,11 +220,11 @@ Register window is used in displaying instantaneous register values at any execu
 	\item[-] Stack Pointer (RSP)
 \end{itemize}
 
-Another important feature provided by register window is a comparison of register values between two different execution points. It highlights differences in register values with different colours, to capture user's attention with ease. The difference is between {\it reference execution point} and {\it selected execution point}. {\it Reference execution point} is chosen by the {\it set~marker} button.
+Another important feature provided by register window is a comparison of register values between two different execution points. To capture user's attention, it highlights differences in register values with different colours. Difference is computed between {\it reference execution point} and {\it selected execution point}. {\it Reference execution point} could be chosen by {\it set~marker} button.
 
 \subsubsection{IMPLEMENTATION}
 
-The values contained in register window is updated when a different execution point is selected in the execution flow graph. This event also triggers comparison of current values with the reference point. Algorithm~\ref{algo:impl:crw} lists the pseudo-code used in updating register window values.
+The values contained in register window is updated when a different execution point is selected in the execution flow graph. This event also triggers comparison of current values with the reference-point. Algorithm~\ref{algo:impl:crw} lists the pseudo-code used in updating register window values.
 
 \IncMargin{1em}
 \begin{algorithm}[h]
@@ -254,7 +246,7 @@ regRow$[reg]$ $\leftarrow$ $element.[reg]$ \;
 
 \subsection {INSTRUCTION WINDOW}
 
-Instruction window lists the assembly code corresponding to the selected execution point. Context around the assembly code is also displayed to aid debug. This window is also updated when a different execution point is selected in execution graph. The window highlights assembly code for visual attention of the user.
+Instruction window lists the assembly code corresponding to the selected execution point. Context around the assembly code is also displayed to aid debug. This window is also updated when a different execution point is selected in execution graph. The window highlights assembly code in order to attract user's attention.
 
 \subsubsection{IMPLEMENTATION}
 
@@ -280,7 +272,7 @@ Add $item.logInfo \rightarrow$ ExecutionLogWindow\;
 
 \subsection {EXECUTION LOG WINDOW}
 
-In addition to the instruction and register information, the relevant processor execution log in its actuality, would be useful to the user as it contains different information that may not be presented by the debug interface. Having this information readily accessible to user also assures the user that the data extracted through processing by different scripts is indeed correct. Internally these informations are stored as a {\it JavaScript} object ``{\it logInfo}''.
+In addition to the instruction and register information, the relevant processor execution log in its actuality, would be useful to the user as it contains additional informations those may not be presented by the debug interface. Having this information readily accessible to user also assures the user that the data extracted through processing by different scripts is indeed correct. Internally these informations are stored as a {\it JavaScript} objects.
 
 \subsubsection{IMPLEMENTATION}
 
@@ -292,6 +284,6 @@ As it was discussed in Section~\ref{sec:impl:rww}, markers are used to ``mark'' 
 
 \subsubsection{IMPLEMENTATION}
 
-Set and Clear buttons are implemented using HTML form's callback feature. A {\it JavaScript} variable is used to store the reference execution point.
+Set and Clear buttons are implemented using HTML form's ``callback'' feature. A {\it JavaScript} variable is used to store the reference execution point.
 
 
