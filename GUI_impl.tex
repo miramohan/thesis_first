@@ -13,21 +13,20 @@ In addition to interface requirements listed in Section~\ref{sec:enhancement.tex
 \item[-] Interrupt and exception happening during execution
 \item[-] Assembly code traversal and its linkage with execution flow
 \item[-] Register current state value traversal and its linkage with execution flow
-\item[-] Comparison of register values between arbitrary instances of execution
 \item[-] Simulation cycle of execution event
 \end{itemize}
 
-Every stimulus is a unique assembly test and hence the debug interface should be as generic as possible. It should be able to accommodate any relevant assembly test, accompanied with execution logs.
+Every stimulus is an unique assembly test and hence the debug interface should be as generic as possible. It should be able to accommodate any relevant assembly test, accompanied with execution logs.
 
 %Once the simulation is completed and failure is reported the debug phase starts. This is where the role of GUI comes. From the vast information provided by the logs and test files, interfaces have to capture and represent relevant information to the user. The following section details the implementation and features of the proposed GUI. 
 
-\subsection {CHOOSING GUI}
-There are multitude of languages providing GUI capability, the project does not need a very sophisticated GUI implementation. Moreover the interface should aid remote debug and if possible there should not be any requirement for any user to install a tool-kit or library for the debug interface to be used. Hence the decision to use web-browser as the debug interface was a default choice. A web browser could also execute {\it JavaScrips} and that makes it customisable. The design is also scalable and aids introduction of new features for debug with ease.
+\subsection {ARCHITECTURAL CHOICES}
+There are multitude of languages providing GUI capability, the project does not need a very sophisticated GUI implementation. Moreover the interface should aid remote debug and if possible there should not be any requirement for users to install a tool-kit or library for the debug interface to be used. Hence choosing a web-browser as the debug interface was a default choice. A web browser could also execute {\it JavaScrips} and that makes it customisable. The design is also scalable and aids introduction of new features for debug with ease.
 
-Each stimulus has its own set of assembly test files and execution log files. The interfaces implementation starts by consuming these files. Two programming languages are used for implementation:
+Each stimulus has its own set of assembly test files and execution log files. The interface should extract information out of these by some means. Two programming languages are used in the implementation:
 \begin{description}
-\item[Python Script] for data extraction and correlating related information.
-\item[JavaScript] for designing the interface features and user interaction.
+\item[Python Script] for data extraction and to correlate related information.
+\item[JavaScript] for designing interface features and user interaction.
 \end{description}
 
 \addtocontents{toc}{\protect\setcounter{tocdepth}{2}}

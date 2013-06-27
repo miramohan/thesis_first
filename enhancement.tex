@@ -3,10 +3,10 @@
 
 \section {PROCESSOR EXECUTION DETAILS}
 
-During simulation of a processor core, the linked program image is loaded in processor's memory followed by its execution. Most modern microprocessors adopt instruction level parallelism for high throughput. Micro-architectural features like instruction pipeline, superscalar execution, register renaming, speculative execution, branch prediction etc. are employed in order to exploit instruction level parallelism.  These micro-architecture features work together for high execution throughput. All these internal operations results in a complex execution flow with multiple operations happening in each cycle having different levels of dependencies between data, instruction and memory.
+During simulation of a processor core, the linked program image is loaded in processor's memory, and is executed. Most modern microprocessors adopt instruction level parallelism for high throughput. Micro-architectural features like instruction pipeline, superscalar execution, register renaming, speculative execution, branch prediction etc. are employed in order to exploit instruction level parallelism.  These micro-architecture features work together for higher execution throughput. All these internal operations results in a complex execution flow with multiple operations happening in each cycle, having different levels of dependencies between data, instruction and memory.
 
 
-As explained in Section~\ref{verif:exelog} execution log file captures important information regarding the processor state and activity during execution of program code. This could be considered as history of events in the simulation. Each entry in the log file contains the following information regarding processor execution:
+As explained in Section~\ref{verif:exelog} execution log file captures important information regarding the processor state and activity during execution of program code. This could be considered as history of events. Each entry in the log file contains the following information regarding processor execution:
 \begin{itemize}
 	\item The instruction number, simulation cycle and opcode
 	\item Thread Id (relevant in multi-core and multi-processor)
@@ -17,7 +17,7 @@ As explained in Section~\ref{verif:exelog} execution log file captures important
 	\item Branch Target
 	\item Paging info
 	\item Flag values
-	\item Register affected on that instruction execution
+	\item Registers affected on that instruction execution
 \end{itemize}
 On the onset of simulation failure, these information are vital in debugging the cause of a failure. The following case study of two test scenarios affirm this fact.
 
@@ -61,19 +61,19 @@ report $fail$
 
 Consider an assembly test in Algorithm~\ref{algo:mrw} that intends verification of a memory module. The test writes a value into a memory location (Line~\ref{algo:mrw:write}). The data is later read from the same location (Line~\ref{algo:mrw:read}) and compared with the original value written into the location (Line~\ref{algo:mrw:compare}). The test flags fail or pass based on the comparison.
 
-The test verifies a single write/read from a memory location. Ideally the values written to the memory location should match the value read from the memory and test completes with a pass. Now consider a case where the comparison fails. This could occur due to many reasons. Following are a few scenarios which can lead to a failure:
+The test verifies a single write/read from a memory location. Ideally the values written to the memory location should match the value read from it and test completes with a pass. Now let us consider few conditions on which the comparison could fail. This could occur due to many reasons. Following are few scenarios which can lead to a failure:
 \begin{itemize}
-\item [Case 1:] If from another thread of program execution, the control bit for bank selection is changed during the execution, the data read would be from wrong memory location, leading to a failure. \label{mrw:case1}
+\item [Case 1:] If from another thread of program execution, the control bit for bank selection is changed during execution, the data read would be from wrong memory location, leading to a failure. \label{mrw:case1}
 
-\item [Case 2:] If the address value is invalid. This can happen when the test generates a random address value for storing the data and this value might not exist in the current selected memory bank range. \label{mrw:case2}
+\item [Case 2:] If the address value is invalid. This can happen when the test generates a random address value for storing the data and this value might not exist in the current selected memory bank's range. \label{mrw:case2}
 
-\item [Case 3:] If the register $Reg D$ chosen is unavailable in this mode of processor operation. This causes the wrong data to be updated into the memory and comparison fails. \label{mrw:case3}
+\item [Case 3:] If the register $Reg~D$ chosen is of different  size in a different mode of processor operation, it would cause wrong data to be written into memory and hence subsequent comparison would  fail. \label{mrw:case3}
 \end{itemize}
 
 \subsubsection{Debug Process}
-In Case~1, the memory bank selected should stay same throughout the program execution. Any change in memory bank selects would cause the read operation to take value from wrong memory block, leading to a self-test failure. 
-In Case~2, given that each memory block has a fixed size, if the generated random address generated is not in valid range of offset, then this error could occur. 
-In Case~3, if care is not taken in choosing processor mode prior to the test execution, and if $Reg D$ is either completely or partly unavailable (like 32~bit mode Vs 16~bit mode), then this error could occur.
+In Case~1, the memory bank selected should stay the same throughout program execution. Any change in memory bank selects would cause the read operation to take value from wrong memory block, leading to a self-test failure. 
+In Case~2, given that each memory block has a fixed size, if the generated random address is not in valid range of offset, then a fail could occur. 
+In Case~3, if care is not taken in choosing processor mode prior to test execution, and if $Reg D$ is either completely or partly unavailable (like 32~bit mode Vs 16~bit mode), then this error could occur.
 
 \begin{figure}[h]
 \centering
@@ -81,9 +81,9 @@ In Case~3, if care is not taken in choosing processor mode prior to the test exe
 \includegraphics[scale=0.9]{./figures/mrw_debug.ps}
 \caption{Illustration of debug process : Test A} 
 \label{fig:mrw_debug.ps}
-\end{figure}
+\end{figure}p0_phy_tx_enable
 
-\figurename{\ref{fig:mrw_debug.ps}} depicts a typical debug process. Note that there could be other causes for failure as depicted in $states \textcircled{j}, \textcircled{k}, \& \textcircled{m}$. During debug, the engineer needs access to certain information as listed here:
+\figurename{\ref{fig:mrw_debug.ps}} depicts a typical debug process. Note that there could be other causes of failure as depicted in $states \textcircled{j}, \textcircled{k}, \& \textcircled{m}$. During debug, the engineer needs access to certain information as listed here:
 \begin{enumerate}
 \item $state~\textcircled{b}$: Examine Read to address, examine data obtained.
 \item $state~\textcircled{c}$: Obtain all accesses occurred to same address, find the latest write to same address.
@@ -118,7 +118,7 @@ Consider a string $tolower()$ program. The program reads an input string in uppe
 
 %\vspace{1.5cm}
 
-The program in Algorithm~\ref{algo:lcc} converts each character from upper case to lower case in a loop, to achieve the result. This program can fail due to many reasons. Let us consider a couple of scenarios.
+The program in Algorithm~\ref{algo:lcc} converts each character from upper case to lower case in a loop, to achieve the result. This program could fail due to many reasons. Let us consider a couple of scenarios.
 
 \begin{itemize}
 
@@ -129,8 +129,8 @@ The program in Algorithm~\ref{algo:lcc} converts each character from upper case 
 
 \subsubsection{Debug Process}
 
-In Case~1, initialisation of loop variable is the cause and could be found by looking at value of the variable just after loop is entered. If after the completion of loop execution for the first time, if the first character remains un-modified, then that also suggests an initialisation problem.
-In Case~2, the resulting string after loop exit would normally have characters unmodified towards the end. This case could be identified with such symptom.
+In Case~1, initialization of loop variable is the cause and could be found by looking at value of the variable just after loop is entered. If after the completion of loop execution for the first time, if the first character remains un-modified, then that also suggests an initialization problem.
+In Case~2, the resulting string after loop exit would normally have characters unmodified towards the end. This case could be identified with this symptom.
 
 \begin{figure}[h]
 \centering
@@ -139,7 +139,7 @@ In Case~2, the resulting string after loop exit would normally have characters u
 \label{fig:tolower_debug.ps}
 \end{figure}
 
-\figurename{\ref{fig:tolower_debug.ps}} depicts a typical debug process for this case. Note that there could be other causes for failure as depicted in $state~\textcircled{g}$. During debug, the engineer needs access to certain information as listed here
+\figurename{\ref{fig:tolower_debug.ps}} depicts a typical debug process for {\it Test B}. Note that there could be other causes of failure as depicted in $state~\textcircled{g}$. During debug, the engineer needs access to certain information as listed here
 
 \begin{enumerate}
 \item $state~\textcircled{b}$: Find address of loop var.
@@ -149,25 +149,26 @@ In Case~2, the resulting string after loop exit would normally have characters u
 \item $state~\textcircled{f}$: Need computation values of loop init condition.
 \end{enumerate}
 
-\section {NECESSITY TO ENHANCE MANUAL VERIFICATION}
+\section {NECESSITY TO ENHANCE MANUAL DEBUG}
 \label{sec:enhancement.tex.nemv}
 
-Debug engineer has to extract required information whenever needed manually from assembly files, linked object files and processor execution logs. Correlation of information between different files is also required to make a successful debug. Such manual extraction of information and correlation of it, though may seem obvious consumes considerable debug time and is error prone. Hence an enhancement to such manual process, if available, would considerably decrease the time required to debug an issue.
+Debug engineer has to extract required information whenever needed manually from assembly files, linked object files and processor execution logs. Correlation of information between different files is also required to make a successful debug. Such manual extraction of information and correlating them, though may seem obvious, consumes considerable debug time and is error prone. Hence an enhancement to such manual process, if available, would considerably decrease the time required to debug a failure.
 
-Information exists in processor execution log, assembly file and list file. Correlation of list file and execution log file can be accomplished by correlating address. For each cycle the Instruction Pointer Register (RIP) hold the current and next instruction address. The verification engineer has to search through the files for address values to correlate cycles in log file with lines in list file. As observed in Section~\ref{sec:enhancement.tex.sdcic}, data extraction and correlation from different files are required at different stages of debug to effectively debug {\it how} and {\it why} the test failed.
+Required information exists in processor execution log, assembly file and list file. Correlation of list file and execution log file could be accomplished by correlating address. For each cycle the Instruction Pointer Register (RIP) holds the current instruction address. The verification engineer has to search through the files for address values to correlate cycles in log file with lines in list file. As observed in Section~\ref{sec:enhancement.tex.sdcic}, data extraction and correlation from different files are required at different stages to effectively debug {\it how} and {\it why} the test failed.
 
-\section {ENHANCING MANUAL VERIFICATION}
+\section {ENHANCING MANUAL DEBUG}
 \label{sec:enhancement.tex.emv}
 
-After analysing debug process, it is evident that availabitily of correlated information during debug process would enhance it in a big way.  In this thesis, we are proposing a Graphical User Interface (GUI) which would help in navigating through the log files quickly, aiding in comparison with list file and also some additional features to help in faster analysis of failure cause. The interface helps to get rid of traditional method of comparing Instruction Pointer Register (RIP) values and string search by providing graphs that would connect each cycle in log file with corresponding asm line code. The proposed interface enhances the data navigation through log files and failure analysis.  It is possible to lay down the requirements of such an enhancement:
+After analysing debug process, it is evident that availabitily of correlated information during debug process would enhance it in a big way.  In this thesis, a proposal for a Graphical User Interface (GUI) is made which is aimed at enhancing manual debug. The GUI should aid by navigating through the log files with ease, eliminate manual correlation of different information and include additional features to help in faster analysis of failure. The interface should provide intuitive interfaces like graphs that would ease navigation. It should also provide data filtering so that user could select data of interest. The requirements of such an enhancement would include
 
 \begin{description}
-\item[Visualisation of Execution Flow] Visual representation of data is always very appealing. In this case, if there exists a visual representation of execution control flow, it would be obvious if a loop was executed and if so, how many times it was.
-\item[Navigating Execution Flow:] In the visual representation of execution flow, it would also aid debug when user is able to navigate to point of interest by mouse~gestures on such representation. For eg. if program code exists across different source files, the user would be able to navigate to the point of interest with ease.
+\item[Visualization of Execution Flow] Visual representation of data is always very appealing. If there exists a visual representation of execution control flow, it would be obvious if a loop or an instruction was executed and if so, how many times.
+\item[Navigating Execution Flow:] With visual representation of execution flow, it would also aid debug when user is able to navigate to point of interest by mouse~gestures. For eg. if program code exists across different source files, the user would be able to navigate to the point of interest with ease.
 \item[Processor State Information:] At any execution point, it would help the debug engineer if processor state information such as SP\nomenclature{SP}{Stack Pointer}, PC\nomenclature{PC}{Program Counter}, SR\nomenclature{SR}{Status Register} etc are readily accessible.
-\item[Processor State Information Change:] It would aid debug if it is able to list the differences in Processor State Information between two arbitrary points of execution.
-\item[Processor Writes and Reads:] It would aid debug if processor writes and reads could be easily listed. It would also help if in such listing one could classify between IO accesses and memory accesses.
-\item[Code listing:] It would aid debug when source code is listed along with its context, on any point of execution.
+\item[Processor State Information Change:] It would aid debug if the interface is capable of listing differences in Processor State Information between two arbitrary points of execution. For e.g. if user is interested in knowing when a flag got set, it can be accomplished with this feature.
+\item[Processor Writes and Reads:] It would aid debug if processor writes, reads are filtered and listed. It would further aid, if in such listing, the user could classify between IO accesses and memory accesses. Such features would directly aid debug described in Section~\ref{case:testa}.
+\item[Code listing:] It would aid debug if program code in consideration is readily available for user's reference. Such feature would aid remote debug.
+\item[Remote debug:] One important requirement is to enable remote debug. With remote debug, user does not need to access physical disks and actual files to accomplish a first level of debug. This ability should not constrain the user to install binaries, libraries to his computer.
 \end{description}
 
 %In general for different test and error possibilities, all information regarding the processors execution flow is required. From the point of failure, a trace back through the execution log details and corresponding comparison with the expected assembly code action must be made. 
