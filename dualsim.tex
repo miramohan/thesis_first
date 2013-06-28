@@ -9,7 +9,7 @@ Test-vectors are nothing but signal values at specific point in time. There are 
 	\item[Turn-around times]: Should avoid re-build for different test-vectors
 \end{description}
 
-FSDB~\citep{SS:Verdi} or Fast Signal Database is a signal data file, similar to VCD~\citep{ieee:v:2005} \nomenclature{VCD}{Value Change Dump} but much more compact. This format is in wide use across industry. Quick analysis revealed that FSDB as input test-vector could be accomplished. Existing API's \nomenclature{API}{Application Programming Interface} provided by Verdi~\citep{SS:Verdi} tool set for FSDB format could be used to retrieve values from FSDB. PLI$/$VPI~\citep{ieee:v:2005} could be used to drive stimulus onto netlist.
+FSDB~\citep{SS:Verdi} or Fast Signal Database is a signal data file, similar to VCD~\citep{ieee:v:2005} \nomenclature{VCD}{Value Change Dump} but much more compact. This format is in wide use across industry. Quick analysis revealed that FSDB as input test-vector could be accomplished. Existing API's provided by Verdi~\citep{SS:Verdi} tool set for FSDB format could be used to retrieve values from FSDB. PLI$/$VPI~\citep{ieee:v:2005} could be used to drive stimulus onto netlist.
 
 
 The {\it Improved Methodology} becomes a dual-simulation methodology with two separate simulations:
@@ -159,7 +159,7 @@ Process~\textcircled{b} (\figurename~{\ref{fig:netlist_sim.ps}}) is a layered so
 \end{figure}
 
 \subsection{EXTRACTING STIMULUS}
-FSDB is a binary file format for storing signal value change information. This format is  commonly used across the {\it Verdi} toolset and no other program has enough information to decode data from those files. But {\it Verdi} toolset, provides APIs~\citep{Verdi:FsdbReader} \nomenclature{API}{Application Programmer's Interface} for this purpose. This project makes use of those APIs as shown in \figurename~{\ref{fig:verdi.eps}}, to accomplish desired task of accessing stimulus values stored as FSDB.
+FSDB is a binary file format for storing signal value change information. This format is  commonly used across the {\it Verdi} toolset and no other program has enough information to decode data from those files. But {\it Verdi} toolset, provides APIs~\citep{Verdi:FsdbReader} \nomenclature{API}{Application Programming Interface} for this purpose. This project makes use of those APIs as shown in \figurename~{\ref{fig:verdi.eps}}, to accomplish desired task of accessing stimulus values stored as FSDB.
 
 \begin{figure}[h]
 \centering
@@ -256,7 +256,7 @@ breaklines=true}
   vpi_free_object(cbHandle);
 \end{lstlisting}
 
-Delta-delay is the simulation time difference between next stimulus point with respect to the current simulation time. Current simulation time could be obtained through VPI \verb|vpi_get_time()| routine. The next stimulus point could be obtained through FSDB routines \verb|ffrGotoNextVC() & ffrGetXTag()|. Stimulus application is acheived by continously progressing to next stimulus point followed by application of stimulus, as shown in snippet Listing~\ref{nl:dualsim:sar}.
+Delta-delay is the simulation time difference between next stimulus point with respect to the current simulation time. Current simulation time could be obtained through VPI \verb|vpi_get_time()| routine. The next stimulus point could be obtained through FSDB routines \verb|ffrGotoNextVC()| \& \verb|ffrGetXTag()|. Stimulus application is acheived by continously progressing to next stimulus point followed by application of stimulus, as shown in snippet Listing~\ref{nl:dualsim:sar}.
 
 %\begin{newlisting}[caption=Stimulus Applicator Routine,label=nl:dualsim:sar]
 \lstset{language=C++,
