@@ -1,4 +1,4 @@
-\chapter{GATE LEVEL SIMULATION}
+\chapter{GATE-LEVEL SIMULATION}
 \label{chap:gate_intro.tex}
 
 In a typical VLSI design flow for verification, the first step after RTL level model of the design availability is writing behavioral test bench for functional verification. The functionally verified RTL goes through design synthesis during which it is mapped into low level design components in terms of primitives or logic gates. Synthesis is mostly an automated process using a ``{\it synthesizer}'' tool that converts RTL-level design source code into corresponding gate-level netlist mappings. This netlist is also called the pre-layout netlist.
@@ -14,7 +14,7 @@ Though it would be ideal to use post-layout netlist for the purpose of Gatesims,
 \caption{Design Flow}
 \label{fig:vlsi_design.ps}
 \end{figure}
-Gate Level Simulation or Gatesim focuses on verifying the post layout netlist of the design. Gatesims are historically present from the days when designs were done with gates rather than at RTL abstraction. Verification with gates is a huge confidence builder before manufacturing of actual silicon as they are also thought to complement and reassure results obtained from formal flow.
+Gate-Level Simulation or Gatesim focuses on verifying the post layout netlist of the design. Gatesims are historically present from the days when designs were done with gates rather than at RTL abstraction. Verification with gates is a huge confidence builder before manufacturing of actual silicon as they are also thought to complement and reassure results obtained from formal flow.
 
 
 \section {NEED FOR GATESIM}
@@ -45,7 +45,7 @@ Gatesims are targeted on post-layout netlist that is almost clean of RTL bugs. T
 
 \emph {\bf LEC}: Logic Equivalence Check (LEC) is a formal verification tool that compares a reference design against a derived design to prove equivalence or to report differences.  LEC does not require test patterns. Instead, LEC uses Boolean arithmetic techniques to prove equivalence between two design descriptions~\citep{ieee:boolean}. Although LEC uses sophisticated formal algorithms to identify, map, and compare nodes in the netlists, the complexity is hidden from the user~\citep{lec}.
 
-\emph {\bf STA}: Static Timing Analysis does an input-independent timing analysis of the gate level netlist. It asserts if the circuit could operate flawless without timing issues. It computes the worst-case behaviour of the circuit over all possible manufacturing variables. STA tools are at ease in handling a complex design with huge number of paths as they consider one path at a time (whether they are real or potential false paths). 
+\emph {\bf STA}: Static Timing Analysis does an input-independent timing analysis of the gate-level netlist. It asserts if the circuit could operate flawless without timing issues. It computes the worst-case behaviour of the circuit over all possible manufacturing variables. STA tools are at ease in handling a complex design with huge number of paths as they consider one path at a time (whether they are real or potential false paths). 
 
 
 
@@ -88,7 +88,7 @@ Some of the design flaws, those missed by other methods but caught by Gatesims:
 
 \section{ISSUES FACED BY GATESIM}
 \label{intro:sec:ifg}
-At system level, Gatesim is one of the most challenging verification task. This is because as design complexity increases, the limitations with Gatesims become more prominent. Important difficulties associated with gate level simulation are:
+At system level, Gatesim is one of the most challenging verification task. This is because as design complexity increases, the limitations with Gatesims become more prominent. Important difficulties associated with gate-level simulation are:
 \begin{itemize}
 
 
