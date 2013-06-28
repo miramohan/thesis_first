@@ -100,7 +100,7 @@ Memory management refers to the process involved in translating address generate
 
 \subsection{SEGMENTATION} 
 Segmentation mainly helps system software to isolate software processes (tasks) and the data used by that process to increase the reliability of system running multiple process simultaneously. The AMD64 architecture is designed to support all forms of legacy segmentation. In 64-bit mode segmentation is not adopted (use flat band segmentation). Segmentation is, however, used in compatibility mode and legacy mode. 
-~\figurename {~\ref{fig:segmentation.eps}} shows segmented virtual memory.
+~\figurename~{\ref{fig:segmentation.eps}} shows segmented virtual memory.
 
 %\figurename{} 
 \begin{figure}[H]
@@ -114,7 +114,7 @@ Segmentation mainly helps system software to isolate software processes (tasks) 
 The segmentation mechanism provides ten segment registers, each of which defines a single segment. Six of these registers (CS, DS, ES, FS, GS, and SS) define user segments. The remaining four segment registers (GDT, LDT, IDT, and TR) define system segments. The segment selector points toward a specific entry in descriptor table. This can be Global Descriptor Table (GDT) or Local Descriptor Table (LDT). The descriptor table entry base value plus the effective address which is the offset from base gives the virtual address. Effective address is calculated from the value stored in general purpose register and a displacement value encoded as part of instruction.
 
 \subsection{PAGING}
-Paging allows software and data to be relocated in physical address space using fixed-size blocks called physical pages. It translation uses a hierarchical data structure called a page-translation table to translate virtual pages into physical pages. Paging also provides protection as access to physical pages by lesser-privileged software can be restricted. ~\figurename {~\ref{fig:paging.eps}} shows an example of paged memory with three levels in the translation-table hierarchy. 
+Paging allows software and data to be relocated in physical address space using fixed-size blocks called physical pages. It translation uses a hierarchical data structure called a page-translation table to translate virtual pages into physical pages. Paging also provides protection as access to physical pages by lesser-privileged software can be restricted. ~\figurename~{\ref{fig:paging.eps}} shows an example of paged memory with three levels in the translation-table hierarchy. 
 
 
 

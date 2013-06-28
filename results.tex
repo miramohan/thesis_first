@@ -1,6 +1,6 @@
 \chapter{RESULTS}
 \label{chap:results.tex}
-A new gate simulation flow based on separate simulation of RTL and netlist was developed. Performance analysis was done with respect to co-sim methodology. A set of standard test cases were considered for the purpose. An exclusive machine was used for benchmarking and hence tests were run in sequence one after the other in both the methodologies. The machine features were:
+A new gate simulation flow based on separate simulation of RTL and netlist was developed. Performance analysis was done with respect to cosim methodology. A set of standard test cases were considered for the purpose. An exclusive machine was used for benchmarking and hence tests were run in sequence one after the other in both the methodologies. The machine features were:
 \begin{itemize}
 \item Linux 2.6.18-308.1.1.el5
 \item Authentic AMD family F model 1 stepping 2
@@ -17,16 +17,15 @@ A new gate simulation flow based on separate simulation of RTL and netlist was d
 \section{SIMULATION PERFORMANCE ANALYSIS}
 \begin{table}[h!]
 \begin{center}
-\caption{Simulation Performance Comparison}
 \label{tab:Simulation Performance}
 \vspace{0.2cm}
 \begin{tabular}{|l|r|r|r|}
 \hline
-\multirow{3}{*}{\bf Stimulus} & &	&\\ & {\bf Co-sim Simulation} 	& {\bf Dual-sim Simulation} & {\bf Improvement } 	\\ & {\bf Time (in sec)}  &  {\bf Time (in sec)} &  {\bf(X times) }\\
+\multirow{3}{*}{\bf Stimulus} & &	&\\ & {\bf Cosim Simulation} 	& {\bf Dual-sim Simulation} & {\bf Improvement } 	\\ & {\bf Time (in sec)}  &  {\bf Time (in sec)} &  {\bf(X times) }\\
 
 
 
-%\multirow{2}{*}{\bf Stimulus}	&\multirow{2}{*}{\bf Co-sim Simulation Time (in sec)}	&\multirow{2}{*}{\bf Dual-sim Simulation Time (in sec)}	&\multirow{2}{*}{\bf Improvement (X times)} 		\\
+%\multirow{2}{*}{\bf Stimulus}	&\multirow{2}{*}{\bf Cosim Simulation Time (in sec)}	&\multirow{2}{*}{\bf Dual-sim Simulation Time (in sec)}	&\multirow{2}{*}{\bf Improvement (X times)} 		\\
 						&				&				&				\\
 \hline
 Pattern 1 			&821245				&79965				&10.27 				\\
@@ -42,6 +41,7 @@ Pattern 5  				&709871				&69605				&10.19				\\
 
 \end{tabular}
 \end{center}
+\caption{Simulation Performance Comparison}
 
 \end{table}
 
@@ -50,16 +50,15 @@ Pattern 5  				&709871				&69605				&10.19				\\
 \section{MEMORY REQUIREMENT}
 \begin{table}[h!]
 \begin{center}
-\caption{Simulation Memory Requirement}
 \label{tab:Memory Requirement}
 \vspace{0.2cm}
 \begin{tabular}{|l|r|r|r|}
 \hline
-\multirow{3}{*}{\bf Stimulus} & &	&\\ & {\bf Co-sim Simulation} 	& {\bf Dual-sim Simulation} & {\bf Improvement } 	\\ & \bf{Mem Req (in Mb)}  &  {\bf{Mem Req (in Mb)}} &  {\bf(X times) }\\
+\multirow{3}{*}{\bf Stimulus} & &	&\\ & {\bf Cosim Simulation} 	& {\bf Dual-sim Simulation} & {\bf Improvement } 	\\ & \bf{Mem Req (in Mb)}  &  {\bf{Mem Req (in Mb)}} &  {\bf(X times) }\\
 
 
 
-%\multirow{2}{*}{\bf Stimulus}	&\multirow{2}{*}{\bf Co-sim Simulation Time (in sec)}	&\multirow{2}{*}{\bf Dual-sim Simulation Time (in sec)}	&\multirow{2}{*}{\bf Improvement (X times)} 		\\
+%\multirow{2}{*}{\bf Stimulus}	&\multirow{2}{*}{\bf Cosim Simulation Time (in sec)}	&\multirow{2}{*}{\bf Dual-sim Simulation Time (in sec)}	&\multirow{2}{*}{\bf Improvement (X times)} 		\\
 						&				&				&				\\
 \hline
 Pattern 1 			&1103.9				&98.8				&11.17 				\\
@@ -76,6 +75,7 @@ Pattern 5  				&1103.3				&98.8				&11.17				\\
 
 \end{tabular}
 \end{center}
+\caption{Simulation Memory Requirements}
 
 \end{table}
 
